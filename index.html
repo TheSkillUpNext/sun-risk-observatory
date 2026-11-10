@@ -1,0 +1,1049 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="ติดตามความเสี่ยงซัพพลายเชนนำเข้า–ส่งออกไทย พร้อมแหล่งข้อมูล แผนที่จุดเสี่ยง และแบบประเมินตนเอง อัปเดตทุกวัน 06:00 น. โดย The Skill Up Next">
+<meta property="og:title" content="SUN Risk Observatory">
+<meta property="og:description" content="ศูนย์ติดตามความเสี่ยงซัพพลายเชนนำเข้า–ส่งออกไทย อัปเดตทุกวัน 06:00 น. โดย The Skill Up Next">
+<meta property="og:type" content="website">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>SUN Risk Observatory</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: navy ops-room header band, then a filterable signal board, a dated watch calendar, a self-assessment, and a contact block. SUN navy/blue/gold. */
+:root{
+  --ocean:#E3EAF4; --land:#C6D1E2; --mkt:#1F5FBF;
+  --bg:#F4F6FA; --surface:#FFFFFF; --sunk:#EAEFF7; --ink:#0E1A33; --muted:#55617A; --line:#D7DEEA;
+  --navy:#003087; --blue:#0066CC; --gold:#C8A951; --gold-ink:#7A6320;
+  --band:#003087; --band-ink:#FFFFFF; --band-muted:#B9C8E6;
+  --high:#C42D2D; --high-bg:#FCECEC; --watch:#A86300; --watch-bg:#FCF2E1; --steady:#1D7A4C; --steady-bg:#E6F4EC;
+  --f-display:"Bai Jamjuree","IBM Plex Sans Thai",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Thai",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ocean:#0C1729; --land:#25344F; --mkt:#5EA4F2; --bg:#09111F; --surface:#101B30; --sunk:#0D1628; --ink:#E6ECF7; --muted:#9AA8C2; --line:#23324F;
+  --navy:#8FB4F5; --blue:#5EA4F2; --gold:#D8BD68; --gold-ink:#D8BD68;
+  --band:#0A1F4A; --band-ink:#FFFFFF; --band-muted:#9FB3DA;
+  --high:#FF7A72; --high-bg:#3A1A1D; --watch:#F2AE4A; --watch-bg:#35270F; --steady:#5BC995; --steady-bg:#12301F;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --ocean:#0C1729; --land:#25344F; --mkt:#5EA4F2; --bg:#09111F; --surface:#101B30; --sunk:#0D1628; --ink:#E6ECF7; --muted:#9AA8C2; --line:#23324F;
+  --navy:#8FB4F5; --blue:#5EA4F2; --gold:#D8BD68; --gold-ink:#D8BD68;
+  --band:#0A1F4A; --band-ink:#FFFFFF; --band-muted:#9FB3DA;
+  --high:#FF7A72; --high-bg:#3A1A1D; --watch:#F2AE4A; --watch-bg:#35270F; --steady:#5BC995; --steady-bg:#12301F;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.65}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.25;margin:0}
+a{color:var(--blue)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+
+/* Header band */
+.band{background:var(--band);color:var(--band-ink)}
+.band .wrap{padding-block:28px 26px;display:grid;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--band-muted)}
+.brand b{color:var(--gold);font-family:var(--f-display);letter-spacing:.08em}
+.band h1{font-size:clamp(28px,5vw,44px);font-weight:700}
+.band h1 span{display:block;font-size:.5em;font-weight:500;color:var(--band-muted);margin-top:6px}
+.band p{margin:0;max-width:62ch;color:var(--band-muted)}
+.stamp{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:13.5px;color:var(--band-muted)}
+.stamp .num{color:var(--band-ink)}
+.rule{height:3px;width:64px;background:var(--gold)}
+
+/* Summary strip */
+.summary{background:var(--surface);border-bottom:1px solid var(--line)}
+.summary .wrap{padding-block:16px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 24px;align-items:center}
+.seg{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--sunk)}
+.seg i{display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13.5px;color:var(--muted);margin-top:8px}
+.legend b{color:var(--ink)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:1px}
+.lead-line{font-weight:600;font-size:15px}
+.jump{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:inherit;font-weight:600;font-size:14px;border-radius:8px;padding:9px 14px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--blue)}
+.btn.primary{background:var(--navy);color:var(--surface);border-color:var(--navy)}
+:root[data-theme="dark"] .btn.primary{color:#0A1224}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.primary{color:#0A1224}}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#1B1607}
+
+section{padding-block:40px 8px}
+.sec-head{display:grid;gap:8px;margin-bottom:20px}
+.sec-head h2{font-size:clamp(22px,3.4vw,28px)}
+.sec-head p{margin:0;color:var(--muted);max-width:68ch}
+.sec-head .eyebrow{color:var(--gold-ink)}
+
+/* Filters */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{font:inherit;font-size:13.5px;font-weight:500;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* Signal cards */
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cat{font-size:12.5px;color:var(--muted)}
+.pill{font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.pill.high{color:var(--high);background:var(--high-bg)}
+.pill.watch{color:var(--watch);background:var(--watch-bg)}
+.pill.steady{color:var(--steady);background:var(--steady-bg)}
+.card h3{font-size:18px;font-weight:600}
+.metric{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px}
+.metric .big{font-family:var(--f-mono);font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.metric .unit{color:var(--muted);font-size:13.5px}
+.delta{font-family:var(--f-mono);font-size:13px;font-weight:600}
+.delta.up{color:var(--high)} .delta.down{color:var(--steady)} .delta.flat{color:var(--muted)}
+.facts{margin:0;padding:0;list-style:none;display:grid;gap:4px;font-size:14px;color:var(--muted)}
+.facts li{padding-left:14px;position:relative}
+.facts li::before{content:"";position:absolute;left:0;top:.72em;width:5px;height:5px;background:var(--line);border-radius:1px}
+.block{display:grid;gap:3px;font-size:14.5px}
+.block b{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.block.act{background:var(--sunk);border-radius:8px;padding:10px 12px}
+.src{margin-top:auto;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;display:flex;flex-wrap:wrap;gap:4px 12px}
+.src a{color:var(--muted)}
+.src a:hover{color:var(--blue)}
+
+/* Calendar */
+.cal{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cal-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding:14px 18px;border-top:1px solid var(--line)}
+.cal-row:first-child{border-top:0}
+.cal-date{font-family:var(--f-mono);font-weight:600;font-size:14px}
+.cal-date small{display:block;font-family:var(--f-body);font-weight:500;color:var(--muted);font-size:12px}
+.cal-row.today .cal-date{color:var(--high)}
+.cal-row p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.cal-row h3{font-size:16px;font-weight:600}
+
+/* Assessment */
+.assess{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px;align-items:start}
+.qset{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 18px 18px}
+.dim-h{font-family:var(--f-display);font-weight:600;font-size:16px;margin:16px 0 4px;display:flex;justify-content:space-between;gap:8px}
+.dim-h span{font-family:var(--f-body);font-weight:400;font-size:13px;color:var(--muted)}
+.q{padding:12px 0;border-top:1px solid var(--line);display:grid;gap:8px}
+.q p{margin:0;font-size:14.5px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt label{display:inline-block;font-size:13px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);cursor:pointer;color:var(--muted);background:var(--surface)}
+.opt input:checked + label{border-color:var(--blue);color:var(--blue);background:var(--sunk);font-weight:600}
+.opt input:focus-visible + label{outline:2px solid var(--gold);outline-offset:2px}
+.result{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:14px}
+.score{display:flex;align-items:baseline;gap:8px}
+.score .big{font-family:var(--f-mono);font-size:44px;font-weight:600;line-height:1}
+.score .of{color:var(--muted)}
+.lvl{font-weight:600}
+.meter{display:grid;gap:8px}
+.meter-row{display:grid;grid-template-columns:110px minmax(0,1fr) 40px;gap:10px;align-items:center;font-size:13.5px}
+.bar{height:8px;background:var(--sunk);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--blue);border-radius:4px;transition:width .3s}
+.gaps{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px}
+.answered{font-size:13px;color:var(--muted)}
+.result h3{font-size:16px}
+
+/* Contact */
+.contact{background:var(--band);color:var(--band-ink);border-radius:14px;padding:26px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px}
+.contact h2{font-size:clamp(22px,3.2vw,28px)}
+.contact p{color:var(--band-muted);margin:8px 0 0}
+.offer{display:grid;gap:10px;margin-top:16px}
+.offer div{border-left:2px solid var(--gold);padding-left:12px}
+.offer b{display:block}
+.offer span{color:var(--band-muted);font-size:14px}
+.reach{display:grid;gap:10px;align-content:start}
+.reach-item{display:flex;justify-content:space-between;align-items:center;gap:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:10px 12px;min-width:0}
+.reach-item small{display:block;color:var(--band-muted);font-size:12px}
+.reach-item .v{font-family:var(--f-mono);font-size:14.5px;word-break:break-all;user-select:all}
+.copy{font:inherit;font-size:12.5px;font-weight:600;padding:6px 10px;border-radius:7px;border:1px solid rgba(255,255,255,.3);background:transparent;color:var(--band-ink);cursor:pointer;white-space:nowrap}
+.copy:hover{border-color:var(--gold)}
+.msgbox{display:grid;gap:8px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fields input{font:inherit;font-size:14px;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:100%}
+.interest{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px}
+.msg{white-space:pre-wrap;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:13.5px;max-height:220px;overflow:auto;user-select:all}
+.toast{font-size:13px;color:var(--steady);min-height:1.2em}
+
+footer{padding-block:36px 40px;color:var(--muted);font-size:13px}
+footer .wrap{display:grid;gap:10px}
+footer ol{margin:0;padding-left:18px;columns:2;column-gap:28px}
+footer li{break-inside:avoid;margin-bottom:4px}
+
+
+/* Risk map */
+.mapgrid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:14px;align-items:start}
+.mapbox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;min-width:0}
+.mapscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+#wmap{display:block;width:100%;height:auto}
+#wmap .sphere{fill:var(--ocean);stroke:var(--line)}
+#wmap .grat{fill:none;stroke:var(--line);stroke-width:.6}
+#wmap .land{fill:var(--land);stroke:var(--surface);stroke-width:.5}
+#wmap .th{fill:var(--gold);stroke:var(--gold)}
+#wmap .arc{fill:none;stroke:var(--navy);stroke-width:1.2;stroke-dasharray:4 5;opacity:.45}
+#wmap .arc.on{opacity:.95;stroke-width:1.8}
+#wmap .pt{cursor:pointer;outline:none}
+#wmap .pt .hit{fill:transparent}
+#wmap .pt .core{stroke:var(--surface);stroke-width:2.5}
+#wmap .pt .ring{fill:none;stroke-width:2;opacity:0}
+#wmap .pt.sel .ring{opacity:1}
+#wmap .pt:hover .core,#wmap .pt:focus-visible .core{stroke:var(--ink)}
+#wmap .pt .pulse{fill:none;stroke-width:2;transform-box:fill-box;transform-origin:center;animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.6);opacity:.7}100%{transform:scale(1.9);opacity:0}}
+#wmap .lbl{font-family:var(--f-body);font-size:16px;font-weight:600;fill:var(--ink);paint-order:stroke;stroke:var(--ocean);stroke-width:4px;stroke-linejoin:round;pointer-events:none}
+.maplegend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted);padding:8px 4px 2px}
+.mappanel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:12px;min-width:0}
+.mappanel h3{font-size:20px}
+.mappanel .why{margin:0;color:var(--muted);font-size:14.5px}
+.msig{border-top:1px solid var(--line);padding-top:12px;display:grid;gap:6px}
+.msig-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.msig h4{margin:0;font-family:var(--f-display);font-size:15.5px;font-weight:600}
+.msig .val{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600;font-size:18px}
+.msig .val small{font-family:var(--f-body);font-weight:400;font-size:12.5px;color:var(--muted);margin-left:6px}
+.msig p{margin:0;font-size:14px}
+.linkbtn{font:inherit;font-size:13.5px;font-weight:600;color:var(--blue);background:none;border:0;padding:0;cursor:pointer;justify-self:start}
+.linkbtn:hover{text-decoration:underline}
+.placechips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.placechips .chip{display:inline-flex;align-items:center}
+#wmap .mkt{cursor:pointer;stroke:var(--surface);stroke-width:.6;outline:none}
+#wmap .mkt:hover,#wmap .mkt:focus-visible{stroke:var(--ink);stroke-width:1.4}
+#wmap .mkt.sel{stroke:var(--gold);stroke-width:2.4}
+.chiprow-h{font-size:13px;font-weight:600;color:var(--muted);margin:16px 0 0}
+.mstat{display:grid;gap:2px}
+.mstat .val{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600;font-size:24px}
+.mstat small{color:var(--muted);font-size:13px}
+.gline{font-size:14px}
+.gline b{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.srcnote{font-size:12px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+.assess-btn{justify-self:stretch;justify-content:center}
+.assess-note{background:var(--sunk);border:1px solid var(--gold);border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px}
+.q.hl{background:var(--sunk);border-radius:8px;padding-left:10px;padding-right:10px;box-shadow:inset 3px 0 0 var(--gold)}
+.stamp-note{font-size:13px;color:var(--band-muted);margin:0}
+.stale{background:var(--watch-bg);color:var(--watch);border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600;justify-self:start}
+/* My risk view */
+.mine{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:start}
+.mine-form{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:18px}
+.mgroup{display:grid;gap:8px}
+.mgroup h3{font-size:15px;font-weight:600}
+.mgroup h3 small{font-family:var(--f-body);font-weight:400;color:var(--muted);font-size:12.5px;margin-left:6px}
+.mgroup .placechips{margin-top:0}
+.mine-out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:14px;min-width:0}
+.mine-out h3{font-size:18px}
+.mempty{color:var(--muted);font-size:14.5px;margin:0}
+.mrisk{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.mrisk li{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:5px}
+.mrisk .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mrisk h4{margin:0;font-family:var(--f-display);font-size:15px;font-weight:600}
+.mrisk .rs{font-size:12.5px;color:var(--muted)}
+.mrisk .ac{font-size:14px}
+.mrisk .ac b{font-weight:600}
+.mbtns{display:flex;flex-wrap:wrap;gap:8px}
+#wmap .mkt.mine{stroke:var(--gold);stroke-width:1.6;stroke-dasharray:3 2}
+@media (max-width:860px){.mine{grid-template-columns:1fr}.mine-out{position:static}}
+/* Level reasons, criteria, sparklines */
+.lvlwhy{font-size:13.5px;color:var(--muted);border-left:2px solid var(--line);padding-left:10px}
+.lvlwhy b{color:var(--ink);font-weight:600}
+.criteria{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:4px 0 18px}
+.crit{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:4px;font-size:14px}
+.crit p{margin:0;color:var(--muted)}
+.crit-note{font-size:13px;color:var(--muted);margin:-8px 0 18px;max-width:80ch}
+.spark{margin:0;display:grid;gap:4px}
+.spark figcaption{font-size:12px;color:var(--muted)}
+.spark svg{width:100%;height:64px;display:block;overflow:visible}
+.spark .sg{stroke:var(--line);stroke-width:1;stroke-dasharray:2 3;vector-effect:non-scaling-stroke}
+.spark .sa{fill:var(--blue);fill-opacity:.1}
+.spark .sl{fill:none;stroke:var(--blue);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.spark .sd{fill:var(--blue)}
+.spark .se{fill:var(--gold);stroke:var(--surface);stroke-width:1.5}
+.spark-ax{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.spark-ax b{color:var(--ink)}
+@media (max-width:760px){.criteria{grid-template-columns:1fr}}
+/* Products */
+.ptable{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.prow{display:grid;grid-template-columns:34px minmax(0,1.5fr) 92px 112px minmax(0,1.7fr) auto;gap:12px;align-items:center;padding:12px 16px;border-top:1px solid var(--line)}
+.prow.head{background:var(--sunk);font-size:12px;letter-spacing:.06em;color:var(--muted);font-weight:600;border-top:0}
+.prow .rk{font-family:var(--f-mono);font-weight:600;color:var(--muted)}
+.prow .nm{font-weight:600;min-width:0}
+.prow .gr{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
+.rchips{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.rchip{font:inherit;font-size:12.5px;font-weight:500;padding:3px 9px;border-radius:999px;border:0;cursor:pointer}
+.rchip.high{color:var(--high);background:var(--high-bg)}.rchip.watch{color:var(--watch);background:var(--watch-bg)}.rchip.steady{color:var(--steady);background:var(--steady-bg)}
+.rchip:hover{text-decoration:underline}
+.pnote{font-size:12.5px;color:var(--muted);margin:10px 2px 0}
+@media (max-width:760px){
+  .prow{grid-template-columns:28px 1fr 1fr;grid-template-areas:"rk nm nm" "rk s9 ytd" "rk rc rc" "rk ac ac";row-gap:8px}
+  .prow.head{display:none}
+  .prow .rk{grid-area:rk;align-self:start}.prow .nm{grid-area:nm}.prow .s9{grid-area:s9}.prow .ytd{grid-area:ytd}.prow .rchips{grid-area:rc}.prow .ac{grid-area:ac}
+  .prow .gr{text-align:left}
+  .prow .gr::before{content:attr(data-label);display:block;font-family:var(--f-body);font-weight:400;font-size:12px;color:var(--muted)}
+}
+@media (max-width:860px){.mapgrid{grid-template-columns:1fr}#wmap{min-width:640px}}
+@media (prefers-reduced-motion:reduce){#wmap .pt .pulse{animation:none;opacity:0}}
+@media (max-width:860px){
+  .assess,.contact{grid-template-columns:1fr}
+  .result{position:static}
+  footer ol{columns:1}
+}
+@media (max-width:560px){
+  .summary .wrap{grid-template-columns:1fr}
+  .cal-row{grid-template-columns:1fr;gap:4px}
+  .fields{grid-template-columns:1fr}
+  .meter-row{grid-template-columns:92px minmax(0,1fr) 36px}
+  .contact{padding:20px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="band">
+  <div class="wrap">
+    <div class="brand"><b>SUN</b><span>The Skill Up Next · Supply Chain Intelligence</span></div>
+    <h1>SUN Risk Observatory<span>ศูนย์ติดตามความเสี่ยงซัพพลายเชนนำเข้า–ส่งออกไทย</span></h1>
+    <div class="rule"></div>
+    <p>สัญญาณจากโลกที่กระทบต้นทุน เวลาส่งมอบ และกำไรของธุรกิจนำเข้า–ส่งออกไทย ทุกตัวเลขบอกแหล่งที่มาและวันที่ พร้อมสิ่งที่ควรทำในสัปดาห์นี้</p>
+    <div class="stamp"><span>อัปเดตล่าสุด <span class="num" id="upd-last">10 พ.ย. 2569 16:00 น.</span></span><span>อัปเดตครั้งถัดไป <span class="num" id="upd-next">11 พ.ย. 2569 06:00 น.</span> <span id="upd-in"></span></span><span>สัญญาณ <span class="num" id="n-signals">8</span> ด้าน</span></div>
+    <p class="stamp-note">ระบบอัปเดตอัตโนมัติทุกวันเวลา 06:00 น. (เวลาประเทศไทย) ตัวเลขแต่ละรายการอิงวันที่ของแหล่งข้อมูลที่ระบุไว้ในการ์ด</p>
+    <div class="stale" id="upd-stale" hidden>ข้อมูลรอบล่าสุดเก่ากว่า 1 วัน ตัวเลขบางรายการอาจยังไม่เป็นปัจจุบัน</div>
+  </div>
+</header>
+
+<div class="summary">
+  <div class="wrap">
+    <div>
+      <div class="lead-line">ภาพรวม: ความเสี่ยงยังสูง แต่ราคาพลังงานและค่าระวางเริ่มผ่อนลง</div>
+      <div class="seg" id="seg" aria-hidden="true"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="jump">
+      <a class="btn" href="#map">แผนที่จุดเสี่ยง</a>
+      <a class="btn" href="#products">สินค้าส่งออก 10 อันดับ</a>
+      <a class="btn" href="#calendar">วันสำคัญที่ต้องจับตา</a>
+      <a class="btn primary" href="#mine">ดูความเสี่ยงของธุรกิจคุณ</a>
+      <a class="btn" href="#assess">ประเมินองค์กรของคุณ</a>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section class="wrap" id="mine" aria-labelledby="mine-h">
+    <div class="sec-head">
+      <span class="eyebrow">My Risk View</span>
+      <h2 id="mine-h">ความเสี่ยงของธุรกิจคุณ</h2>
+      <p>เลือกลักษณะธุรกิจ ตลาด สินค้า และแหล่งวัตถุดิบของคุณ ระบบจะจัดอันดับความเสี่ยงที่กระทบคุณมากที่สุด และไฮไลต์บนแผนที่กับกระดานสัญญาณ สิ่งที่เลือกเก็บไว้ในเบราว์เซอร์ของคุณเท่านั้น</p>
+    </div>
+    <div class="mine">
+      <div class="mine-form" id="mine-form"></div>
+      <aside class="mine-out" id="mine-out" aria-live="polite"></aside>
+    </div>
+  </section>
+
+  <section class="wrap" id="map" aria-labelledby="map-h">
+    <div class="sec-head">
+      <span class="eyebrow">Risk Map</span>
+      <h2 id="map-h">จุดเสี่ยงบนเส้นทางการค้าของไทย</h2>
+      <p>กดที่จุดเสี่ยง ประเทศที่ระบายสีน้ำเงิน หรือชื่อด้านล่าง เพื่อดูรายละเอียด สีของจุดคือระดับความเสี่ยงสูงสุดของจุดนั้น ประเทศสีน้ำเงินคือตลาดส่งออกหลัก 20 อันดับ ยิ่งเข้มยิ่งมีมูลค่าสูง</p>
+    </div>
+    <div class="mapgrid">
+      <div class="mapbox">
+        <div class="mapscroll" id="mapscroll">
+          <svg id="wmap" viewBox="0 0 1000 520" role="group" aria-label="แผนที่โลกแสดงจุดเสี่ยงที่กระทบซัพพลายเชนไทย">
+            <path class="sphere" d="M231.1,6L500,6L768.8,6L791.6,8.3L809.1,12.4L823.3,17.8L835.5,24.0L856.8,37.7L876.1,52.5L911.0,84.3L926.3,101.1L940.0,118.3L951.8,135.9L961.8,153.6L970.1,171.4L976.8,189.2L981.9,206.9L985.5,224.6L987.7,242.3L988.4,260L987.7,277.6L985.5,295.3L981.9,313.0L976.8,330.7L970.1,348.5L961.8,366.3L951.8,384.0L940.0,401.6L926.3,418.8L911.0,435.6L876.1,467.4L856.8,482.2L835.5,495.9L823.3,502.1L809.1,507.5L791.6,511.6L768.8,514L500,514L231.1,514L208.3,511.6L190.8,507.5L176.6,502.1L164.4,495.9L143.1,482.2L123.8,467.4L88.9,435.6L73.6,418.8L59.9,401.6L48.1,384.0L38.1,366.3L29.8,348.5L23.1,330.7L18.0,313.0L14.4,295.3L12.2,277.6L11.5,260L12.2,242.3L14.4,224.6L18.0,206.9L23.1,189.2L29.8,171.4L38.1,153.6L48.1,135.9L59.9,118.3L73.6,101.1L88.9,84.3L123.8,52.5L143.1,37.7L164.4,24.0L176.6,17.8L190.8,12.4L208.3,8.3L231.1,6Z"/>
+            <path class="grat" d="M544.8,514L548.6,511.6L551.5,507.5L555.9,495.9L562.6,467.4L573.3,401.6L579.4,330.7L581.4,260L579.4,189.2L573.3,118.3L562.6,52.5L555.9,24.0L551.5,12.4L548.6,8.3L544.8,6M589.6,514L597.2,511.6L603.0,507.5L611.8,495.9L625.3,467.4L637.0,435.6L646.6,401.6L653.9,366.3L658.9,330.7L661.8,295.3L662.8,260L661.8,224.6L658.9,189.2L653.9,153.6L646.6,118.3L637.0,84.3L625.3,52.5L611.8,24.0L603.0,12.4L597.2,8.3L589.6,6M634.4,514L645.8,511.6L654.5,507.5L667.7,495.9L678.4,482.2L688.0,467.4L705.5,435.6L720,401.6L730.9,366.3L738.4,330.7L742.7,295.3L744.2,260L742.7,224.6L738.4,189.2L730.9,153.6L720,118.3L705.5,84.3L688.0,52.5L678.4,37.7L667.7,24.0L654.5,12.4L645.8,8.3L634.4,6M679.2,514L694.4,511.6L706.0,507.5L723.7,495.9L737.9,482.2L750.7,467.4L774.0,435.6L793.3,401.6L807.9,366.3L817.9,330.7L823.7,295.3L825.6,260L823.7,224.6L817.9,189.2L807.9,153.6L793.3,118.3L774.0,84.3L750.7,52.5L737.9,37.7L723.7,24.0L706.0,12.4L694.4,8.3L679.2,6M724.0,514L743.0,511.6L757.6,507.5L769.4,502.1L779.6,495.9L797.3,482.2L813.4,467.4L842.5,435.6L855.3,418.8L866.6,401.6L884.8,366.3L897.3,330.7L904.6,295.3L907.0,260L904.6,224.6L897.3,189.2L884.8,153.6L866.6,118.3L855.3,101.1L842.5,84.3L813.4,52.5L797.3,37.7L779.6,24.0L769.4,17.8L757.6,12.4L743.0,8.3L724.0,6M231.1,514L208.3,511.6L190.8,507.5L176.6,502.1L164.4,495.9L143.1,482.2L123.8,467.4L88.9,435.6L73.6,418.8L59.9,401.6L48.1,384.0L38.1,366.3L29.8,348.5L23.1,330.7L18.0,313.0L14.4,295.3L12.2,277.6L11.5,260L12.2,242.3L14.4,224.6L18.0,206.9L23.1,189.2L29.8,171.4L38.1,153.6L48.1,135.9L59.9,118.3L73.6,101.1L88.9,84.3L123.8,52.5L143.1,37.7L164.4,24.0L176.6,17.8L190.8,12.4L208.3,8.3L231.1,6M275.9,514L256.9,511.6L242.3,507.5L230.5,502.1L220.3,495.9L202.6,482.2L186.5,467.4L157.4,435.6L144.6,418.8L133.3,401.6L115.1,366.3L102.6,330.7L95.3,295.3L92.9,260L95.3,224.6L102.6,189.2L115.1,153.6L133.3,118.3L144.6,101.1L157.4,84.3L186.5,52.5L202.6,37.7L220.3,24.0L230.5,17.8L242.3,12.4L256.9,8.3L275.9,6M320.7,514L305.5,511.6L293.9,507.5L276.2,495.9L262.0,482.2L249.2,467.4L225.9,435.6L206.6,401.6L192.0,366.3L182.0,330.7L176.2,295.3L174.3,260L176.2,224.6L182.0,189.2L192.0,153.6L206.6,118.3L225.9,84.3L249.2,52.5L262.0,37.7L276.2,24.0L293.9,12.4L305.5,8.3L320.7,6M365.5,514L354.1,511.6L345.4,507.5L332.2,495.9L321.5,482.2L311.9,467.4L294.4,435.6L280,401.6L269.0,366.3L261.5,330.7L257.2,295.3L255.7,260L257.2,224.6L261.5,189.2L269.0,153.6L280,118.3L294.4,84.3L311.9,52.5L321.5,37.7L332.2,24.0L345.4,12.4L354.1,8.3L365.5,6M410.3,514L402.7,511.6L396.9,507.5L388.1,495.9L374.6,467.4L362.9,435.6L353.3,401.6L346.0,366.3L341.0,330.7L338.1,295.3L337.1,260L338.1,224.6L341.0,189.2L346.0,153.6L353.3,118.3L362.9,84.3L374.6,52.5L388.1,24.0L396.9,12.4L402.7,8.3L410.3,6M455.1,514L451.3,511.6L448.4,507.5L444.0,495.9L437.3,467.4L426.6,401.6L420.5,330.7L418.5,260L420.5,189.2L426.6,118.3L437.3,52.5L444.0,24.0L448.4,12.4L451.3,8.3L455.1,6M500,514L500,467.4L500,401.6L500,330.7L500,260L500,189.2L500,118.3L500,52.5L500,6M566.6,446.5L572.2,446.5L577.7,446.5L583.3,446.5L588.8,446.5L594.4,446.5L600.0,446.5L605.5,446.5L611.1,446.5L616.6,446.5L622.2,446.5L627.7,446.5L633.3,446.5L638.8,446.5L644.4,446.5L650.0,446.5L655.5,446.5L661.1,446.5L666.6,446.5L672.2,446.5L677.7,446.5L683.3,446.5L688.8,446.5L694.4,446.5L700.0,446.5L705.5,446.5L711.1,446.5L716.6,446.5L722.2,446.5L727.7,446.5L733.3,446.5L738.8,446.5L744.4,446.5L750.0,446.5L755.5,446.5L761.1,446.5L766.6,446.5L772.2,446.5L777.7,446.5L783.3,446.5L788.8,446.5L794.4,446.5L800.0,446.5L805.5,446.5L811.1,446.5L816.6,446.5L822.2,446.5L827.7,446.5L833.3,446.5L838.8,446.5L844.4,446.5L850.0,446.5L855.5,446.5L861.1,446.5L866.6,446.5L872.2,446.5L877.7,446.5L883.3,446.5L888.8,446.5L894.4,446.5L900.0,446.5M99.9,446.5L99.9,446.5L105.5,446.5L111.1,446.5L116.6,446.5L122.2,446.5L127.7,446.5L133.3,446.5L138.8,446.5L144.4,446.5L149.9,446.5L155.5,446.5L161.1,446.5L166.6,446.5L172.2,446.5L177.7,446.5L183.3,446.5L188.8,446.5L194.4,446.5L199.9,446.5L205.5,446.5L211.1,446.5L216.6,446.5L222.2,446.5L227.7,446.5L233.3,446.5L238.8,446.5L244.4,446.5L249.9,446.5L255.5,446.5L261.1,446.5L266.6,446.5L272.2,446.5L277.7,446.5L283.3,446.5L288.8,446.5L294.4,446.5L299.9,446.5L305.5,446.5L311.1,446.5L316.6,446.5L322.2,446.5L327.7,446.5L333.3,446.5L338.8,446.5L344.4,446.5L349.9,446.5L355.5,446.5L361.1,446.5L366.6,446.5L372.2,446.5L377.7,446.5L383.3,446.5L388.8,446.5L394.4,446.5L399.9,446.5L405.5,446.5L411.1,446.5L416.6,446.5L422.2,446.5L427.7,446.5L433.3,446.5L438.8,446.5L444.4,446.5L449.9,446.5L455.5,446.5L461.1,446.5L466.6,446.5L472.2,446.5L477.7,446.5L483.3,446.5L488.8,446.5L494.4,446.5L500,446.5L505.5,446.5L511.1,446.5L516.6,446.5L522.2,446.5L527.7,446.5L533.3,446.5L538.8,446.5L544.4,446.5L550.0,446.5L555.5,446.5L561.1,446.5L566.6,446.5M577.9,354.4L584.4,354.4L590.9,354.4L597.4,354.4L603.9,354.4L610.4,354.4L616.8,354.4L623.3,354.4L629.8,354.4L636.3,354.4L642.8,354.4L649.3,354.4L655.8,354.4L662.3,354.4L668.8,354.4L675.3,354.4L681.8,354.4L688.3,354.4L694.8,354.4L701.3,354.4L707.8,354.4L714.3,354.4L720.8,354.4L727.3,354.4L733.7,354.4L740.2,354.4L746.7,354.4L753.2,354.4L759.7,354.4L766.2,354.4L772.7,354.4L779.2,354.4L785.7,354.4L792.2,354.4L798.7,354.4L805.2,354.4L811.7,354.4L818.2,354.4L824.7,354.4L831.2,354.4L837.7,354.4L844.1,354.4L850.6,354.4L857.1,354.4L863.6,354.4L870.1,354.4L876.6,354.4L883.1,354.4L889.6,354.4L896.1,354.4L902.6,354.4L909.1,354.4L915.6,354.4L922.1,354.4L928.6,354.4L935.1,354.4L941.6,354.4L948.1,354.4L954.5,354.4L961.0,354.4L967.5,354.4M32.4,354.4L32.4,354.4L38.9,354.4L45.4,354.4L51.8,354.4L58.3,354.4L64.8,354.4L71.3,354.4L77.8,354.4L84.3,354.4L90.8,354.4L97.3,354.4L103.8,354.4L110.3,354.4L116.8,354.4L123.3,354.4L129.8,354.4L136.3,354.4L142.8,354.4L149.3,354.4L155.8,354.4L162.2,354.4L168.7,354.4L175.2,354.4L181.7,354.4L188.2,354.4L194.7,354.4L201.2,354.4L207.7,354.4L214.2,354.4L220.7,354.4L227.2,354.4L233.7,354.4L240.2,354.4L246.7,354.4L253.2,354.4L259.7,354.4L266.2,354.4L272.7,354.4L279.1,354.4L285.6,354.4L292.1,354.4L298.6,354.4L305.1,354.4L311.6,354.4L318.1,354.4L324.6,354.4L331.1,354.4L337.6,354.4L344.1,354.4L350.6,354.4L357.1,354.4L363.6,354.4L370.1,354.4L376.6,354.4L383.1,354.4L389.5,354.4L396.0,354.4L402.5,354.4L409.0,354.4L415.5,354.4L422.0,354.4L428.5,354.4L435.0,354.4L441.5,354.4L448.0,354.4L454.5,354.4L461.0,354.4L467.5,354.4L474.0,354.4L480.5,354.4L487.0,354.4L493.5,354.4L500,354.4L506.4,354.4L512.9,354.4L519.4,354.4L525.9,354.4L532.4,354.4L538.9,354.4L545.4,354.4L551.9,354.4L558.4,354.4L564.9,354.4L571.4,354.4L577.9,354.4M581.4,260L588.1,260L594.9,260L601.7,260L608.5,260L615.3,260L622.1,260L628.9,260L635.6,260L642.4,260L649.2,260L656.0,260L662.8,260L669.6,260L676.3,260L683.1,260L689.9,260L696.7,260L703.5,260L710.3,260L717.0,260L723.8,260L730.6,260L737.4,260L744.2,260L751.0,260L757.8,260L764.5,260L771.3,260L778.1,260L784.9,260L791.7,260L798.5,260L805.2,260L812.0,260L818.8,260L825.6,260L832.4,260L839.2,260L845.9,260L852.7,260L859.5,260L866.3,260L873.1,260L879.9,260L886.7,260L893.4,260L900.2,260L907.0,260L913.8,260L920.6,260L927.4,260L934.1,260L940.9,260L947.7,260L954.5,260L961.3,260L968.1,260L974.8,260L981.6,260L988.4,260M11.5,260L11.5,260L18.3,260L25.1,260L31.8,260L38.6,260L45.4,260L52.2,260L59.0,260L65.8,260L72.5,260L79.3,260L86.1,260L92.9,260L99.7,260L106.5,260L113.2,260L120.0,260L126.8,260L133.6,260L140.4,260L147.2,260L154.0,260L160.7,260L167.5,260L174.3,260L181.1,260L187.9,260L194.7,260L201.4,260L208.2,260L215.0,260L221.8,260L228.6,260L235.4,260L242.1,260L248.9,260L255.7,260L262.5,260L269.3,260L276.1,260L282.9,260L289.6,260L296.4,260L303.2,260L310.0,260L316.8,260L323.6,260L330.3,260L337.1,260L343.9,260L350.7,260L357.5,260L364.3,260L371.1,260L377.8,260L384.6,260L391.4,260L398.2,260L405.0,260L411.8,260L418.5,260L425.3,260L432.1,260L438.9,260L445.7,260L452.5,260L459.2,260L466.0,260L472.8,260L479.6,260L486.4,260L493.2,260L500,260L506.7,260L513.5,260L520.3,260L527.1,260L533.9,260L540.7,260L547.4,260L554.2,260L561.0,260L567.8,260L574.6,260L581.4,260M577.9,165.5L584.4,165.5L590.9,165.5L597.4,165.5L603.9,165.5L610.4,165.5L616.8,165.5L623.3,165.5L629.8,165.5L636.3,165.5L642.8,165.5L649.3,165.5L655.8,165.5L662.3,165.5L668.8,165.5L675.3,165.5L681.8,165.5L688.3,165.5L694.8,165.5L701.3,165.5L707.8,165.5L714.3,165.5L720.8,165.5L727.3,165.5L733.7,165.5L740.2,165.5L746.7,165.5L753.2,165.5L759.7,165.5L766.2,165.5L772.7,165.5L779.2,165.5L785.7,165.5L792.2,165.5L798.7,165.5L805.2,165.5L811.7,165.5L818.2,165.5L824.7,165.5L831.2,165.5L837.7,165.5L844.1,165.5L850.6,165.5L857.1,165.5L863.6,165.5L870.1,165.5L876.6,165.5L883.1,165.5L889.6,165.5L896.1,165.5L902.6,165.5L909.1,165.5L915.6,165.5L922.1,165.5L928.6,165.5L935.1,165.5L941.6,165.5L948.1,165.5L954.5,165.5L961.0,165.5L967.5,165.5M32.4,165.5L32.4,165.5L38.9,165.5L45.4,165.5L51.8,165.5L58.3,165.5L64.8,165.5L71.3,165.5L77.8,165.5L84.3,165.5L90.8,165.5L97.3,165.5L103.8,165.5L110.3,165.5L116.8,165.5L123.3,165.5L129.8,165.5L136.3,165.5L142.8,165.5L149.3,165.5L155.8,165.5L162.2,165.5L168.7,165.5L175.2,165.5L181.7,165.5L188.2,165.5L194.7,165.5L201.2,165.5L207.7,165.5L214.2,165.5L220.7,165.5L227.2,165.5L233.7,165.5L240.2,165.5L246.7,165.5L253.2,165.5L259.7,165.5L266.2,165.5L272.7,165.5L279.1,165.5L285.6,165.5L292.1,165.5L298.6,165.5L305.1,165.5L311.6,165.5L318.1,165.5L324.6,165.5L331.1,165.5L337.6,165.5L344.1,165.5L350.6,165.5L357.1,165.5L363.6,165.5L370.1,165.5L376.6,165.5L383.1,165.5L389.5,165.5L396.0,165.5L402.5,165.5L409.0,165.5L415.5,165.5L422.0,165.5L428.5,165.5L435.0,165.5L441.5,165.5L448.0,165.5L454.5,165.5L461.0,165.5L467.5,165.5L474.0,165.5L480.5,165.5L487.0,165.5L493.5,165.5L500,165.5L506.4,165.5L512.9,165.5L519.4,165.5L525.9,165.5L532.4,165.5L538.9,165.5L545.4,165.5L551.9,165.5L558.4,165.5L564.9,165.5L571.4,165.5L577.9,165.5M566.6,73.4L572.2,73.4L577.7,73.4L583.3,73.4L588.8,73.4L594.4,73.4L600.0,73.4L605.5,73.4L611.1,73.4L616.6,73.4L622.2,73.4L627.7,73.4L633.3,73.4L638.8,73.4L644.4,73.4L650.0,73.4L655.5,73.4L661.1,73.4L666.6,73.4L672.2,73.4L677.7,73.4L683.3,73.4L688.8,73.4L694.4,73.4L700.0,73.4L705.5,73.4L711.1,73.4L716.6,73.4L722.2,73.4L727.7,73.4L733.3,73.4L738.8,73.4L744.4,73.4L750.0,73.4L755.5,73.4L761.1,73.4L766.6,73.4L772.2,73.4L777.7,73.4L783.3,73.4L788.8,73.4L794.4,73.4L800.0,73.4L805.5,73.4L811.1,73.4L816.6,73.4L822.2,73.4L827.7,73.4L833.3,73.4L838.8,73.4L844.4,73.4L850.0,73.4L855.5,73.4L861.1,73.4L866.6,73.4L872.2,73.4L877.7,73.4L883.3,73.4L888.8,73.4L894.4,73.4L900.0,73.4M99.9,73.4L99.9,73.4L105.5,73.4L111.1,73.4L116.6,73.4L122.2,73.4L127.7,73.4L133.3,73.4L138.8,73.4L144.4,73.4L149.9,73.4L155.5,73.4L161.1,73.4L166.6,73.4L172.2,73.4L177.7,73.4L183.3,73.4L188.8,73.4L194.4,73.4L199.9,73.4L205.5,73.4L211.1,73.4L216.6,73.4L222.2,73.4L227.7,73.4L233.3,73.4L238.8,73.4L244.4,73.4L249.9,73.4L255.5,73.4L261.1,73.4L266.6,73.4L272.2,73.4L277.7,73.4L283.3,73.4L288.8,73.4L294.4,73.4L299.9,73.4L305.5,73.4L311.1,73.4L316.6,73.4L322.2,73.4L327.7,73.4L333.3,73.4L338.8,73.4L344.4,73.4L349.9,73.4L355.5,73.4L361.1,73.4L366.6,73.4L372.2,73.4L377.7,73.4L383.3,73.4L388.8,73.4L394.4,73.4L399.9,73.4L405.5,73.4L411.1,73.4L416.6,73.4L422.2,73.4L427.7,73.4L433.3,73.4L438.8,73.4L444.4,73.4L449.9,73.4L455.5,73.4L461.1,73.4L466.6,73.4L472.2,73.4L477.7,73.4L483.3,73.4L488.8,73.4L494.4,73.4L500,73.4L505.5,73.4L511.1,73.4L516.6,73.4L522.2,73.4L527.7,73.4L533.3,73.4L538.8,73.4L544.4,73.4L550.0,73.4L555.5,73.4L561.1,73.4L566.6,73.4"/>
+            <path class="land" d="M575.2,315.0L575.9,314.5L576.8,315.4L576.2,317.0L574.6,317.4L573.1,317.1L572.9,315.7L574.0,314.6ZM580.4,310.4L580.9,310.3L580.6,311.8L580.3,312.0L578.6,312.8L576.9,313.4L576.6,312.2L577.9,311.6L578.8,311.4L580.4,310.4ZM199.6,274.6L198.5,278.5L198.8,280.3L200.6,281.4L200.7,282.2L200.1,284.1L200.3,285.1L200.2,286.6L201.3,288.6L202.7,291.7L203.8,292.4L204.3,293.8L204.5,296.9L205.2,299.7L205.9,304.6L206.5,306.1L206.0,308.4L205.3,310.6L203.9,312.5L201.6,313.7L198.8,315.2L196.4,318.6L195.4,319.2L194.0,321.4L193.0,322.2L193.2,324.4L195.0,326.8L195.8,328.7L196.1,329.6L196.5,329.4L197.1,332.5L197.0,334.0L197.7,334.5L197.6,335.9L196.8,337.0L194.9,338.1L192.1,339.8L191.2,340.9L191.8,342.3L192.5,342.5L192.7,344.1L192.7,346.4L193.1,349.1L192.8,350.5L191.5,352.1L191.1,352.6L190.5,354.2L190.2,355.8L189.5,358.0L187.6,361.3L186.4,363.2L185.0,364.6L182.7,365.9L181.5,366.0L181.4,366.9L179.7,366.4L178.7,367.0L175.7,366.4L174.2,366.8L173.1,366.7L170.9,367.9L168.9,368.4L167.8,369.6L166.7,369.7L165.2,368.5L164.3,368.5L162.6,367.1L162.7,367.5L162.0,366.7L161.3,364.8L159.7,362.7L160.4,362.1L159.4,359.7L156.7,356.7L154.5,354.1L154.5,354.1L151.3,349.9L148.6,347.6L146.9,345.2L145.4,342.2L144.1,339.9L141.8,335.0L140.8,331.2L140.0,329.5L138.7,328.2L136.7,325.6L134.4,321.8L133.4,319.8L130.6,316.8L130.0,314.3L129.3,312.4L129.2,309.6L129.6,306.7L129.6,305.4L130.0,302.5L130.5,301.2L131.7,299.2L132.4,297.8L132.4,295.4L132.0,293.7L131.1,292.5L130.1,290.6L129.3,288.7L129.4,288.1L130.1,286.8L129.0,283.8L128.3,281.7L126.8,279.7L127.0,279.1L126.5,278.1L125.7,275.8L123.3,272.4L120.4,269.3L118.5,266.7L116.8,263.4L116.9,262.4L117.5,261.4L118.1,259.1L118.7,256.8L118.2,256.3L119.2,252.8L119.6,250.3L118.7,248.2L117.4,247.7L117.0,246.3L116.3,245.8L116.4,245.0L113.5,246.1L112.5,245.9L111.4,246.6L109.2,246.6L107.9,244.6L107.1,242.3L105.4,240.3L103.3,240.3L100.9,240.3L98.7,240.7L96.4,241.3L92.1,243.2L90.5,244.3L88.0,245.2L85.6,244.3L84.4,244.3L82.5,243.7L80.8,243.7L77.6,244.3L75.6,245.2L72.9,246.3L72.3,246.2L71.6,246.3L68.9,244.8L66.6,242.4L64.4,240.7L62.8,238.6L62.1,238.4L60.2,237.1L59.0,235.5L58.6,234.3L58.6,232.0L57.6,230.1L56.7,228.9L56.1,228.5L55.5,227.9L55.4,226.5L55.1,225.8L54.4,225.3L53.1,224.0L52.0,223.7L51.5,222.9L51.6,222.4L50.9,221.7L50.9,221.0L50.8,218.6L51.4,217.2L50.8,214.8L49.7,213.7L51.0,213.1L52.7,210.9L53.7,209.2L53.8,207.5L54.9,206.0L56.0,203.0L56.5,199.9L56.6,198.3L57.2,196.8L57.0,195.3L56.0,193.9L56.5,192.6L57.0,191.1L58.3,190.2L59.7,188.6L59.8,187.5L61.4,185.3L63.6,183.3L64.6,182.8L65.9,180.9L66.6,179.3L68.2,177.3L70.4,176.1L73.2,172.9L73.3,172.9L75.1,171.7L77.6,171.3L80.5,169.2L82.2,168.3L85.4,165.7L86.3,161.7L88.5,159.0L89.5,157.3L92.1,155.2L95.4,153.8L97.8,152.5L101.1,149.2L102.8,147.3L104.7,147.3L105.6,148.6L108.1,148.4L110.4,149.1L111.5,149.1L114.8,147.4L117.8,146.9L120.0,145.6L122.9,144.6L127.4,144.0L131.7,143.8L132.8,144.2L135.8,143.0L138.5,143.0L139.2,143.7L141.0,143.5L144.3,142.3L145.9,142.6L145.1,144.2L147.8,143.1L147.7,143.7L145.8,145.2L145.1,146.7L145.7,147.5L144.2,150.2L141.9,151.8L141.7,153.5L143.0,153.5L143.0,155.0L143.8,155.5L146.4,156.6L147.6,156.4L149.5,156.9L152.4,158.3L152.6,161.1L154.7,161.7L157.9,163.0L160.2,164.6L161.7,163.8L163.4,162.3L163.7,159.9L165.0,158.4L167.4,156.9L169.3,156.5L172.6,157.1L173.0,158.5L173.9,158.5L174.5,159.1L177.0,159.5L177.3,160.5L180.7,160.4L182.9,161.3L185.2,162.2L186.3,162.7L188.6,161.7L189.9,160.8L192.3,160.5L194.0,160.9L194.2,162.5L195.1,161.5L197.0,162.2L198.9,162.4L200.5,161.6L201.5,160.6L201.4,160.4L202.5,158.9L203.8,156.5L204.4,155.7L204.5,155.7L206.3,153.1L208.3,150.9L208.4,150.8L209.0,148.4L210.0,147.1L209.6,145.6L211.0,144.5L209.3,144.7L207.5,144.0L205.1,145.8L201.1,146.2L199.7,144.5L197.0,144.4L195.9,145.7L194.0,146.0L192.2,144.4L189.4,144.4L189.1,141.3L188.0,139.6L190.2,137.1L189.2,135.6L193.3,132.6L197.2,132.5L199.3,130.1L203.9,130.5L207.7,128.5L211.0,127.6L215.1,127.5L218.6,129.7L221.6,131.0L224.7,130.5L226.8,130.8L230.3,129.1L231.3,127.8L231.5,125.7L230.6,124.5L229.3,124.1L228.8,123.2L226.8,120.6L224.6,119.4L223.3,117.6L225.3,117.1L228.5,114.5L227.7,113.3L231.9,112.0L232.2,111.3L229.7,111.8L227.7,112.1L225.6,113.1L223.3,113.2L220.6,114.4L219.9,116.1L219.8,116.3L220.7,117.1L223.3,116.9L222.3,118.0L219.3,118.5L215.2,120.3L214.1,119.7L215.3,118.2L213.1,117.3L213.8,116.7L216.6,115.7L216.5,115.3L216.3,115.0L212.9,114.2L213.3,113.1L210.9,113.4L209.1,115.1L206.1,117.4L205.8,118.2L204.2,118.9L203.6,118.6L201.2,122.3L199.3,123.6L197.3,125.9L197.3,127.6L197.1,128.8L198.8,129.9L198.0,130.6L195.0,130.8L193.5,131.8L190.6,133.5L190.5,132.0L190.8,131.3L189.3,131.3L188.2,131.0L184.8,131.8L185.7,133.5L184.2,134.0L182.8,134.0L182.2,132.4L181.5,133.1L181.2,135.0L181.8,136.5L180.6,137.2L181.3,138.6L182.2,139.5L181.5,141.3L179.5,140.5L179.6,142.1L177.9,142.4L177.7,145.2L176.0,145.2L174.5,143.8L174.6,141.3L175.0,139.2L174.6,137.8L174.1,136.0L174.4,135.1L174.0,134.9L174.3,134.2L173.4,133.1L173.9,131.6L175.1,129.5L175.9,128.5L175.7,128.0L175.3,127.8L175.1,126.8L174.3,126.2L172.6,125.0L171.7,123.9L170.0,123.0L169.1,120.7L169.7,120.4L169.3,119.1L169.8,118.1L168.5,117.6L167.1,118.9L166.9,117.9L167.6,116.8L167.7,116.8L168.4,116.5L166.7,116.1L164.1,117.2L163.4,118.7L162.6,119.6L162.5,121.2L164.0,122.7L163.9,125.3L165.3,127.8L167.3,127.8L167.6,128.5L166.6,129.1L168.2,130.2L169.6,131.2L171.0,132.8L171.0,133.4L170.0,134.5L169.3,133.1L167.3,132.5L165.3,134.6L166.6,135.7L165.6,137.4L164.4,137.6L161.9,140.2L160.7,140.5L161.2,139.5L162.4,137.8L163.3,137.2L163.1,135.4L163.1,133.8L162.3,133.4L162.2,132.0L160.8,131.5L160.4,130.2L158.6,130.0L157.4,128.6L156.2,126.6L155.4,124.8L156.3,121.7L155.3,121.3L153.9,120.3L152.5,120.7L150.3,122.2L149.2,122.4L146,124.1L141.6,123.3L137.4,124.3L136.1,126.2L135.2,128.0L131.7,130.1L128.2,130.7L127.4,131.8L124.9,133.5L122.6,136.1L122.7,137.9L120.5,139.3L119.0,141.3L116.8,142.0L113.8,144.4L110.6,144.4L108.2,144.4L106.0,145.5L104.5,146.7L103.4,146.4L102.9,145.3L103.1,143.5L101.0,143.0L99.6,143.9L98.4,143.4L97.0,143.8L98.6,141.3L99.4,139.4L98.4,139.1L98.4,137.9L99.8,135.8L101.4,134.7L102.3,133.4L103.9,131.5L104.6,130.2L104.7,129.1L105.2,128.0L106.7,125.8L106.5,124.5L111.3,122.2L114.0,122.8L117.3,122.8L119.6,123.3L121.8,123.1L125.7,123.2L128.1,121.4L132.3,115.2L131.9,112.0L131.1,110.4L128.2,109.2L129.5,107.0L133.1,106.3L136.6,107.1L138.2,103.7L139.6,105.0L146.7,102.6L149.2,100.1L151.7,99.5L154.0,98.9L155.8,98.1L161.0,93.7L165.1,92.4L167.0,92.5L167.9,91.9L170.0,91.7L169.9,92.4L172.6,90.9L172.9,89.8L174.0,88.1L174.3,86.5L176.5,83.4L177.5,82.7L178.8,81.8L181.0,81.6L182.4,80.8L184.9,80.0L183.6,81.5L182.2,82.4L181.9,83.2L182.8,83.7L181.4,84.8L180.9,84.5L177.7,86.6L177.3,88.0L176.4,89.2L178.3,89.9L177.5,90.9L180.3,90.4L182.1,89.6L183.9,90.7L184.4,91.7L186.5,90.8L191.1,89.4L194.7,88.4L196.7,88.9L196.4,89.6L198.6,89.7L200.0,88.4L203.8,87.4L205.0,84.9L206.7,82.7L209.1,80.9L211.9,79.9L212.2,82.1L214.0,82.0L216.0,79.8L217.5,78.1L216.4,78.4L215.7,77.4L216.8,75.8L220.2,75.0L223.3,74.5L225.4,75.0L227.7,74.9L231.4,73.3L230.0,72.0L225.8,72.2L221.2,73.3L217.1,73.9L217.0,72.3L215.6,71.4L218.2,68.6L219.2,66.0L221.5,64.4L224.9,62.6L232.3,59.6L234.2,59.1L234.9,57.9L233.0,56.6L228.7,57.4L225.0,59.3L224.0,61.0L218.7,63.2L212.5,65.6L207.7,69.6L207.7,71.6L208.5,73.2L204.0,76.4L201.2,77.1L196.6,82.0L193.3,84.7L190.8,84.4L187.8,86.8L185.0,86.9L186.3,84.1L187.0,80.8L188.5,76.7L188.4,74.9L181.3,78.3L177.7,79.0L175.8,77.5L177.6,74.4L182.6,67.8L186.2,66.0L194.0,63.6L200.9,60.8L208.2,56.9L218.1,51.7L223.5,49.7L232.2,46.3L237.8,45.2L241.0,45.3L246.1,43.1L249.7,43.3L253.8,42.7L258.5,44.7L255.2,45.4L256.1,47.0L258.9,46.1L261.0,47.7L266.1,48.3L271.6,51.4L272.2,52.6L271.0,54.5L267.6,55.9L263.6,56.6L255.8,54.5L254.0,54.9L255.9,56.9L255.1,58.2L253.1,61.0L255.2,61.8L256.4,62.5L257.6,61.2L257.2,60.0L259.3,59.0L263.3,60.7L265.5,60.0L265.6,58.0L272.4,55.3L274.3,55.5L275.6,56.4L278.1,54.5L277.5,52.9L279.7,51.3L279.4,49.7L284.6,50.5L284.7,52.0L281.8,52.4L280.8,53.9L281.8,54.8L285.4,54.2L287.1,52.5L292.4,51.2L301.2,48.9L302.6,49.0L299.5,50.6L301.9,50.9L304.0,50.0L307.9,49.9L311.7,48.8L313.1,50.4L316.5,48.7L315.3,47.1L317.0,46.2L322.5,47.1L324.8,47.9L330.6,50.9L332.7,49.5L331.4,48.1L331.7,47.6L329.4,47.3L330.8,46.0L330.9,44.0L331.4,43.2L336.6,40.8L339.3,38.5L341.1,38.0L345.9,38.6L345.5,40.1L342.4,42.2L343.2,43.0L342.8,44.8L340.3,48.5L341.7,50.1L339.9,51.9L333.7,55.7L336.0,56.1L337.3,55.2L340.0,54.5L341.2,53.1L343.7,51.8L343.3,50.3L345.2,48.5L343.0,48.3L343.3,46.8L346.4,44.2L345.0,42.1L349.6,40.3L350.2,38.5L351.2,38.4L351.4,39.9L349.2,42.4L351.1,42.8L351.2,41.0L355.1,39.9L359.4,39.8L362.3,41.3L361.6,39.1L362.9,36.4L366.6,35.9L371.3,36.0L375.7,35.7L374.8,34.4L377.9,32.7L380.2,32.7L384.5,31.4L389.8,31.1L390.8,30.4L395.9,30.2L397.3,30.8L402.1,29.5L405.6,29.5L406.6,28.5L408.9,27.4L413.8,26.5L416.7,27.2L413.9,27.8L418.0,28.2L418.1,29.4L420.1,28.8L425.6,28.8L429.6,30.0L430.8,30.9L430.0,32.2L427.6,32.9L422.0,34.3L420.3,35.1L422.6,35.4L425.3,36.1L427.3,35.6L427.8,37.2L428.9,36.5L432.1,36.1L438.3,36.6L438.5,37.7L446.7,38.1L447.3,36.2L451.4,36.6L454.5,36.6L457.5,38.0L458.1,39.6L456.8,40.7L459.0,42.7L462.0,43.8L464.3,41.1L467.4,42.2L470.9,41.5L474.7,42.3L476.3,41.6L479.5,42.0L478.3,39.6L481.0,38.4L499.0,40.1L500.7,41.6L506.0,43.6L514.1,43.1L518.2,43.6L519.9,44.7L519.8,46.6L522.4,47.3L525.1,46.8L528.7,46.7L532.7,47.3L536.5,47.0L540.4,49.3L542.9,48.5L541.0,46.8L541.7,45.6L548.3,46.3L552.6,46.2L558.7,47.4L561.8,48.6L567.3,50.6L573.4,53.3L573.6,55.0L575.2,55.7L574.3,53.7L580.1,54.1L584.9,56.7L583.1,57.9L579.7,58.2L580.3,60.9L579.5,61.4L577.5,61.3L575.7,60.4L572.6,59.6L571.9,58.4L569.6,57.9L567.3,58.3L565.9,57.3L566.2,56.3L563.8,57.0L565.0,58.2L564.0,59.4L564.0,59.4L561.5,60.6L558.7,60.4L560.9,61.9L562.6,64.2L563.7,65.0L564.2,66.1L563.8,66.9L559.6,66.3L553.8,68.4L551.9,68.7L548.8,70.7L545.8,72.5L545.2,73.8L541.8,71.8L536.2,74.0L535.1,73.0L533.1,74.2L530.1,73.8L529.5,75.7L527.0,78.5L527.2,79.7L529.8,80.3L529.8,84.6L527.7,84.7L526.9,87.1L527.9,88.4L523.9,89.9L523.3,93.3L519.9,94.1L519.3,97.1L516.0,99.9L515.1,97.8L513.9,93.5L512.4,86.9L513.4,82.8L515.3,81.0L515.3,79.7L518.8,79.0L522.6,75.4L526.3,72.4L530.1,70.2L531.5,66.2L528.9,66.4L527.7,68.7L522.3,71.9L520.3,68.4L514.7,69.3L509.3,74.1L511.2,75.9L506.3,76.6L502.8,76.9L502.9,74.8L499.5,74.4L496.7,75.8L489.9,75.3L482.5,76.2L474.9,81.8L465.6,88.8L469.2,89.2L470.2,91.0L472.5,91.7L474.0,90.2L476.6,90.4L479.8,93.7L479.7,96.2L477.8,99.2L477.4,102.8L476.1,107.7L472.3,112.2L471.3,114.3L467.9,117.9L464.4,121.5L462.7,123.3L459.3,125.1L457.7,125.2L456.3,123.7L452.8,125.9L452.3,127.0L451.4,126.8L450.2,127.8L449.4,128.9L449.3,131.2L448.0,131.8L447.5,132.4L446.5,133.3L444.8,133.8L443.6,134.7L443.5,136.0L443.1,136.4L444.1,136.9L445.4,138.3L447.4,142.0L447.8,144.0L447.6,147.7L446.6,149.4L444.2,150.0L442.1,151.3L439.8,151.6L439.6,149.9L440.2,147.5L439.3,144.2L441.3,143.7L439.7,141.0L438.6,140.4L438.2,141.0L437.4,141.2L437.4,140.7L436.8,140.4L436.1,139.9L436.9,138.5L437.6,138.1L437.4,137.5L438.2,135.8L438.1,135.3L436.6,135.0L435.5,134.2L431.9,135.1L429.9,136.5L427.1,137.4L428.6,135.9L428.2,134.7L430.4,132.6L429.3,131.0L427.0,132.1L423.9,134.2L422.2,136.3L419.7,136.4L418.2,137.9L419.3,140.0L421.3,140.5L421.3,141.9L423.2,142.9L426.2,140.6L428.4,141.8L430.0,141.9L430.3,143.6L426.6,144.5L425.3,146.2L422.6,147.7L421.1,149.9L423.7,151.7L424.5,154.8L425.8,157.7L427.4,160.1L427.1,162.5L425.5,163.3L426.0,165.0L427.4,166.0L426.8,168.6L426.0,171.1L424.5,171.4L422.4,174.8L420.0,178.9L417.3,182.7L413.5,185.6L409.6,188.3L406.6,188.6L404.9,190.0L404.1,189.0L402.5,190.6L398.7,192.2L395.8,192.6L394.7,196.0L393.2,196.2L392.7,193.9L393.4,192.7L389.9,191.6L388.6,192.2L384.8,194.9L382.4,197.8L381.7,200.0L383.5,203.3L385.7,207.5L388.1,209.4L389.6,211.9L390.5,217.8L389.9,223.3L387.6,225.4L384.4,227.4L382.1,230.0L378.7,232.9L377.8,230.9L378.6,228.8L376.7,227.0L374.4,226.6L373.4,224.9L372.2,221.7L369.8,220.2L367.5,220.3L368.0,217.8L365.7,217.8L365.3,221.3L363.6,225.9L362.6,228.7L362.7,230.9L364.5,231.0L365.5,233.9L365.9,236.6L367.3,238.4L368.9,238.8L370.3,240.4L370.9,240.7L372.5,242.6L373.6,244.7L373.7,246.8L373.4,248.3L373.6,249.3L373.8,251.2L374.8,252.1L375.8,254.8L375.8,255.9L373.8,256.1L371.3,253.8L368.1,251.3L367.8,249.7L366.2,247.6L365.9,245.0L365.0,243.3L365.3,241.0L364.8,239.7L363.7,238.4L363.3,236.9L361.9,235.1L360.7,233.6L360.2,235.5L359.7,233.7L360.1,231.8L361.0,228.8L360.8,226.4L361.8,224.0L360.9,222.2L361.3,218.7L360.3,217.1L359.7,213.3L359.5,209.4L358.5,206.7L356.6,208.3L353.4,210.6L351.9,210.3L350.3,209.5L351.5,205.6L351.2,202.7L349.4,199.1L349.9,197.9L348.3,197.5L346.7,194.9L346.1,193.3L346.1,191.7L345.8,190.2L344.8,188.3L342.4,188.2L342.5,189.5L341.5,191.3L340.4,190.6L340.0,191.2L339.3,190.8L338.3,190.6L337.8,191.7L336.0,191.7L332.6,192.3L332.5,194.7L330.9,196.6L326.8,198.7L323.5,202.4L321.3,204.4L318.4,206.5L318.3,207.9L316.9,208.7L314.4,209.8L313.1,210.0L312.1,212.4L312.3,216.5L312.3,219.1L310.9,222.1L310.6,227.4L309.1,227.6L307.8,230.0L308.5,231.0L306.0,231.9L305.0,234.0L303.9,234.9L301.5,232.0L300.5,227.6L299.6,224.4L298.8,222.9L297.6,219.9L297.2,216.0L296.9,214.0L294.9,209.7L294.4,203.6L294.1,199.6L294.6,195.7L294.5,192.8L290.4,194.7L288.5,194.3L285.6,190.5L287.0,189.3L286.4,188.1L283.8,185.4L282.0,184.6L281.5,182.3L279.9,179.9L275.0,180.5L270.7,180.6L266.9,181.0L262.1,180.1L259.4,179.3L256.5,178.9L256.2,175.1L255.0,174.5L252.9,175.1L249.9,176.6L247.0,175.5L244.8,173.1L242.5,172.2L241.5,169.2L240.6,165.0L239.1,165.5L237.7,164.5L236.4,165.7L234.9,165.5L235.1,166.9L234.7,167.7L234.9,170.0L235.3,172.8L236.4,173.5L236.6,174.6L238.1,175.9L238.0,177.2L237.5,178.3L237.6,179.3L238.2,180.2L238.3,181.3L238.5,182.0L238.8,179.7L239.9,178.1L240.7,177.7L241.3,178.7L240.9,180.6L240.0,182.4L240.3,183.7L240.7,183.5L240.7,184.4L242.8,183.9L245.0,183.9L246.6,184.0L248.8,181.9L251.2,179.9L253.2,177.9L254.2,176.9L254.5,177.1L254.0,178.4L253.5,179.0L253.4,181.5L254.1,183.7L255.4,184.8L257.3,185.2L258.7,185.8L259.6,187.6L260.1,188.7L261.0,189.1L260.9,189.8L259.6,191.6L259.1,192.5L257.8,193.5L256.5,195.7L255.3,195.5L254.6,196.3L253.9,197.9L254.0,200.0L253.7,200.4L252.4,200.4L250.6,201.6L250.1,203.1L249.4,203.8L247.8,203.7L246.6,204.5L246.4,205.8L245.0,206.7L243.6,206.4L241.7,207.4L240.4,207.6L238.4,208.5L237.7,209.9L237.5,210.9L234.6,212.3L230.2,213.7L227.5,216.0L226.3,216.1L225.5,215.9L223.8,217.2L222.0,217.9L219.7,218.0L219.0,218.2L218.3,219.0L217.6,219.3L217.1,220.1L215.8,220.0L214.9,220.4L213.0,220.3L212.5,218.4L212.8,216.7L212.5,215.8L212.3,213.4L211.6,212.1L212.2,212.0L212.1,210.5L212.5,209.9L212.6,208.6L212.4,207.2L211.8,206.3L211.8,205.0L210.6,203.9L209.6,201.2L209.2,198.7L207.8,196.5L206.7,196.0L205.5,193.0L205.6,190.8L206.1,188.9L205.3,185.4L204.4,184.2L203.1,183.5L202.6,181.7L202.9,181.0L202.6,179.4L202.0,178.7L201.6,176.3L200.6,173.8L199.8,171.6L198.5,171.6L199.4,169.9L199.8,168.8L200.5,167.5L200.6,167.0L199.5,168.3L198.2,170.7L197.1,172.3L196.3,172.9L195.7,171.9L194.9,170.5L194.4,165.9L194.0,166.2L194.1,169.6L194.9,172.7L195.6,177.7L196.1,179.4L196.5,181.2L198.1,184.7L197.5,185.2L197.1,187.3L199.6,190.1L199.9,190.7L200.2,193.8L199.5,194.4L199.2,197.7L199.5,201.4L200.4,202.2L201.7,203.4L202.7,207.0L203.0,209.9L204.3,211.4L207.5,214.4L208.8,216.2L210.0,218.0L210.8,219.1L212.0,220.1L212.5,221.0L212.3,222.3L210.7,223.1L211.7,223.9L212.6,224.5L213.0,225.8L214.1,227.1L215.4,227.2L218.0,226.4L221.0,226.0L223.5,225.0L224.8,224.8L225.8,224.2L227.4,224.1L228.3,224.0L229.5,223.6L231.0,223.3L232.4,222.2L233.4,222.2L233.4,223.0L233.0,224.9L232.8,226.5L232.2,227.7L231.1,231.1L229.6,234.6L227.7,238.6L225.1,243.2L222.7,246.7L219.4,251.0L216.6,253.5L212.5,256.6L210.0,259.0L207.0,262.8L206.4,264.5L205.8,265.2L203.9,266.5L203.3,267.8L202.3,268.0L201.9,270.2L201.1,271.5L200.6,273.6ZM245.0,139.2L245.0,141.5L247.2,142.2L248.5,143.8L251.9,144.3L256.1,143.5L256.6,142.7L256.8,140.5L258.2,137.2L256.6,136.2L258.0,134.0L256.4,133.8L257.9,131.2L260.0,131.9L262.5,130.9L261.3,129.1L261.3,127.3L259.0,128.1L257.9,130.4L257.8,128.3L258.0,127.6L259.1,126.3L259.0,125.2L256.5,124.1L256.5,121.3L255.4,120.6L255.8,119.5L258.0,119.8L259.0,117.6L261.3,117.1L263.3,117.5L264.9,114.5L265.2,112.6L262.8,112.8L261.0,112.0L257.7,113.4L255.1,114.0L253.2,115.8L250.7,116.3L246.9,119.5L247.9,122.5L246.9,124.6L248.1,128.3L248.8,129.9L249.3,132.1L250.4,132.3L250.9,133.1L248.7,133.4L247.4,135.8L246.6,136.9L245.5,137.6ZM641.3,46.6L645.5,47.3L649.4,48.5L651.6,48.8L652.9,47.7L654.9,46.8L658.1,47.2L660.5,46.0L663.5,45.3L665.6,46.4L666.7,45.8L666.4,44.6L668.0,44.9L672.9,47.2L674.5,45.4L676.0,47.4L678.3,47.0L678.6,46.2L681.2,46.4L685.0,47.5L690.4,48.5L693.6,48.9L695.5,48.8L699.2,50.1L697.1,51.4L701.3,52.0L706.7,51.7L708.1,51.2L711.5,52.9L712.8,51.5L709.9,50.3L710.6,49.4L713.0,49.3L714.5,49.0L716.6,49.7L719.7,51.1L721.9,50.9L726.5,52.1L729.4,51.7L732.5,51.8L731.0,50.1L732.4,49.6L736.4,50.5L738.3,53.1L738.0,50.9L739.7,51.0L738.5,48.3L734.9,46.7L731.7,45.6L729.5,42.7L730.2,40.8L733.2,41.2L736.3,42.4L741.6,45.4L740.9,46.6L745.1,47.2L747.4,49.9L748.4,47.8L752.3,49.5L753.4,51.5L756.9,53.3L757.5,51.4L757.0,49.1L754.5,46.2L757.6,46.4L761.0,46.8L765.0,48.1L766.3,49.4L766.0,50.8L768.7,52.3L769.6,53.6L767.1,55.5L764.6,55.9L761.7,55.1L762.2,56.5L762.0,58.8L762.4,60.0L761.4,61.9L758.4,62.0L757.6,63.2L758.8,65.0L756.6,65.4L755.6,67.7L755.4,70.9L756.1,73.1L758.2,76.4L761.9,76.9L764.7,79.6L767.2,81.8L770.0,81.3L775.0,82.5L778.0,83.6L780.6,85.0L784.0,85.8L787.3,87.1L791.2,87.3L793.9,87.5L795.2,90.1L797.9,93.1L801.7,96.5L807.0,99.3L808.2,98.3L807.5,95.2L803.2,90.5L800.5,89.0L803.2,87.6L804.3,85.5L804.1,83.5L802.5,81.5L799.1,79.0L794.8,76.9L795.1,73.8L792.1,71.3L787.8,66.8L788.8,66.2L793.2,66.9L795.6,67.2L796.8,66.5L799.7,67.4L803.7,69.1L805.3,70.2L809.4,70.4L811.4,72.8L815.1,76.4L817.5,76.9L820.5,78.6L822.5,77.0L821.9,73.8L822.3,72.5L826.2,75.0L832.2,78.7L837.6,82.2L838.2,84.0L842.6,85.7L846.0,87.4L850.3,88.1L852.5,89.1L855.4,91.6L857.5,92.0L859.3,93.1L862.1,96.5L861.2,97.6L860.3,98.7L857.2,99.8L856.0,102.2L852.3,102.7L846.8,102.1L843.2,102.1L840.9,102.3L840.4,104.5L838.2,105.8L837.3,109.9L836.2,112.7L838.0,112.2L839.4,108.2L842.8,105.6L846.1,105.3L849.2,106.8L848.3,108.9L851.2,112.2L853.4,114.5L857.5,116.0L861.2,115.6L861.5,112.1L863.1,114.4L865.3,115.5L863.6,117.5L859.3,119.4L857.6,120.6L856.1,122.8L854.1,122.6L852.5,120.0L855.3,117.4L851.4,117.5L848.9,117.9L849.9,118.9L848.2,120.4L846.2,121.5L844.2,122.4L843.9,124.3L843.8,125.0L844.7,126.6L846.3,128.3L847.4,128.4L846.6,127.2L847.7,127.9L847.9,128.8L846.5,129.3L845.3,129.2L843.7,129.8L842.7,129.9L841.3,130.1L839.7,131.0L843.1,130.4L844.1,131.0L841.1,131.9L839.5,132.0L839.4,131.6L839.0,132.4L839.9,132.6L840.4,134.8L839.7,137.3L839.1,136.4L838.5,136.3L837.3,135.5L838.6,137.2L839.5,137.7L840.1,138.9L839.8,140.2L839.5,142.7L839.2,142.5L839.0,140.4L837.2,139.2L835.7,136.6L835.9,137.9L837.3,139.9L835.4,139.5L837.6,140.5L839.0,143.5L839.8,143.7L840.5,144.8L842.2,147.9L841.5,150.3L839.3,151.2L838.3,153.0L837.1,153.3L836.2,154.4L836.3,155.5L834.2,157.5L833.2,159.0L832.7,160.9L833.0,163.1L834.2,165.3L835.9,168.1L837.8,170.3L838.2,171.7L840.5,175.3L841.1,177.5L841.3,178.7L841.2,180.6L840.5,181.0L839.1,180.6L838.3,179.2L837.1,178.5L835.0,175.8L833.0,173.4L832.3,172.1L832.2,170.0L830.9,168.3L828.1,165.7L826.9,165.2L824.7,166.6L824.2,166.5L822.5,165.0L820.6,164.2L817.8,164.6L815.4,164.2L813.5,164.5L812.6,165.0L813.3,165.8L813.6,167.1L814.4,167.7L814.0,168.1L812.9,167.6L812.1,168.2L810.2,168.2L807.8,166.5L805.6,166.9L803.5,166.1L801.9,166.4L800.0,167.1L798.2,169.4L796.0,170.8L795.0,172.3L794.8,173.7L795.3,175.9L795.8,177.4L796.5,178.5L796.2,181.3L796.2,183.6L797.0,187.8L797.0,189.3L797.8,191.1L799.0,192.6L800.0,195.0L802.2,197.4L803.1,199.2L804.5,200.8L807.4,201.6L808.8,202.9L811.0,202.0L812.9,201.7L814.8,201.1L816.4,200.6L817.9,199.3L818.2,197.5L817.9,194.8L818.1,193.9L819.8,193.1L822.4,192.3L824.8,192.5L826.3,192.2L827.1,192.9L827.4,194.4L826.3,196.3L826.1,198.2L826.7,198.7L826.5,200.1L826.3,202.5L825.5,201.7L824.9,201.8L825.0,202.3L825.5,202.3L825.6,203.1L825.5,204.5L825.8,205.0L825.7,206.1L825.9,206.4L825.9,208.0L825.5,208.8L825.0,208.9L824.6,210.0L825.6,210.6L825.8,210.1L826.6,210.5L826.9,210.6L827.4,210.1L828.2,210.0L828.5,210.3L828.8,210.1L830.1,210.4L831.4,210.4L832.2,210.0L832.4,209.6L833.3,209.8L834.0,210.0L834.7,210.0L835.2,209.7L836.5,210.1L836.9,210.2L837.8,210.8L838.7,211.5L839.7,212.0L840.6,212.8L840.4,213.1L840.4,213.8L840.8,215.0L840.4,216.1L840.2,217.3L840.3,218.7L840.6,219.5L840.9,220.9L840.5,221.2L840.4,222.6L840.7,223.4L840.2,224.2L840.4,225.1L840.9,225.6L841.8,227.3L843.0,228.6L844.4,229.9L845.4,231.0L845.4,231.7L846.5,231.8L846.8,231.6L847.6,232.4L848.9,232.1L850.0,231.3L851.5,230.7L852.4,229.8L853.9,229.9L853.8,230.3L855.3,230.4L856.6,230.9L857.6,231.9L858.7,232.7L860.1,232.8L861.9,230.6L863.0,230.3L862.9,229.3L863.1,226.6L864.5,225.1L866.2,225.1L866.3,224.4L868.4,224.7L870.4,223.1L871.3,222.4L872.4,220.9L873.4,221.1L874.2,221.9L873.8,223.0L873.8,223.7L872.3,224.1L873.4,225.5L873.5,227.1L872.6,229.0L873.8,231.5L875.0,231.3L875.3,229.0L874.4,227.9L874.0,225.5L877.2,224.2L876.6,222.7L877.4,221.7L878.7,224.0L880.6,224.0L882.5,225.8L882.8,226.8L885.2,226.8L888.1,226.5L889.8,227.9L891.9,228.3L893.3,227.3L893.2,226.5L896.5,226.3L899.8,226.3L897.6,227.2L898.7,228.7L900.9,228.9L903.1,230.5L903.8,233.0L905.2,232.9L906.3,233.7L908.2,234.8L910.1,236.9L910.3,238.5L911.3,238.6L912.9,240.1L914.1,241.2L917.4,241.8L917.6,241.3L919.8,241.0L922.7,241.9L923.7,242.2L925.7,243.0L928.8,245.6L929.3,246.9L930.2,246.8L931.0,248.5L932.7,254.0L934.2,254.5L934.3,256.7L932.2,259.3L933.1,260.2L937.9,260.7L938.0,263.8L940.0,261.8L943.4,262.9L947.9,264.8L949.2,266.7L948.7,268.4L951.9,267.4L957.1,269.1L961.2,269.0L965.1,271.6L968.3,275.1L970.3,276.0L972.6,276.1L973.6,277.1L974.1,281.1L974.4,283.0L972.7,288.2L971.1,290.3L966.6,294.6L964.4,298.2L961.9,300.9L961.2,301.0L960.0,303.3L959.0,309.2L957.2,314.0L956.4,316.1L955.2,317.4L953.6,321.6L949.8,325.7L948.4,329.0L945.8,330.3L944.6,332.2L941.7,332.2L937.2,333.4L934.9,334.8L931.6,335.8L927.7,338.3L924.4,341.4L923.2,343.8L923.0,345.5L921.3,348.7L920.1,350.3L917.6,352.0L912.5,357.6L909.2,360.1L906.8,361.5L904.3,364.5L901.8,366.4L899.8,368.3L896.1,370.1L894.5,369.5L893.0,369.8L891.2,368.4L889.4,368.5L888.6,366.8L887.7,368.4L889.8,371.1L888.4,373.3L889.3,374.7L888.5,376.2L884.0,380.3L879.4,382.0L874.1,382.6L871.5,382.3L871.1,384.2L869.3,386.5L869.0,388.1L866.9,389.2L864.1,389.6L862.3,388.5L860.9,389.3L859.6,392.4L860.8,393.4L862.7,392.4L862.5,394.0L859.7,395.0L856.6,396.9L854.5,400.0L852.9,401.7L850.6,401.7L847.8,403.3L845.7,405.6L846.7,407.8L848.7,408.5L846.1,411.2L842.2,412.9L838.3,416.5L835.3,417.7L833.4,419.1L832.1,422.3L832.4,424.0L831.5,423.9L829.5,423.8L827.8,424.6L825.0,425.7L822.6,428.5L821.6,428.5L819.6,427.6L818.4,425.5L816.7,423.8L817.2,421.8L819.0,420.1L819.1,418.1L822.0,412.9L824.8,409.9L828.7,407.6L825.5,406.7L829.4,403.9L833.0,398.8L835.2,399.9L839.9,393.4L838.7,392.6L835.9,396.5L834.5,396.1L837.6,391.6L841.3,385.8L843.5,383.6L844.1,380.6L845.5,377.0L846.6,376.9L850.4,371.8L854.2,366.8L857.1,362.1L858.3,357.4L860.0,354.7L861.0,350.8L863.8,347.0L866.1,340.9L868.8,334.3L871.5,327.2L872.5,322.1L872.9,317.6L870.6,315.8L870.6,314.5L865.9,311.4L861.7,307.9L859.9,306.0L859.2,303.4L859.8,302.5L858.1,298.3L856.1,292.5L854.2,286.3L853.2,284.9L852.5,282.5L850.6,280.5L848.7,279.2L849.7,277.8L848.5,274.8L849.5,272.6L851.7,270.6L853.2,268.3L852.7,266.9L851.6,268.4L850.0,267.0L850.6,266.1L850.2,263.3L851.1,262.8L851.6,260.8L852.7,258.8L852.5,257.5L854.0,256.9L855.8,255.6L855.4,254.6L856.4,254.4L856.3,252.8L856.9,251.7L858.2,251.5L859.3,249.5L860.3,247.9L859.2,247.1L859.7,245.3L858.9,242.4L859.4,241.6L858.8,238.9L857.6,237.3L856.6,236.4L855.9,234.7L856.5,233.8L855.8,233.6L855.2,232.6L853.8,231.7L852.6,231.9L852.2,233.0L851.2,233.8L850.6,233.9L850.4,234.5L851.8,236.3L851.1,236.7L850.7,237.1L849.5,237.3L848.9,235.4L848.6,235.9L847.6,235.8L847.0,234.5L845.9,234.3L845.1,233.9L844.0,233.9L844.0,234.6L843.6,234.1L842.1,233.4L841.5,232.8L841.7,232.2L841.6,231.5L840.7,230.8L839.6,230.2L838.7,229.8L838.4,228.8L837.6,228.3L837.9,229.2L837.4,229.9L836.7,229.1L835.8,228.8L835.4,228.1L835.3,227.2L835.6,226.2L834.8,225.7L835.3,225.1L834.3,224.1L832.9,222.9L832.1,221.8L830.9,220.8L829.3,219.4L829.6,218.9L830.1,219.4L830.3,219.2L829.7,218.2L828.8,217.9L828.6,218.6L827.1,218.6L826.0,218.3L824.9,217.7L823.3,217.5L822.5,216.8L821.0,216.2L819.3,216.2L818.0,215.6L816.4,214.3L812.9,210.9L811.3,209.9L809.0,209.0L807.6,209.3L805.6,210.4L804.3,210.8L802.3,209.9L800.2,209.3L797.5,207.9L795.4,207.4L792.1,206.0L789.7,204.5L788.9,203.6L787.3,203.4L784.4,202.4L783.1,201.0L779.9,199.2L778.3,197.2L777.4,195.7L778.2,195.4L777.8,194.5L778.2,193.7L778.1,192.6L776.9,191.1L776.4,189.9L775.2,188.3L772.3,185.2L769.1,182.7L767.4,180.7L764.9,179.4L764.3,178.7L764.2,176.7L762.7,176.0L760.8,174.4L759.7,172.2L758.2,172.0L756.3,170.3L754.7,168.8L754.4,167.8L752.4,165.4L750.9,163.0L750.6,161.8L748.4,160.5L747.6,160.6L745.9,159.8L745.8,161.1L746.6,162.6L747.5,164.9L748.7,166.2L751.1,168.4L751.7,169.2L752.2,169.4L752.8,170.5L753.2,170.4L754.2,172.5L755.2,173.3L756.0,174.4L758.0,176.0L759.5,179.0L760.5,180.3L761.6,181.8L762.1,183.5L763.3,183.6L764.7,185.0L765.9,186.4L766.0,187.0L765.1,188.2L764.6,188.1L763.5,186.2L761.5,184.4L759.3,182.9L757.8,182.1L757.4,179.8L756.6,178.1L755.2,177.1L753.1,175.7L752.8,176.1L752.0,175.3L750.2,174.5L748.2,172.7L748.4,172.4L749.5,172.6L750.2,171.4L750.0,170.0L747.4,167.7L745.7,166.9L744.3,164.9L742.8,162.8L741.0,160.3L739.2,157.4L738.4,155.8L736.3,154.0L735.0,153.6L734.4,152.7L733.0,152.6L731.8,151.7L729.4,151.4L728.6,150.9L727.8,149.2L724.5,146.0L721.1,141.6L721.0,140.9L719.6,139.8L716.9,137.2L715.8,134.7L713.9,132.9L713.7,130.3L712.8,127.7L711.2,125.3L711.2,122.3L710.5,119.5L709.8,116.7L707.9,112.6L706.2,109.9L705,108.5L705.0,107.9L708.9,109.0L711.3,111.9L711.6,111.1L710.2,108.5L708.4,106.0L708.1,106.0L702.3,103.0L700.1,101.7L695.3,100.5L692.9,97.8L692.5,95.9L689.0,94.7L687.6,92.3L683.9,90.1L683.2,88.6L681.5,87.5L679.1,86.5L677.4,83.9L673.4,81.6L671.0,78.8L668.8,78.6L665.2,78.6L662.2,77.7L656.3,74.7L654.0,74.2L649.7,73.2L646.7,73.4L641.8,72.1L638.8,70.9L636.5,71.5L637.7,73.5L636.5,73.7L634.2,74.3L632.6,75.2L630.3,75.8L629.4,74.2L629.4,71.3L631.5,70.5L630.6,69.8L628.4,71.3L627.5,73.2L625.0,75.3L627.1,76.7L625.6,78.8L623.6,80.0L621.6,80.9L621.4,82.2L618.3,83.7L617.9,85.0L615.6,86.3L614.0,86.1L612.0,86.9L610.0,87.9L608.3,88.9L604.5,89.7L604.0,89.2L606.2,87.9L608.3,87.0L610.3,85.3L613.0,85.0L613.8,83.8L616.5,82.1L616.9,81.5L618.2,80.4L618.0,78.2L618.6,76.5L616.3,77.4L615.4,76.9L614.5,78.0L612.6,76.5L612.3,77.5L611.0,76.1L609.1,77.2L607.8,77.2L607.1,75.5L607.2,74.5L605.5,73.4L602.7,74.0L600.5,72.7L598.8,72.0L598.4,70.4L596.3,69.1L596.8,67.5L598.1,65.9L598.5,64.5L600.2,64.3L601.8,64.8L603.1,63.4L604.8,63.6L606.1,62.8L605.3,61.5L604.0,61.0L605.2,59.9L603.9,60.0L601.8,60.6L601.4,61.2L599.5,60.6L596.6,60.9L593.2,60.2L592.0,59.1L588.9,57.5L591.5,56.4L595.9,55.0L597.6,55.0L597.7,56.4L602.1,56.3L599.9,54.6L597.0,53.6L595.1,52.2L592.7,51.1L589.6,50.2L590.3,48.8L594.0,48.7L596.2,47.5L596.2,46.2L597.9,45.0L599.8,44.7L603.2,43.5L605.1,43.7L607.7,42.3L611.0,42.8L612.9,44.0L613.6,43.5L617.1,43.7L617.2,44.3L620.5,44.7L622.5,44.5L627.1,45.3L631.2,45.5L632.9,45.9L635.4,45.5L638.9,46.2ZM774.7,66.5L775.3,65.2L778.3,65.2L778.7,65.7L777.3,67.3L775.7,67.2ZM759.0,38.6L755.4,37.2L754.6,36.3L755.3,36.1L760.1,36.4L765.0,37.8L765.9,38.5L763.7,38.4L761.5,38.4L759.7,38.7ZM783.5,67.5L783.7,66.6L784.6,66.7L785.6,67.3L786.0,68.8L784.8,68.5L783.6,67.7ZM726.4,33.1L726.2,34.0L723.2,33.8L720.2,33.2L720.2,32.1L722.4,31.4L724.9,32.3ZM719.7,26.9L718.9,27.0L715.2,26.8L714.0,26.1L717.8,26.2L719.6,26.6ZM711.1,24.0L714.2,24.8L714.6,25.6L712.3,26.1L710.2,25.6L708.5,24.7L707.3,23.7L709.8,23.8ZM738.4,34.5L735.0,34.2L729.0,33.4L727.0,32.1L725.6,30.8L722.6,29.8L718.3,29.5L715.4,28.7L715.1,27.7L719.2,27.9L722.1,28.7L725.8,28.7L728.3,29.5L728.8,30.4L731.6,30.9L733.4,31.5L736.1,31.6L739.2,31.8L741.7,31.3L745.4,31.1L748.7,31.3L751.8,32.2L753.3,33.2L752.8,33.9L750.4,34.4L747.6,34.1L742.4,34.5ZM685.4,25.4L688.4,25.8L688.4,26.5L685.5,27.1L682.0,26.4L682.8,25.6ZM684.5,23.9L687.4,24.4L685.5,24.8L682.4,24.8L682.1,24.5L683.4,23.8ZM864.2,99.0L864.3,100.9L864.6,103.6L865.5,102.5L867.5,103.2L867.4,104.2L870.1,105.1L870.7,104.3L873.8,105.3L874.6,107.5L875.9,107.0L877.4,108.6L879.4,110.5L880.2,113.2L879.2,113.3L877.2,112.8L876.1,110.2L875.1,109.8L874.1,112.5L872.6,112.4L873.3,111.0L870.5,110.2L868.1,110.4L863.3,110.3L862.4,109.4L863.1,108.3L861.5,107.5L862.3,105.6L861.3,100.8L861.5,99.1L862.8,98.0L864.0,98.2ZM769.0,59.1L772.1,60.0L775.3,60.9L776.5,62.2L777.9,62.0L780.3,62.9L779.0,63.8L775.1,63.1L772.9,61.8L772.0,63.3L770.0,64.8L768.0,63.1L765.3,63.4L766.1,62.0L764.6,59.9L763.3,57.3L765.0,57.6L766.4,58.8L767.2,58.3ZM762.1,39.7L763.0,38.7L768.7,40.0L772.7,41.2L774.1,42.4L777.3,41.8L781.1,43.4L787.0,44.5L789.9,45.5L794.4,48.0L791.8,49.3L798.4,51.0L802.3,51.6L807.8,54.1L811.3,54.3L812.5,56.2L811.9,59.4L808.1,58.2L802.3,55.6L799.9,55.9L801.1,57.5L804.8,59.1L808.9,60.3L810.5,61.1L814.4,63.8L815.5,65.8L812.1,65.1L804.6,62.8L809.8,65.2L813.6,66.9L814.8,67.9L807.9,66.8L801.8,65.2L798.0,63.8L798.1,63.0L793.6,61.6L789.3,60.2L790.1,61.0L784.2,61.5L781.6,60.5L781.3,58.5L785.2,58.5L789.3,58.1L787.7,57.1L787.2,55.8L787.5,53.1L785.8,51.9L784.1,51.0L779.7,49.7L774.7,48.8L775.4,48.1L771.7,46.5L769.7,46.3L767.2,45.4L766.9,46.2L763.5,46.5L755.5,45.9L750.5,45.2L746.9,44.8L744.4,43.9L745.4,42.7L742.5,42.6L739.5,40.0L739.0,37.7L740.0,36.7L744.5,36.0L744.6,37.7L747.7,39.3L747.5,37.2L751.5,36.1L757.5,38.8L758.9,40.5ZM726.6,35.2L730.8,35.3L735.1,35.9L734.3,38.1L732.3,38.6L731.9,40.6L729.5,40.5L726.3,38.2L725.2,36.9L725.3,35.9ZM667.4,30.3L669.3,28.5L671.9,26.9L674.8,26.9L677.1,26.6L678.4,28.4L677.7,29.3L676.0,29.4L673.2,30.4L670.4,30.8ZM679.1,90.8L681.3,90.6L681.9,94.0L684.9,96.4L683.9,96.4L682.0,95.0L680.6,93.6L679.1,92.7L678.1,91.4L677.9,90.4ZM693.5,22.8L697.4,23.1L703.4,23.9L706.0,25.0L707.7,26.0L704.4,25.7L700.5,25.0L696.3,24.9L697.4,24.2L694.5,23.6ZM707.4,107.5L706.4,108.0L701.9,106.6L700.8,105.5L698.2,104.4L697.5,103.5L694.8,103.0L693.2,101.3L693.2,100.6L695.9,101.3L697.6,101.8L699.9,102.1L701.1,103.1L702.9,104.6L705.7,105.8ZM673.0,34.4L676.2,34.9L681.3,35.1L683.7,35.8L686.6,36.8L684.6,37.5L681.0,39.3L679.8,41.1L680.5,42.2L676.0,43.5L674.2,42.3L668.7,41.0L668.9,39.9L669.0,38.0L669.6,36.3L666.6,34.8ZM696.9,30.9L698.2,30.5L700.4,30.6L701.8,31.8L701.6,33.0L695.3,33.4L691.3,34.5L688.3,34.5L687.5,33.7L690.6,32.6L682.1,32.9L679.0,32.5L679.8,30.1L681.0,29.4L687.1,30.2L691.7,31.7L695.3,31.8L690.5,29.5L691.5,28.6L693.7,28.9L695.4,30.1ZM705.2,37.9L708.3,38.9L711.5,41.4L713.6,43.2L718.0,44.5L722.6,45.8L723.3,47.0L720.1,47.2L722.2,48.2L722.2,49.2L718.2,48.7L714.1,48.0L711.8,48.2L708.6,49.1L703.6,49.5L700.1,49.7L698.2,48.5L694.9,47.8L693.2,48.1L689.3,46.0L690.5,45.7L693.3,45.2L696.3,45.3L698.6,44.9L694.3,44.3L690.1,44.5L687.1,44.4L685.4,43.5L689.4,42.4L686.3,42.5L682.3,41.8L682.7,39.8L683.4,38.8L687.6,37.3L690.0,37.7L689.8,38.9L693.7,38.2L697.4,39.5L698.7,38.2L701.2,39.0L704.7,41.5L704.9,40.5L701.5,37.8L702.9,37.5ZM718.1,38.8L714.5,37.1L715.8,35.9L718.6,36.4L721.8,36.1L723.0,36.9L722.2,38.1L726.1,39.2L727.8,41.5L725.3,42.5L723.2,42.3L721.0,41.3L714.4,39.3L713.7,38.5ZM704.0,36.5L706.5,36.4L708.5,37.0L708.1,38.7L703.6,36.9ZM712.8,28.8L715.4,29.9L716.6,31.2L717.5,33.0L714.5,33.3L712.0,32.9L710.8,31.4L707.8,31.6L705.9,29.7L708.0,29.8L710.1,29.0L713.0,29.1ZM707.5,19.9L707.9,19.2L709.5,19.1L708.1,18.6L712.1,18.5L716.0,19.6L719.7,20.1L723.3,20.5L726.7,22.0L729.8,22.7L728.1,23.4L726.7,25.1L723.6,25.3L719.4,25.0L716.3,24.0L715.4,23.2L716.1,22.6L712.8,22.6L709.8,21.8L707.4,20.8ZM711.7,17.2L713.7,16.8L715.7,16.7L718.7,16.4L720.0,15.6L722.4,15.7L725.3,16.3L724.7,15.2L726.5,14.9L729.2,14.7L734.4,14.6L735.8,14.8L740.2,14.5L744.2,14.6L748.3,14.8L753.3,14.9L757.6,15.2L761.9,15.7L762.9,16.2L760.3,17.1L756.7,17.5L755.9,18.0L759.8,18.0L757.7,19.2L755.8,19.8L755.4,21.6L752.1,22.0L751.6,22.5L746.3,22.7L749.3,23.0L748.5,23.4L751.6,24.5L750.8,25.3L748.8,26.0L749.0,26.9L747.2,27.6L748.1,28.2L751.3,28.1L752.0,28.7L748.5,30.1L742.8,29.4L737.6,29.8L734.4,29.5L730.6,29.4L729.2,28.2L732.1,27.7L729.2,26.0L730.2,25.8L736.4,26.8L732.1,25.3L728.5,24.9L729.0,24.0L731.6,23.4L731.1,22.7L727.4,21.8L725.1,20.6L730.2,20.7L732.0,21.0L733.7,20.2L729.3,19.9L723.1,20.1L718.8,19.3L716.1,18.5L713.1,17.9ZM781.7,52.7L781.1,53.5L778.9,53.6L777.2,52.3L776.7,50.8L778.2,50.4L780.5,51.2L781.6,52.3ZM733.4,47.2L735.5,48.2L735.0,49.2L731.5,48.3L730.1,48.6L726.3,47.4L727.5,46.6L728.0,45.5L730.8,46.2L732.4,46.7ZM846.1,103.4L846.8,103.1L850.4,103.9L853.7,105.2L854.2,105.7L853.0,105.8L849.3,104.8ZM853.0,112.0L854.8,113.5L856.8,114.0L859.0,113.9L858.6,115.1L857.8,115.3L853.9,114.0L852.7,113.0ZM645.3,196.8L645.8,197.1L646.3,197.5L647.1,198.6L647.0,198.8L646.0,199.5L645.2,199.9L644.9,200.5L644.2,200.0L644.2,199.1L643.6,198.0L643.7,197.6L644.2,197.1L643.9,196.5L644.0,196.2L644.2,196.3ZM643.5,194.6L643.4,195.0L642.5,195.3L642.0,194.6L641.6,194.3L641.6,194.1L641.8,193.9L642.8,194.2ZM641.4,193.3L641.3,193.7L639.9,193.6L640.1,193.2ZM637.9,191.6L638.1,191.8L639.0,192.9L638.8,193.1L638.7,193.0L637.7,192.9L637.3,192.2L637.2,192.1ZM634.2,190.1L634.3,190.8L634.0,191.1L633.1,190.5L633.2,190.3L633.6,190.0ZM596.4,72.3L598.2,72.6L598.7,73.7L597.5,74.1L595.9,73.6L594.3,72.8ZM628.0,79.3L629.6,79.5L630.8,80.4L629.3,81.8L627.4,82.9L626.0,82.1L625.2,80.8L627.0,79.7ZM582.5,62.7L584,63.3L585.2,63.0L587.2,63.7L589.4,64.1L589.3,64.4L587.8,65.0L586.0,64.4L585.1,63.9L583.2,64.0L582.6,63.8ZM475.5,268.1L480.2,270.3L485.3,272.1L487.1,273.7L488.6,275.3L489.1,277.1L493.6,279.1L494.2,280.7L491.7,281.1L492.4,283.1L494.8,285.2L496.5,288.5L498.1,288.4L498.0,289.8L500.1,290.4L499.2,291.0L502.1,292.3L501.8,293.2L500.0,293.4L499.4,292.6L497.0,292.2L494.3,291.8L492.2,289.8L490.7,288.0L489.3,285.3L485.7,283.9L483.4,284.8L481.8,285.8L482.1,288.2L480.0,289.2L478.5,288.7L475.7,288.6L473.3,286.0L470.5,285.4L469.9,286.3L466.4,286.4L467.6,283.8L469.3,282.9L468.6,279.5L467.2,276.9L462.0,274.2L459.7,274.0L455.6,271.1L454.9,272.6L453.8,272.9L453.2,271.7L453.2,270.3L451.1,268.8L454.0,267.7L455.9,267.7L455.7,266.9L451.7,266.9L450.7,265.0L448.2,264.4L447.1,262.9L450.7,262.1L452.1,261.1L456.5,262.4L456.9,263.6L457.7,268.6L460.5,270.5L462.8,267.2L465.9,265.3L468.3,265.3L470.6,266.4L472.6,267.5ZM507.1,271.4L508.1,272.4L508.5,274.1L507.6,274.9L507.1,273.1L506.5,271.8L505.2,270.8L503.7,269.5L501.7,268.6L502.5,267.8L504.0,268.7L504.9,269.4L506.0,270.1ZM503.5,278.3L502.0,279.1L500.6,279.8L499.2,279.8L496.9,278.9L495.4,278.0L495.6,277.0L498.1,277.5L499.5,277.2L499.9,275.7L500.3,275.7L500.6,277.3L502.1,277.1L502.9,276.0L504.4,274.9L504.1,273.0L505.7,273.0L506.3,273.5L506.2,275.2L505.3,277.2L503.9,277.4ZM512.9,276.7L513.7,277.4L515.0,279.4L516.3,280.5L515.9,281.4L515.1,281.7L513.9,280.5L512.8,278.5L512.2,276.1L512.6,275.8ZM432.6,289.4L430.9,291.8L428.6,292.5L428.3,292.1L428.5,291.0L429.6,289.1L432.3,287.9L432.6,287.1L434.9,286.4L436.8,286.3L437.6,285.9L438.6,286.3L437.7,287.2L434.9,288.5ZM457.2,281.6L456.9,279.2L457.4,278.1L457.9,277.0L458.6,278.0L458.6,279.5ZM406.3,242.8L408.4,240.7L409.9,238.2L410.9,238.2L412.3,239.8L412.4,241.2L414.2,242.0L416.4,243.0L416.2,244.2L414.4,244.4L414.9,245.9L412.9,247.0L411.3,249.8L413.3,252.8L412.8,254.2L415.8,257.1L412.6,257.5L411.7,259.6L411.8,262.5L409.2,264.6L409.2,267.7L408.2,272.5L407.7,271.4L404.7,272.8L403.6,270.9L401.6,270.7L400.3,269.7L397.1,270.9L396.1,269.4L394.3,269.5L392.1,269.2L391.6,264.9L390.3,264.1L388.9,261.4L388.6,258.6L388.9,255.7L390.5,253.7L392.5,254.7L394.6,254.1L395.2,251.5L396.3,250.9L399.6,250.2L401.5,247.7L402.9,245.7L404.0,244.6ZM444.0,268.7L447.0,269.7L448.0,272.1L445.7,270.8L443.4,270.5L441.9,270.7L440.0,270.6L440.6,268.9ZM437.2,271.9L435.4,271.3L434.8,269.9L437.6,269.8L438.2,270.8ZM440.1,253.1L440.3,254.8L441.9,255.1L442.1,256.4L442.0,259.1L440.6,258.8L440.2,260.7L441.3,262.4L440.5,262.8L439.4,260.8L438.6,256.8L439.2,254.3ZM426.5,257.2L429.6,257.1L432.3,254.8L432.8,255.5L430.6,258.6L428.5,259.2L425.9,258.6L421.4,258.8L419.0,259.2L418.7,261.6L421.1,264.4L422.5,263L427.6,261.9L427.4,263.3L426.2,262.9L425.0,264.7L422.6,265.9L425.2,270.0L424.8,271.0L427.2,274.7L427.2,276.7L425.8,277.6L424.7,276.5L426.0,274.0L423.3,275.2L422.7,274.3L423.0,273.1L421.0,271.3L421.2,268.2L419.4,269.2L419.7,272.8L419.8,277.3L418.1,277.8L416.9,276.8L417.7,274L417.2,270.9L416.1,270.9L415.2,268.7L416.3,266.7L416.7,264.2L418.1,259.5L418.6,258.2L421.0,255.8L423.1,256.8ZM419.7,292.2L416.1,290.0L418.6,289.3L420.0,290.3L421.0,291.3L420.9,292.1ZM422.4,286.8L424.2,286.5L426.6,285.4L426.3,287.1L422.2,288.0L418.6,287.6L418.6,286.5L420.7,285.8ZM414.1,286.2L415.8,286.0L416.5,287.3L413.4,287.9L411.5,288.3L410.0,288.3L410.9,286.5L412.4,286.5L413.1,285.4ZM387.5,280.1L387.9,281.2L393.1,281.5L393.7,280.2L398.7,281.8L399.8,283.8L403.8,284.4L407.2,286.2L404.1,287.4L401.1,286.2L398.7,286.3L395.9,286.0L393.3,285.5L390.2,284.3L388.2,283.9L387.0,284.3L382.1,283.0L381.6,281.7L379.1,281.5L380.9,278.5L384.2,278.6L386.4,279.9ZM376.1,263.4L376.6,265.5L377.6,267.3L379.6,267.6L380.9,269.6L380.3,273.5L380.2,278.3L377.2,278.4L374.9,275.8L371.4,273.2L370.2,271.3L368.1,268.7L366.7,266.4L364.6,262.0L362.3,259.4L361.5,256.7L360.5,254.2L358.1,252.2L356.7,249.6L354.7,247.8L351.9,244.3L351.7,242.7L353.4,242.9L357.6,243.5L360.0,246.5L362.0,248.7L363.5,250.0L366.0,253.4L368.8,253.4L371.1,255.6L372.6,258.2L374.7,259.6L373.6,262.2L375.2,263.3ZM830.7,424.9L830.6,426.3L830.1,428.5L831.8,430.3L834.5,431.0L832.3,432.5L830.1,432.7L829.7,431.6L828.0,432.8L825.3,433.7L824.3,433.6L823.1,433.4L822.1,432.5L820.0,432.1L818.3,430.4L817.1,428.8L816.2,425.5L817.7,426.1L819.5,428.1L821.9,429.2L824.0,427.8L826.2,425.8L829.3,424.5ZM869.5,203.2L867.6,202.7L866.4,202.9L864.8,202.7L863.6,203.3L862.0,202.3L862.0,201.3L864.6,201.7L866.6,202.0L867.5,201.3L865.9,199.9L865.7,198.7L863.9,198.2L864.3,197.3L866.0,197.5L868.4,198.0L868.6,197.4L870.7,197.4L872.5,198.2L873.1,198.2L873.9,199.3L875.3,199.2L875.4,200.2L876.7,200.3L878.2,201.4L877.5,202.7L876.1,202.0L874.9,202.2L874.0,202.0L873.6,202.6L872.6,202.8L872.1,202.0L871.3,202.5L870.6,204.6L869.9,204.1ZM398.2,19.0L402.4,18.5L405.2,19.6L408.3,21.7L406.8,23.7L402.6,24.0L397.7,23.3L395.1,22.5L394.7,20.9L392.5,20.4ZM412.6,22.8L416.7,24.1L415.7,25.0L404.7,25.9L409.6,22.9L411.3,22.7ZM478.5,30.2L483.6,30.3L490.5,31.6L488.8,33.5L481.7,33.4L478.4,34.0L474.7,32.4L475.9,30.7ZM496.5,32.2L501.4,32.8L499.1,33.8L496.0,33.6L492.4,32.6L492.9,31.8ZM479.9,37.1L481.8,36.1L484.3,35.9L487.1,36.8L487.3,37.5L484.3,37.5L480.2,37.2ZM308.5,19.9L312.5,19.5L315.3,19.5L315.0,20.1L316.6,19.5L318.7,19.2L320.9,19.7L319.8,20.0L317.0,20.3L315.2,20.4L314.6,20.8L312.0,21.2L310.6,20.6L312.4,20.0ZM309.9,36.1L316.2,33.9L316.6,32.8L321.9,31.5L329.5,29.9L336.2,29.5L340.2,28.6L344.1,28.3L344.7,29.2L342.9,30.0L335.2,31.2L328.5,32.4L320.7,34.7L315.9,37.2L311.0,39.7L309.9,41.8L312.3,44.0L311.0,44.2L304.6,43.8L304.8,42.7L301.7,42.0L302.4,40.6L304.9,40.0L305.9,38.6L311.4,36.5ZM483.5,91.8L484.2,94.7L484.0,97.7L484.9,100.7L487.2,106.1L483.7,105.1L482.0,109.5L484.3,112.7L484.2,114.8L482.4,113.0L480.7,115.3L480.4,112.8L480.7,109.8L480.6,106.5L481.2,104.2L481.5,100.1L480.2,97.1L480.6,93.0L482.8,91.7L481.9,90.3L483.0,89.9ZM560.4,41.9L560.6,41.8L562.3,41.8L565.4,42.5L565.3,42.9L563.4,43.5L560.8,43.7L558.6,43.8L558.0,43.0ZM843.4,175.6L844.6,175.4L846.4,175.5L846.7,176.3L844.0,176.8ZM846.3,174.8L848.8,176.2L849.0,178.5L848.4,178.1L848.0,176.4L846.4,175.2ZM846.9,180.6L847.8,180.7L849.4,183.4L849.9,185.2L849.3,185.3L848.1,183.5L846.9,182.6ZM849.8,422.5L853.9,420.7L855.4,421.5L857.7,420.2L858.6,421.6L857.1,422.7L853.3,423.6L853.0,422.5L850.0,423.9ZM251.4,21.9L253.2,21.2L256.0,21.1L257.2,21.9L261.1,23.5L255.2,24.4L252.0,26.2L249.8,26.6L246.5,28.6L244.1,28.7L241.8,27.2L244.6,26.4L242.6,25.7L241.6,23.7L242.7,22.0L248.9,21.2L248.7,21.9ZM275.1,21.1L270.8,22.3L265.1,22.5L260.2,22.2L260.7,21.5L258.1,21.5L257.5,20.5L264.1,19.9L266.0,20.4L268.7,19.8L272.6,20.3ZM263.9,26.1L258.5,27.1L255.8,26.5L257.9,25.9L257.7,25.2L262.1,24.7L261.8,25.6ZM186.5,13.9L191.3,14.0L198.3,15.5L193.2,16.2L186.2,16.3L179.8,16.4L186.5,13.9ZM820.1,16.4L816.9,16.5L818.7,16.9L820.9,16.8L836.1,24.3L849.5,32.7L873.7,50.6L873.7,50.6L872.6,50.9L870.3,50.9L869.4,51.9L870.0,54.8L867.7,56.7L866.3,56.8L864.3,57.5L861.9,58.1L862.0,59.8L864.1,61.7L864.9,63.6L863.8,65.8L866.9,68.0L868.3,70.4L870,73.1L867.0,73.3L861.4,71.0L857.0,71.0L853.4,69.4L849.2,66.7L842.0,63.2L839.0,61.4L836.2,58.9L830.7,56.3L829.3,54.3L826.9,53.4L825.6,50.2L827.6,49.2L827.2,48.1L825.3,46.0L824.0,47.0L823.3,47.4L821.9,47.8L818.4,46.9L816.3,45.1L815.5,43.7L817.3,43.7L822.3,44.4L816.9,42.7L814.0,41.8L812.4,42.2L810.0,41.5L809.5,39.1L807.1,38.2L803.4,36.4L797.8,33.7L794.1,32.8L792.8,31.7L785.8,30.3L781.5,30.1L776.5,30.2L772.0,30.4L768.9,29.6L763.7,28.1L767.7,27.4L771.4,27.2L762.5,26.6L757.0,25.7L756.1,24.7L761.6,23.6L766.8,22.5L766.3,21.7L760.1,20.9L760.3,20.1L764.1,18.6L766.3,18.3L763.9,17.4L767.1,16.9L771.9,16.6L777.4,16.5L780.6,17.2L783.0,16.1L788.9,16.8L791.7,17.0L796.8,17.6L790.2,16.5L788.6,15.7L788.6,15.7L791.7,14.5L798.1,14.6L798.5,13.9L804.2,13.7L813.4,13.9L820.1,16.4ZM179.0,16.8L183.1,16.7L186.8,17.4L191.7,16.7L191.6,17.5L187.0,18.7L193.2,17.9L203.6,17.1L208.2,17.5L207.4,18.4L197.1,19.9L195.1,20.4L188.6,20.8L192.6,20.9L187.6,22.5L183.6,24.0L179.4,26.6L179.3,28.2L176.2,28.3L171.9,29.0L173.5,30.3L171.0,32.4L168.6,32.6L168.1,34.8L163.5,35.0L164.4,36.0L162.6,36.9L159.2,37.3L156.5,37.3L156.6,39.0L155.2,40.2L152.6,39.1L150.7,39.8L152.5,40.4L153.1,42.0L151.2,44.1L147.0,44.6L146.7,43.6L146.1,42.1L144.5,43.9L140.4,45.3L145.6,45.4L148.3,45.5L139.9,47.8L131.7,49.9L126.2,50.6L150.4,32.7L163.8,24.3L179.0,16.8ZM305.6,412.7L307.5,413.7L309.9,414.1L310.2,414.6L310.1,416.0L306.5,416.2L305.8,414.6L305.7,413.4ZM150.6,125.7L152.8,124.5L151.8,127.2L149.7,129.6L148.9,129.0L149.5,126.9ZM883.7,201.7L885.1,202.0L885.8,202.6L885.2,203.4L883.2,203.4L881.7,203.5L881.2,202.2L881.5,201.7ZM853.6,201.8L855.4,202.1L857.0,202.9L857.6,203.7L855.8,203.8L855.1,204.3L853.5,203.8L851.7,202.7L851.9,201.9L853.0,201.7ZM837.8,187.0L840.2,187.2L842.3,187.3L845.0,188.3L846.3,189.5L848.7,189.1L849.8,189.9L852.5,191.8L854.5,193.2L855.4,193.2L857.1,193.8L857.1,194.7L859.1,194.9L861.4,196.2L861.3,196.9L859.6,197.3L857.8,197.5L856.0,197.2L852.2,197.5L853.6,195.8L852.3,194.9L850.6,194.7L849.5,193.8L848.4,192.0L846.9,192.1L844.3,191.3L843.3,190.6L839.8,190.1L838.7,189.5L839.5,188.7L836.9,188.6L835.3,190.2L834.3,190.3L834.0,191.0L832.8,191.4L831.6,191.1L832.8,190.1L833.1,189.0L834.1,188.3L835.3,187.6L837.3,187.3ZM229.3,299.1L230.2,300.5L231.0,302.5L231.9,306.3L232.8,307.8L232.7,309.3L232.4,310.2L231.2,308.4L230.8,309.3L231.6,311.7L231.6,313.0L230.9,313.7L231.1,316.4L230.7,320.1L230.1,324.4L229.5,330.4L229.3,334.8L228.9,338.4L226.9,339.2L224.9,340.5L223.2,339.7L220.9,338.6L219.8,336.9L219.0,334.1L217.6,331.6L216.9,329.3L216.9,327.1L218.0,326.5L217.9,325.5L218.7,323.1L218.6,321.1L217.7,319.6L216.9,317.6L216.3,314.7L216.9,312.9L217.0,310.9L218.3,310.8L219.7,310.2L220.7,309.6L221.8,309.5L223.1,307.7L225.1,305.8L225.7,304.2L225.2,302.9L226.4,303.3L227.6,301.1L227.5,299.2L228.2,297.8ZM546.1,309.9L547.8,311.7L546.9,312.1L546.0,310.7ZM545.0,309.2L544.6,308.3L544.6,305.9L545.9,306.9L546.3,309.4L545.6,309.0ZM184.3,148.7L183.6,149.6L179.9,149.9L180.1,149.4L177.2,148.8L178.2,147.4L179.2,148.5L181.2,148.3L183.1,148.5L182.8,149.1ZM137.4,91.3L136.1,93.5L132.3,96.2L126.7,97.9L123.8,97.5L128.1,94.3L129.4,91.3L134.4,89.0L137.3,87.6L139.3,87.5L140.3,89.3ZM541.9,326.3L544.0,328.2L545.3,329.7L544.3,330.4L542.9,329.6L541.0,328.1L539.4,326.5L537.6,324.3L537.3,323.2L538.4,323.2L539.9,324.3L541.1,325.4ZM532.7,292.9L533.4,294.0L531.5,293.9L530.5,292.0L532.1,292.8ZM531.5,290.1L531.1,290.7L529.1,288.0L528.6,286.1L529.5,286.1L530.4,288.6ZM529.3,291.0L528.2,291.0L526.6,290.7L526.0,290.2L526.2,289.0L528.0,289.5L528.8,290.1ZM526.0,285.1L526.7,286.1L526.8,286.8L524.7,285.4L523.2,284.3L522.2,283.3L522.6,282.9L523.8,283.7ZM519.3,282.0L520.4,283.0L519.8,283.2L518.6,282.5L517.5,281.2L517.7,280.7ZM567.2,386.2L566.1,387.9L564.7,390.0L562.7,391.3L562.3,390.4L561.3,390.0L563.0,387.4L562.3,385.7L559.7,384.4L559.9,383.3L561.8,382.2L562.4,379.8L562.5,377.7L561.6,375.6L561.7,375.1L560.6,373.8L558.8,371.0L557.9,368.8L558.8,368.5L560.1,370.3L562.0,371.1L562.5,373.9L564.1,377.2L564.3,375.1L565.4,375.9L565.6,378.3L567.6,379.3L569.2,379.6L570.8,378.4L572.0,378.7L571.2,381.5L570.2,383.4L568.3,383.3L567.6,384.2L567.7,385.6ZM548.4,397.1L550.6,395.5L552.2,393.8L553.5,391.5L554.5,390.7L555.0,389.0L556.9,387.5L557.3,388.9L557.8,390.1L559.7,388.9L560.3,390.2L560.2,391.5L559.1,393.0L557.3,395.3L555.9,396.5L556.7,398.0L554.8,398.0L552.6,399.2L551.8,401.3L550.1,404.4L548.1,405.8L546.8,406.6L544.6,406.6L543.1,405.6L540.5,405.3L540.1,404.2L541.6,401.9L544.9,398.9L546.5,398.3ZM494.2,388.5L495.7,388.7L495.9,392.4L495.0,393.5L494.8,396.0L493.9,395.2L492.2,397.3L491.7,397.2L490.2,397.1L488.7,394.4L488.3,392.3L486.8,389.6L486.8,388.2L488.5,388.5L490.9,389.5L492.2,389.1ZM438.4,361.4L435.8,363.1L433.6,363.8L433.3,365.5L432.4,366.7L430.2,366.8L428.6,367.1L426.3,366.5L424.5,366.9L422.8,367.0L421.4,368.7L420.6,368.6L419.4,369.4L418.3,370.4L416.4,370.3L414.7,370.3L411.8,368.3L410.4,367.7L410.2,365.9L411.5,365.5L411.8,364.7L411.6,363.6L411.7,361.4L411.3,359.5L409.6,356.3L409.0,354.5L409.0,352.7L407.8,350.7L407.6,349.7L406.4,348.5L405.8,346.0L404.1,343.5L403.7,342.2L404.9,343.5L403.8,340.6L405.2,341.5L406.1,342.7L405.9,341.1L404.4,338.6L404.1,337.6L403.4,336.7L403.5,334.9L404.0,334.1L404.3,332.5L403.9,330.7L404.8,328.4L405.2,330.8L406.2,328.6L408.2,327.6L409.5,326.2L411.4,325.1L412.6,324.8L413.4,325.2L415.4,324.0L417.0,323.7L417.4,323.0L418.1,322.7L419.5,322.8L422.3,321.8L423.7,320.4L424.3,318.8L425.8,317.2L425.9,315.9L425.9,314.2L427.6,311.5L428.9,314.2L430.0,313.6L429.0,312.1L429.8,310.6L431.0,311.3L431.2,308.9L432.6,307.3L433.2,306.1L434.6,305.5L434.6,304.7L435.8,305.0L435.8,304.2L437.0,303.8L438.3,303.4L440.3,304.8L441.8,306.7L443.5,306.7L445.2,307.0L444.6,305.3L445.8,302.7L447.0,301.9L446.6,301.1L447.7,299.3L449.3,298.2L450.7,298.6L453.0,298.0L452.9,296.4L450.9,295.4L452.3,294.9L454.1,295.7L455.6,297.0L457.9,297.8L458.6,297.5L460.3,298.4L461.9,297.5L462.9,297.8L463.5,297.2L464.8,298.8L464.1,300.4L463.1,301.7L462.2,301.8L462.5,303.1L461.7,304.6L460.8,306.2L461.0,307.1L463.2,308.8L465.3,309.8L466.7,310.9L468.6,312.8L469.4,312.8L470.8,313.6L471.2,314.6L473.8,315.6L475.5,314.5L476.0,312.9L476.6,311.5L476.9,309.7L477.7,307.2L477.3,305.7L477.5,304.8L477.1,303.0L477.5,300.6L478.0,300.0L477.6,298.9L478.2,297.3L478.7,295.5L478.7,294.6L479.7,293.5L480.5,295.0L480.7,297.0L481.4,297.3L481.5,298.7L482.5,300.3L482.7,302.1L482.6,303.2L483.6,305.7L485.3,304.5L486.2,305.8L487.5,307.0L487.3,308.4L487.9,311.1L488.3,312.7L488.9,313.1L489.7,315.8L489.4,317.4L490.3,319.6L493.2,321.2L495.1,322.7L496.9,324.1L496.5,324.8L498.1,326.8L499.1,330.2L500.2,329.5L501.2,330.9L501.9,330.4L502.3,333.8L504.2,335.7L505.4,336.9L507.5,339.5L508.2,342.0L508.2,343.8L508.1,345.8L509.3,348.5L509.1,351.3L508.6,352.7L507.9,355.5L508.0,357.4L507.4,359.6L506.3,362.5L504.4,364.1L503.4,366.5L502.5,368.1L501.8,370.8L500.8,372.4L500.1,374.7L499.8,376.9L499.9,377.9L498.5,379.0L495.7,379.1L493.3,380.4L492.2,381.6L490.7,383.0L488.6,381.6L487.0,381.0L487.4,379.4L486.0,380.0L483.9,382.2L481.7,381.4L480.2,380.9L478.8,380.7L476.3,379.8L474.6,377.8L474.1,375.4L473.4,373.8L472.1,372.6L469.7,372.2L470.5,370.6L469.8,368.3L468.6,370.5L466.3,371.1L467.6,369.3L467.9,367.5L468.9,365.9L468.6,363.6L466.6,366.3L465.0,367.4L464.1,369.9L462.1,368.6L462.1,366.9L460.4,364.6L459.0,363.4L459.4,362.7L456.0,360.8L454.2,360.7L451.7,359.2L447.1,359.5L443.8,360.6L440.9,361.7ZM315.3,236.3L314.8,239.6L313.6,240.5L311.2,241.2L310.0,238.7L309.8,234.2L311.2,229.1L313.0,230.8L314.2,233.1ZM391.7,202.7L389.5,201.8L389.6,199.0L391.0,197.6L394.0,196.7L395.5,196.8L396.1,198.0L394.8,199.4L394.1,201.2ZM425.5,183.2L423.6,188.2L422.4,190.8L421.1,188.2L420.9,185.8L422.7,182.7L424.9,180.3L426.1,181.3ZM158.7,139.8L160.8,139.5L158.8,142.0L158.7,142.9L157.5,144.5L156.1,143.4L154.9,143.0L152.1,141.4L153.2,139.8L156.0,140.1ZM147.7,131.1L149.4,130.1L149.8,132.4L147.4,136.5L146.4,136.3L144.8,137.4L144.3,136.5L146.1,132.7L146.4,130.9ZM185.3,84.7L185.0,86.2L181.9,88.6L180.7,86.9L181.2,85.7ZM143.6,92.7L143.6,92.7L145.2,91.0L145.1,89.2L145.1,89.1L142.8,88.6L142.9,87.8L144.8,86.5L144.7,85.7L142.3,87.1L144.5,84.2L144.7,82.7L148.1,79.7L151.9,77.4L153.5,77.6L156.4,77.3L151.3,80.5L154.0,80.1L156.4,80.1L153.8,82.5L149.6,85.1L151.8,85.3L151.7,85.6L151.0,89.1L152.2,89.6L151.0,93.0L150.8,94.1L153.2,94.7L151.5,96.6L149.7,97.5L149.5,99.1L146.2,100.7L143.1,100.6L138.4,101.5L137.8,100.9L135.2,102.3L133.2,101.9L130.7,103.1L129.9,102.5L135.7,99.3L138.3,98.7L138.3,98.7L135.0,98.2L135.2,97.0L138.4,96.0L138.3,94.4L140.3,92.5ZM153.0,55.4L150.6,57.1L151.0,59.0L146.0,61.1L137.7,63.0L135.3,63.5L132.9,63.1L127.9,62.2L131.3,61.0L128.2,59.7L132.6,59.1L133.4,58.3L129.7,57.7L133.1,55.9L136.8,55.5L138.0,57.3L142.9,55.9L144.7,56.6L149.7,55.2ZM421.4,220.0L420.1,217.6L422.4,217.8L423.3,218.9L422.5,221.6ZM425.9,228.6L426.6,227.7L426.9,225.8L428.4,225.6L428.0,227.7L430.0,224.7L429.7,227.7L428.7,228.7L427.8,230.7L426.9,231.6L425.3,229.4ZM436.1,233.5L436.3,235.6L436.4,237.4L435.5,240.2L434.5,237.0L433.2,238.6L434.1,241.0L433.3,242.4L430.1,240.6L429.4,238.3L430.2,236.8L428.5,235.4L427.7,236.7L426.4,236.5L424.4,238.3L423.9,237.4L425.0,234.7L426.8,233.8L428.3,232.7L429.2,234.1L431.3,233.2L431.7,231.8L433.6,231.7L433.5,229.3L435.7,230.8L435.9,232.4ZM414.8,230.7L411.2,233.7L412.5,231.5L414.5,229.5L416.2,227.4L417.7,224.2L418.1,226.8L416.3,228.5ZM426.0,202.7L425.6,204.0L426.4,206.2L425.6,208.8L424.0,209.9L423.5,212.4L424.0,214.9L425.4,215.3L426.6,214.9L429.9,216.7L429.6,218.4L430.4,219.1L430.1,220.6L428.1,219.0L427.1,217.4L426.4,218.5L424.7,216.6L422.3,217.1L421.0,216.4L421.1,215.1L422.0,214.3L421.2,213.6L420.8,214.7L419.6,212.9L419.2,211.5L419.2,208.5L420.3,209.6L420.8,204.6L421.7,201.8L423.4,201.8L425.0,202.7L425.8,201.9ZM424.5,224.1L424.2,222.6L425.7,223.6L427.5,223.6L427.4,224.9L426.1,226.2L424.4,227.2L424.3,225.7ZM433.9,221.7L434.6,225.3L432.5,224.4L432.6,225.5L433.2,227.4L431.9,228.1L431.8,225.9L431.0,225.7L430.6,223.8L432.2,224.1L432.2,222.9L430.6,220.5L433.2,220.6ZM479.6,136.5L477.1,139.7L477.1,142.9L476.1,145.4L476.5,147.0L475.1,149.2L471.8,150.7L467.3,150.9L463.5,154.5L461.8,153.3L461.8,150.9L457.3,151.6L454.2,153.1L451.2,153.2L453.7,155.5L451.7,160.9L449.9,162.2L448.7,161.0L449.5,158.1L448.0,157.2L447.0,155.0L449.5,154.1L451.0,152.1L453.6,150.4L455.6,148.3L460.7,147.4L463.4,148.0L466.3,142.4L468.0,143.9L471.8,140.7L473.3,139.5L475.0,135.7L474.7,132.2L475.8,130.2L478.5,129.6L479.7,133.9ZM486.7,121.6L488.5,120.2L489.0,123.7L485.3,124.6L483.0,127.7L479.2,125.5L477.7,129.0L475.0,129.0L474.8,125.9L476.1,123.5L478.7,123.3L479.6,119.0L480.4,116.6L483.1,119.9L485.0,120.9ZM454.7,154.5L456.2,152.6L457.6,153.0L458.7,151.7L460.6,152.3L460.9,153.4L459.3,155.3L458.3,154.3L457.0,155.1L456.2,156.9L454.6,156.0ZM803.3,494.3L804.3,494.3L807.8,493.7L809.9,494.3L810.6,495.3L809.1,496.7L807.7,497.6L805.7,498.8L801.6,499.5L797.7,500.0L793.3,500.5L788.7,500.9L784.7,500.8L783.6,500.1L785.5,499.2L790.4,498.6L793.2,497.8L796.0,496.9L798.2,496.0L800.6,495.2ZM762.8,499.3L766.8,499.4L770.4,499.6L773.2,498.7L775.4,497.9L775.9,498.8L773.5,499.9L771.3,500.9L768.0,500.6L763.7,500.7L762.7,500.0L762.8,499.9ZM774.7,477.4L776.4,477.1L778.6,477.2L780.5,475.8L781.6,474.9L783.7,472.7L786.1,471.5L788.4,471.1L788.5,472.1L788.0,473.0L787.7,474.2L787.2,475.4L786.5,476.6L785.6,477.7L784.1,478.7L782.6,479.7L779.8,480.1L777.1,480.6L774.5,480.5L776.5,479.5L773.8,479.9L771.2,480.2L770.5,479.5L771.4,478.4ZM716.0,479.0L717.6,478.5L719.9,478.9L722.6,479.1L724.5,479.5L727.0,479.2L726.9,480.6L725.5,480.4L723.0,480.5L720.6,480.4L717.8,480.6L716.2,480.1ZM672.3,483.5L673.3,482.7L675.3,483.1L677.6,483.5L680.3,483.1L678.5,484.0L676.2,484.6L673.6,484.4ZM663.4,483.0L665.2,482.5L666.8,483.1L669.1,484.1L668.0,484.0L665.6,483.7ZM586.4,495.5L587.9,494.7L591.3,495.0L592.8,495.8L593.8,496.6L593.8,497.6L590.1,497.9L588.0,497.1L587.3,496.3L587.3,496.2ZM172.1,500.0L173.7,499.5L170.9,498.7L168.6,497.9L167.0,497.1L166.5,497.1L157.9,492.1L157.9,492.1L158.1,491.9L158.3,491.0L160.2,490.6L162.3,490.2L163.3,490.0L166.2,489.9L168.5,489.6L170.2,489.1L171.7,488.6L173.0,488.0L174.6,487.2L175.1,486.4L176.0,485.6L175.3,484.7L172.4,484.1L171.7,483.0L172.0,482.2L173.4,481.7L174.9,481.1L175.9,480.3L176.2,479.3L175.7,478.1L176.3,477.4L178.9,477.5L180.9,478.4L183.5,478.5L182.4,477.5L182.3,476.5L184.7,476.8L186.4,477.7L188.9,477.9L191.0,477.4L193.2,477.1L195.7,477.3L197.7,478.3L199.0,477.5L200.6,477.0L202.5,476.6L204.3,476.3L205.7,475.7L207.6,475.3L208.8,474.7L209.0,473.8L211.2,474.4L213.0,474.1L215.7,475.3L217.8,476.2L219.6,475.7L219.5,474.7L220.9,474.0L223.7,474.1L225.4,475.1L226.2,474.1L228.1,473.8L230.4,473.7L232.6,473.8L235.2,474.1L237.5,474.2L239.3,475.1L241.3,475.9L243.1,475.4L245.4,475.3L247.7,475.3L249.9,475.3L251.7,474.9L253.5,474.6L254.7,473.9L256.2,473.4L258.1,473.1L259.1,472.4L259.0,471.0L259.4,470.1L261.9,470.5L263.5,471.4L265.8,472.1L267.7,471.8L269.9,472.8L272.0,473.5L273.6,472.8L273.4,471.7L274.9,471.2L276.4,470.3L278.1,470.0L280.2,469.4L281.4,468.9L282.6,468.2L283.9,467.6L286.1,468.0L287.3,467.0L288.1,466.3L290.1,466.3L291.4,465.7L291.2,464.7L292.5,464.0L293.9,463.4L295.7,463.0L297.5,462.8L299.5,463.0L301.7,463.2L303.8,464.0L304.8,465.1L307.2,466.0L308.9,466.8L311.6,467.1L313.4,467.9L315.6,468.6L317.7,468.7L319.1,468.2L320.2,467.1L322.5,467.7L324.7,468.0L326.9,468.3L329.0,468.5L331.1,468.5L334.4,471.3L334.7,472.0L335.1,473.2L333.5,473.9L332.5,474.8L333.4,475.9L335.6,475.8L336.0,476.9L335.5,477.8L335.2,478.9L337.3,479.7L339.7,480.0L341.8,479.5L342.3,478.5L342.4,477.5L343.0,476.7L343.9,475.9L343.9,475.0L344.2,473.7L345.4,473.5L347.6,473.3L349.5,473.0L351.4,472.6L351.9,471.6L352.0,470.6L352.9,469.6L354.6,468.9L356.1,468.4L356.8,467.5L357.8,467.0L359.1,466.6L361.3,466.8L363.1,466.6L365.0,466.3L367.4,466.4L368.6,465.7L368.9,463.9L370.0,464.6L371.5,465.9L373.5,466.4L375.6,466.6L377.5,466.3L379.7,466.5L381.7,466.6L382.9,466.3L384.7,466.5L386.5,467.1L388.3,466.7L390.5,466.7L392.3,466.3L394.6,466.7L395.7,465.8L396.5,464.9L397.7,464.1L399.7,462.1L401.2,462.5L403.1,463.2L404.8,464.2L407.9,465.8L410.0,465.9L411.9,465.9L414.1,465.6L416.3,465.2L417.8,464.5L419.0,463.6L421.4,463.5L422.8,463.0L424.6,463.5L425.9,464.3L427.6,465.2L429.9,465.1L431.4,465.8L434.1,466.5L436.8,466.7L438.9,466.5L440.4,465.7L441.6,464.8L443.5,464.6L445.5,465.0L447.7,465.3L449.6,464.8L451.5,464.8L453.4,465.1L455.4,465.4L457.2,464.9L459.4,464.5L461.5,464.3L463.9,464.3L465.9,464.1L467.7,463.9L468.2,462.5L468.2,461.4L469.6,462.1L470.1,463.4L470.9,464.5L471.8,465.4L473.6,465.9L476.0,465.7L478.7,465.7L480.6,465.5L483.4,465.5L485.4,465.5L488.1,465.6L490.5,465.8L492.0,466.6L491.6,467.6L493.0,468.4L495.2,469.1L497.5,469.7L500.2,470.2L503.0,470.6L505.1,471.1L507.5,471.1L508.8,470.2L510.6,471.0L512.2,471.8L513.9,472.4L516.4,472.7L518.8,473.0L519.7,474.0L522.0,474.6L523.5,475.6L525.7,476.0L528.0,475.9L530.2,476.1L532.6,476.0L535.0,476.2L537.3,476.6L539.3,477.2L541.3,477.7L542.6,478.5L542.2,479.5L541.0,480.4L539.9,481.6L539.1,482.5L538.0,483.5L535.3,483.9L534.1,484.8L531.5,485.3L530.4,486.3L529.0,487.2L527.5,488.0L526.6,489.0L526.0,489.9L525.7,491.0L525.6,491.9L526.6,492.9L526.9,493.7L527.6,494.6L531.1,494.9L531.6,495.9L528.2,496.2L525.3,496.7L521.8,496.8L520.1,498.1L519.6,499.2L518.7,500.0L517.7,500.8L520.0,501.5L520.8,502.3L522.2,503.1L524.3,503.8L526.6,504.4L529.1,505.0L533.0,505.6L533.6,506.5L538.5,506.9L538.7,507.0L539.8,507.5L544.8,507.1L548.4,507.6L551.2,508.0L551.2,508.0L551.2,508.0L551.2,508.1L553.3,507.0L556.1,507.6L556.3,507.5L558.5,507.0L558.7,507.0L558.9,507.0L560.9,507.7L563.6,507.0L564.0,506.9L569.3,506.6L570.7,507.0L571.3,507.2L573.5,507.8L578.0,508.2L581.3,508.7L587.5,509.1L592.8,508.7L599.6,509.0L603.1,509.5L608.1,509.0L613.4,508.6L614.8,507.8L608.1,507.7L603.0,507.3L602.3,506.6L598.0,506.2L599.1,505.4L600.4,504.6L601.6,503.9L601.9,503.1L599.3,502.5L598.4,501.8L596.1,501.1L600.4,501.2L604.8,500.9L606.9,501.6L610.6,501.0L614.1,500.2L616.1,499.5L616.1,498.5L614.1,497.9L611.8,497.3L608.1,497.1L605.0,496.8L601.5,496.6L600.7,495.8L598.7,495.0L597.6,494.2L598.3,491.5L599.2,491.7L600.5,492.5L603.8,492.3L606.9,491.9L608.0,493.0L611.1,492.7L613.9,492.2L616.6,491.6L619.2,490.8L622.3,490.5L622.7,489.6L622.5,488.7L623.5,487.8L626.3,487.4L627.0,488.2L630.2,487.7L632.8,487.1L635.6,487.1L638.4,486.8L641.3,486.2L643.8,485.7L646.5,485.1L647.9,485.3L649.1,485.5L652.3,485.1L654.6,485.6L657.3,485.5L660.1,485.2L662.6,485.4L665.3,485.7L668.1,485.6L670.9,485.6L673.8,485.7L676.5,485.6L679.1,484.8L681.7,484.5L683.8,485.0L686.5,484.6L689.3,483.7L689.9,484.5L689.9,485.3L690.5,486.2L693.2,485.4L694.7,486.4L697.1,486.7L698.8,487.3L701.7,487.2L704.5,486.8L707.4,486.9L709.7,487.2L712.0,487.6L714.0,486.6L713.4,485.7L713.3,484.8L710.9,484.7L710.6,483.7L710.9,482.8L711.8,480.9L713.0,481.2L715.5,481.4L718.2,481.2L720.2,481.6L721.6,482.4L721.6,483.3L724.2,483.4L727.0,483.1L730.2,482.6L732.9,482.3L734.4,482.9L737.2,482.7L740.7,480.7L741.3,481.9L743.1,482.3L745.9,482.1L746.5,483.1L749.0,483.2L751.1,483.5L752.9,484.0L755.4,483.1L757.1,482.2L758.1,483.2L761.0,482.9L762.5,483.5L762.9,484.3L765.8,484.1L768.4,483.5L771.1,482.9L773.9,482.5L777.0,482.2L779.9,481.9L782.5,481.3L784.5,480.5L786.2,479.4L787.1,478.3L787.6,477.3L787.9,476.3L788.3,475.3L788.8,474.3L789.7,473.3L790.9,472.3L792.9,471.3L794.8,470.2L796.2,469.1L796.9,468.0L797.7,466.9L799.9,465.7L801.8,464.9L804.1,463.9L806.4,463.0L808.9,462.2L810.9,461.0L812.7,460.3L814.8,459.6L817.0,459.4L819.1,458.5L821.2,458.0L823.3,457.6L825.5,456.9L827.6,456.1L829.6,455.7L830.2,456.5L828.5,457.4L825.5,458.2L824.0,458.8L822.8,458.4L820.8,458.6L818.7,459.3L816.4,460.0L814.6,460.8L813.3,461.9L812.4,462.9L812.5,463.8L810.4,464.5L808.3,464.7L806.2,465.6L804.1,466.4L801.7,467.6L800.3,468.6L800.0,469.7L800.2,470.5L801.3,471.2L802.0,472.0L801.8,473.0L801.2,474.0L800.7,475.1L800.7,475.9L800.2,476.9L797.9,479.3L797.4,480.3L796.4,481.3L795.8,482.3L794.0,483.6L791.7,484.7L789.6,485.5L786.5,485.8L784.6,486.7L782.4,487.5L778.4,488.5L775.4,488.8L772.3,489.4L769.1,489.9L766.3,490.9L763.1,491.0L759.9,490.9L756.6,491.1L753.4,491.1L752.9,492.0L755.3,492.4L756.6,493.1L756.7,493.9L753.7,494.7L750.7,494.4L747.3,495.0L746.0,496.0L744.7,496.9L745.9,497.6L745.1,498.5L746.2,499.3L749.6,499.6L751.9,500.2L753.4,500.9L755.6,501.6L759.5,501.9L762.9,502.4L764.8,503.1L766.8,503.7L766.6,504.6L765.8,505.4L769.5,504.7L773.6,504.1L778.0,503.5L782.8,503.0L787.1,502.4L791.7,502.4L795.5,502.7L798.0,503.1L801.1,502.2L804.9,501.6L809.5,501.6L814.0,501.1L818.4,500.7L822.8,500.4L827.5,500.0L827.8,500.0L803.8,509.0L788.3,512.2L768.8,514L500,514L231.1,514L211.6,512.2L196.1,509.0ZM833.4,497.1L830.3,497.1L825.8,497.5L822.2,497.5L823.2,496.7L826.4,494.9L828.1,494.4L831.7,493.9L835.8,493.3L839.2,492.6L842.0,492.1L833.4,497.1ZM200.6,149.2L200.8,149.2L201.4,148.4L203.2,148.5L205.9,147.5L203.7,148.9L203.7,149.5L203.6,149.7L200.6,151.0L199.5,150.6L199.3,149.3ZM900.3,226.2L901.8,225.7L902.4,225.9L902.5,228.2L900.3,228.5L899.8,228.3L900.5,227.4Z"/>
+            <g id="mkts"></g>
+            <path class="th" d="M379.6,215.1L377.1,214.7L373.6,215.2L371.7,217.9L372.2,221.7L369.8,220.2L367.5,220.3L368.0,217.8L365.7,217.8L365.3,221.3L363.6,225.9L362.6,228.7L362.7,230.9L364.5,231.0L365.5,233.9L365.9,236.6L367.3,238.4L368.9,238.8L370.3,240.4L369.4,241.7L367.6,242.1L367.4,240.5L365.2,239.1L364.8,239.7L363.7,238.4L363.3,236.9L361.9,235.1L360.7,233.6L360.2,235.5L359.7,233.7L360.1,231.8L361.0,228.8L362.4,225.5L364.0,222.6L363.1,219.7L363.3,218.3L363.0,216.5L361.4,214.0L360.9,212.4L361.8,211.8L363.0,209.1L362.0,207.0L360.5,204.7L359.4,202.0L360.6,201.4L362.1,198.0L364.0,197.8L365.6,196.5L367.2,195.7L368.3,196.7L368.3,198.6L370.1,198.7L369.2,202.1L369.0,204.9L372.0,203.0L372.7,203.6L374.3,203.5L374.9,202.4L376.9,202.6L378.8,205.2L378.8,208.3L380.8,211.0L380.5,213.7Z"/>
+            <g id="arcs"></g><g id="pts"></g>
+          </svg>
+        </div>
+        <div class="maplegend" id="maplegend"></div>
+      </div>
+      <aside class="mappanel" id="mappanel" aria-live="polite"></aside>
+    </div>
+    <p class="chiprow-h">จุดเสี่ยง</p>
+    <div class="placechips" id="placechips" role="group" aria-label="เลือกจุดเสี่ยงบนแผนที่" style="margin-top:8px"></div>
+    <p class="chiprow-h">ตลาดส่งออกหลัก 20 อันดับของไทย (มูลค่าปี 2568 · สัดส่วนต่อการส่งออกรวม)</p>
+    <div class="placechips" id="mktchips" role="group" aria-label="เลือกตลาดส่งออก" style="margin-top:8px"></div>
+  </section>
+
+  <section class="wrap" id="products" aria-labelledby="pr-h">
+    <div class="sec-head">
+      <span class="eyebrow">Top 10 Export Products</span>
+      <h2 id="pr-h">สินค้าส่งออก 10 อันดับแรกของไทย กับความเสี่ยงที่ต้องดู</h2>
+      <p>อันดับและอัตราการเติบโตจากรายงานภาวะการค้าระหว่างประเทศของไทยของ สนค. กดชื่อความเสี่ยงเพื่อดูรายละเอียด หรือกด "เช็กความเสี่ยง" เพื่อไปยังคำถามที่เกี่ยวข้องในแบบประเมิน</p>
+    </div>
+    <div class="ptable" id="ptable"></div>
+    <p class="pnote" id="pnote"></p>
+  </section>
+
+  <section class="wrap" id="signals" aria-labelledby="sig-h">
+    <div class="sec-head">
+      <span class="eyebrow">Signal Board</span>
+      <h2 id="sig-h"><span id="sig-n">8</span> สัญญาณที่ผู้บริหารซัพพลายเชนไทยต้องดู</h2>
+      <p>ระดับความเสี่ยงประเมินจากผลกระทบต่อธุรกิจนำเข้า–ส่งออกไทยโดยรวม ธุรกิจของคุณอาจโดนหนักกว่าหรือเบากว่านี้ ขึ้นกับตลาด เส้นทาง และสินค้า</p>
+    </div>
+    <div class="criteria" aria-label="เกณฑ์ระดับความเสี่ยง">
+      <div class="crit"><span class="pill high" style="justify-self:start">สูง</span><p>กระทบต้นทุน การส่งมอบ หรือการเข้าถึงตลาดของธุรกิจไทยแล้วในวันนี้ และยังไม่มีสัญญาณคลี่คลายชัดเจน</p></div>
+      <div class="crit"><span class="pill watch" style="justify-self:start">เฝ้าระวัง</span><p>มีเส้นตาย การเจรจา หรือแนวโน้มที่อาจกระทบภายใน 3 เดือน หรือกระทบหนักเฉพาะบางสินค้าหรือบางตลาด</p></div>
+      <div class="crit"><span class="pill steady" style="justify-self:start">ทรงตัว</span><p>เคลื่อนไหวในกรอบปกติ ยังไม่ต้องเปลี่ยนแผนตอนนี้ แต่ต้องติดตามต่อ</p></div>
+    </div>
+    <p class="crit-note">SUN จัดระดับจากข้อมูลที่อ้างอิงในแต่ละการ์ด ไม่ใช่ดัชนีที่คำนวณอัตโนมัติ ทุกการ์ดระบุเหตุผลของระดับไว้ และทบทวนทุกครั้งที่อัปเดต</p>
+    <div class="filters" role="group" aria-label="กรองตามระดับความเสี่ยง">
+      <button class="chip" id="f-all" data-f="all" aria-pressed="true">ทั้งหมด</button>
+      <button class="chip" id="f-high" data-f="high" aria-pressed="false">สูง</button>
+      <button class="chip" id="f-watch" data-f="watch" aria-pressed="false">เฝ้าระวัง</button>
+      <button class="chip" id="f-steady" data-f="steady" aria-pressed="false">ทรงตัว</button>
+      <button class="chip" id="f-mine" data-f="mine" aria-pressed="false" hidden>เฉพาะธุรกิจของฉัน</button>
+    </div>
+    <div class="board" id="board"></div>
+  </section>
+
+  <section class="wrap" id="calendar" aria-labelledby="cal-h">
+    <div class="sec-head">
+      <span class="eyebrow">Watch Calendar</span>
+      <h2 id="cal-h">วันสำคัญที่ต้องจับตา</h2>
+      <p>วันครบกำหนดของมาตรการและวันประกาศข้อมูลที่อาจเปลี่ยนต้นทุนของคุณทันที</p>
+    </div>
+    <div class="cal">
+      <div class="cal-row today"><div class="cal-date">10 พ.ย. 2569<small>วันนี้</small></div><div><h3>มาตรการสหรัฐฯ–จีนชุดย่อยครบกำหนด และการระงับคุมส่งออกแร่หายากของจีนครบกำหนด</h3><p>แม้ข้อตกลงหลักขยายถึง 10 ม.ค. 2570 แต่ข้อยกเว้นภาษี Section 301 สินค้าจีน 178 รายการ และการระงับมาตรการแร่หายากชุดเดือน ต.ค. 2568 มีวันครบกำหนดของตัวเอง ตรวจสอบประกาศทางการก่อนตัดสินใจสั่งซื้อชิ้นส่วนที่ใช้แม่เหล็กหรือแร่หายาก</p></div></div>
+      <div class="cal-row today"><div class="cal-date">10–13 พ.ย. 2569<small>เฝ้าระวัง</small></div><div><h3>ฝนตกหนักถึงหนักมากในภาคใต้</h3><p>สทนช. เตือนให้เฝ้าระวังน้ำท่วมฉับพลัน ตรวจเส้นทางขนส่งลงใต้ก่อนออกรถ</p></div></div>
+      <div class="cal-row"><div class="cal-date">12 พ.ย. 2569<small>พฤหัสบดี</small></div><div><h3>Drewry World Container Index ประกาศรอบถัดไป</h3><p>Drewry คาดว่าค่าระวางเส้นทางข้ามแปซิฟิกจะลดลงต่อ เป็นจังหวะดีในการเจรจาราคาค่าขนส่งไตรมาสแรก</p></div></div>
+      <div class="cal-row"><div class="cal-date">19 พ.ย. 2569<small>พฤหัสบดี</small></div><div><h3>Lloyd's List สรุปสถานการณ์ช่องแคบฮอร์มุซ ฉบับถัดไป</h3><p>ใช้ติดตามจำนวนเรือที่ผ่านช่องแคบจริง ไม่ใช่แค่ข่าวการเจรจา</p></div></div>
+      <div class="cal-row"><div class="cal-date">27 พ.ย. 2569<small>กำหนดเดิม</small></div><div><h3>การระงับคุมส่งออกแกลเลียม เจอร์เมเนียม พลวง และกราไฟต์ของจีนครบกำหนดเดิม</h3><p>กระทบอุตสาหกรรมอิเล็กทรอนิกส์และแบตเตอรี่ ซึ่งเป็นตัวขับเคลื่อนหลักของการส่งออกไทยปีนี้</p></div></div>
+      <div class="cal-row"><div class="cal-date">ปลาย พ.ย. 2569<small>ประมาณการ</small></div><div><h3>กระทรวงพาณิชย์ประกาศตัวเลขส่งออก–นำเข้าเดือน ต.ค.</h3><p>ดูว่าการนำเข้าที่โต 50% ในเดือน ก.ย. ยังเร่งตัวหรือไม่ และดุลการค้ายังติดลบต่อเนื่องหรือเปล่า</p></div></div>
+      <div class="cal-row"><div class="cal-date">30 ธ.ค. 2569<small>บังคับใช้</small></div><div><h3>EUDR บังคับใช้กับบริษัทขนาดใหญ่</h3><p>สินค้ายาง ไม้ ปาล์ม และสินค้าอื่นในขอบเขตที่ส่งเข้า EU ต้องมีข้อมูลยืนยันว่าไม่ได้มาจากพื้นที่ตัดไม้ทำลายป่า</p></div></div>
+      <div class="cal-row"><div class="cal-date">10 ม.ค. 2570<small>ครบกำหนด</small></div><div><h3>ข้อตกลงพักรบการค้าสหรัฐฯ–จีน (Busan) ครบกำหนดที่ขยายแล้ว</h3><p>หากไม่ขยายต่อ ภาษีอาจกลับไปสูงขึ้น ส่งผลต่อการย้ายฐานการผลิตและสินค้าที่ผ่านไทยไปสหรัฐฯ</p></div></div>
+      <div class="cal-row"><div class="cal-date">ต้นปี 2570<small>คาดการณ์</small></div><div><h3>FTA ไทย–EFTA เริ่มใช้</h3><p>ตลาดใหม่สำหรับลดการพึ่งพาสหรัฐฯ ตรวจกฎถิ่นกำเนิดสินค้าตั้งแต่ตอนนี้</p></div></div>
+      <div class="cal-row"><div class="cal-date">6 ก.พ. 2570<small>ตรุษจีน</small></div><div><h3>ตรุษจีน: ช่วงเร่งส่งสินค้าก่อนโรงงานจีนหยุด</h3><p>ท่าเรือเอเชียที่แออัดอยู่แล้วอาจตึงตัวขึ้นอีก จองระวางและสั่งวัตถุดิบจากจีนให้เสร็จก่อนช่วงนี้</p></div></div>
+      <div class="cal-row"><div class="cal-date">ก.พ. 2570<small>เริ่ม</small></div><div><h3>CBAM เริ่มขายใบรับรอง</h3><p>ผู้นำเข้า EU ที่ซื้อเหล็ก อะลูมิเนียม ซีเมนต์ หรือปุ๋ย เกิน 50 ตันต่อปี จะขอข้อมูลการปล่อยคาร์บอนจากผู้ส่งออกไทยมากขึ้น</p></div></div>
+    </div>
+  </section>
+
+  <section class="wrap" id="assess" aria-labelledby="as-h">
+    <div class="sec-head">
+      <span class="eyebrow">Self-Assessment</span>
+      <h2 id="as-h">องค์กรของคุณรับมือความเสี่ยงซัพพลายเชนได้แค่ไหน</h2>
+      <p>12 ข้อ ใช้เวลาประมาณ 3 นาที ตอบตามสิ่งที่ทำจริงวันนี้ ไม่ใช่สิ่งที่ตั้งใจจะทำ ผลประเมินอยู่ในเครื่องของคุณเท่านั้น ไม่ถูกส่งไปที่ใด</p>
+    </div>
+    <div class="assess">
+      <div style="min-width:0"><div class="assess-note" id="assess-note" hidden></div><form class="qset" id="qform" onsubmit="return false"></form></div>
+      <aside class="result" aria-live="polite">
+        <div>
+          <div class="eyebrow" style="color:var(--muted)">ผลประเมิน</div>
+          <div class="score"><span class="big" id="score">0</span><span class="of">/ 100</span></div>
+          <div class="lvl" id="lvl">เริ่มตอบคำถามด้านซ้าย</div>
+          <div class="answered" id="answered">ตอบแล้ว 0 จาก 12 ข้อ</div>
+        </div>
+        <div class="meter" id="meter"></div>
+        <div>
+          <h3>จุดอ่อนที่ควรแก้ก่อน</h3>
+          <ol class="gaps" id="gaps"><li style="color:var(--muted)">จะแสดงเมื่อตอบครบ</li></ol>
+        </div>
+        <a class="btn gold" href="#contact">ปรึกษา SUN เรื่องผลประเมินนี้</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="wrap" id="contact" aria-labelledby="ct-h">
+    <div class="contact">
+      <div>
+        <span class="eyebrow" style="color:var(--gold)">The Skill Up Next</span>
+        <h2 id="ct-h">ประเมินความเสี่ยงซัพพลายเชนอย่างเป็นระบบ กับผู้ที่ทำงานในสนามจริง</h2>
+        <p>ประสบการณ์บริหารโลจิสติกส์และซัพพลายเชนกว่า 26 ปี ในนิคมอุตสาหกรรมและองค์กรญี่ปุ่น</p>
+        <div class="offer">
+          <div><b>ที่ปรึกษา: Supply Chain Risk Assessment</b><span>ทำแผนที่ความเสี่ยงตั้งแต่ซัพพลายเออร์ถึงลูกค้า จัดลำดับความเสี่ยง และวางแผนรับมือที่ทีมใช้ได้จริง</span></div>
+          <div><b>อบรมภายในองค์กร</b><span>สร้างทีมที่อ่านสัญญาณความเสี่ยงเป็น ทำ Risk Register และ Scenario ได้เอง</span></div>
+        </div>
+      </div>
+      <div class="reach">
+        <div class="reach-item"><div><small>LINE Official</small><div class="v" id="v-line">@theskillupnext</div></div><button class="copy" data-copy="v-line">คัดลอก</button></div>
+        <div class="reach-item"><div><small>โทร</small><div class="v" id="v-tel">091-516-4914</div></div><button class="copy" data-copy="v-tel">คัดลอก</button></div>
+        <div class="reach-item"><div><small>อีเมล</small><div class="v" id="v-mail">nopparoot@theskillupnext.com</div></div><button class="copy" data-copy="v-mail">คัดลอก</button></div>
+        <a class="btn gold" href="https://line.me/R/ti/p/@theskillupnext" target="_blank" rel="noopener">เปิด LINE @theskillupnext</a>
+      </div>
+      <div class="msgbox" style="grid-column:1/-1">
+        <b>ข้อความพร้อมส่ง (แนบผลประเมินของคุณ)</b>
+        <div class="fields">
+          <input id="in-co" placeholder="ชื่อบริษัท" autocomplete="organization">
+          <input id="in-ind" placeholder="อุตสาหกรรม เช่น อาหารแปรรูป ชิ้นส่วนยานยนต์">
+        </div>
+        <div class="interest">
+          <label><input type="checkbox" id="in-c1" checked> ที่ปรึกษาประเมินความเสี่ยง</label>
+          <label><input type="checkbox" id="in-c2"> อบรมภายในองค์กร</label>
+        </div>
+        <div class="msg" id="msg"></div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <button class="btn gold" id="copy-msg">คัดลอกข้อความ แล้ววางใน LINE</button>
+          <span class="toast" id="toast" style="color:var(--gold)"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <b style="color:var(--ink)">แหล่งข้อมูล</b>
+    <ol id="sources"></ol>
+    <p style="margin:0">ข้อมูลรวบรวมจากแหล่งสาธารณะ ณ วันที่ระบุ ใช้ประกอบการวางแผนธุรกิจ ไม่ใช่คำแนะนำการลงทุนหรือคำแนะนำทางกฎหมาย ตรวจสอบประกาศทางการก่อนตัดสินใจทุกครั้ง · © The Skill Up Next | Skill Up Today, Lead The Future | @theskillupnext</p>
+  </div>
+</footer>
+
+<script>
+const LVL={high:{t:"สูง",c:"var(--high)"},watch:{t:"เฝ้าระวัง",c:"var(--watch)"},steady:{t:"ทรงตัว",c:"var(--steady)"}};
+
+const SIGNALS=[
+ {id:"hormuz",lvl:"high",lvlWhy:"เรือยังถูกโจมตีและยังไม่มีข้อตกลงเปิดช่องแคบ ต้นทุนพลังงานและค่าประกันภัยเรือกระทบธุรกิจไทยแล้ว",cat:"ภูมิรัฐศาสตร์ · เส้นทางเดินเรือ",title:"ช่องแคบฮอร์มุซ และทะเลแดง",
+  big:"ยังไม่เปิดเต็มที่",unit:"",delta:"เจรจาคืบหน้า",dir:"flat",
+  facts:["สงครามสหรัฐฯ–อิสราเอล–อิหร่านเริ่ม 28 ก.พ. 2569 เรือในช่องแคบยังถูกโจมตีต่อเนื่อง","เดือน ต.ค. จำนวนเรือผ่านฮอร์มุซสูงสุดในรอบ 3 เดือน และทะเลแดงเริ่มมีเรือมากขึ้น","อิหร่านเสนอเปิดช่องแคบได้ภายใน 2 วัน หากสหรัฐฯ ยอมตามเงื่อนไข","น้ำมันดิบนำเข้าของไทยราวครึ่งหนึ่งผ่านฮอร์มุซ (ข้อมูลรัฐบาล มี.ค. 2569)"],
+  impact:"ต้นทุนพลังงาน ค่าประกันภัยเรือ และเวลาขนส่งไปยุโรปและตะวันออกกลางยังไม่แน่นอน ข่าวเจรจาทำให้ราคาแกว่งรายวัน",
+  act:"อย่าล็อกสัญญาค่าขนส่งระยะยาวที่ราคาสูงสุด ทำ Scenario สองทาง คือเปิดช่องแคบ และกลับมาปะทะ",
+  src:[[ "S&P Global, 2 พ.ย. 2569","https://www.spglobal.com/energy/en/news-research/latest-news/shipping/110226-hormuz-oct-crossings-at-3-month-high-despite-attacks-red-sea-traffic-also-rises"],["Al-Monitor, พ.ย. 2569","https://www.al-monitor.com/originals/2026/11/iran-gives-2-day-window-hormuz-deal-us-mulls-strikes-what-know"],["thailand.go.th, มี.ค. 2569","https://thailand.go.th/event-detail/holding-the-line-how-thailand-is-shielding-households-from-the-middle-east-energy-shock"]]},
+
+ {id:"freight",lvl:"high",lvlWhy:"ค่าระวางยังสูงกว่าต้นปีราว 72% และกินกำไรผู้ส่งออกไปสหรัฐฯ อยู่ แม้เริ่มลดลง",cat:"โลจิสติกส์ · ค่าระวางเรือ",title:"ค่าระวางตู้คอนเทนเนอร์ (Drewry WCI)",
+  big:"$4,389",unit:"ต่อตู้ 40 ฟุต · 5 พ.ย. 2569",delta:"−1% WoW",dir:"down",
+  facts:["สูงกว่าต้นปี (8 ม.ค. 2569: $2,557) ราว 72%","Shanghai → Los Angeles $7,539 · → New York $9,303 · → Rotterdam $3,615","Drewry คาดว่าค่าระวางจะลดลงอีกในสัปดาห์ถัดไป เพราะเรือว่างเพิ่มขึ้น"],
+  impact:"ผู้ส่งออกไปสหรัฐฯ ฝั่งตะวันออกแบกค่าขนส่งสูงสุด ส่วนต่างกำไรของสินค้ามูลค่าต่ำถูกกินมากที่สุด",
+  act:"ใช้ช่วงขาลงเจรจาสัญญาไตรมาสแรก ขอราคาแบบอิงดัชนี และตรวจ Surcharge ทุกใบแจ้งหนี้",
+  src:[["Drewry WCI, 5 พ.ย. 2569","https://www.drewry.co.uk/supply-chain-advisors/supply-chain-expertise/world-container-index-assessed-by-drewry"],["Cyprus Shipping News (WCI 8 ม.ค.)","https://cyprusshippingnews.com/2026/01/14/world-container-index-by-drewry/"]]},
+
+ {id:"border",lvl:"high",lvlWhy:"ด่านทางบกปิด การค้าผ่านด่านเป็นศูนย์ และยังไม่มีกำหนดเปิด",cat:"การค้าชายแดน",title:"ชายแดนไทย–กัมพูชา",
+  big:"0 บาท",unit:"การค้าผ่านด่านทางบก",delta:"ปิดต่อเนื่อง",dir:"flat",
+  facts:["ด่านทางบกปิดนับแต่ความขัดแย้งปี 2568 การค้าผ่านด่านลดเป็นศูนย์","สถิติฝั่งกัมพูชา: การค้าทวิภาคีครึ่งแรกปี 2569 อยู่ที่ $1.37 พันล้าน ลดลง 37.5%","สินค้าบางส่วนเลี่ยงไปทางทะเลหรือผ่านลาว ต้นทุนและเวลาเพิ่ม"],
+  impact:"ผู้ผลิตสินค้าอุปโภคบริโภค วัสดุก่อสร้าง และยานยนต์ที่พึ่งตลาดกัมพูชาเสียส่วนแบ่งให้สินค้าเวียดนามและจีน",
+  act:"ประเมินว่าลูกค้ากัมพูชารายไหนยังคุ้มที่จะส่งทางทะเล แล้วหาตลาดทดแทนใน สปป.ลาว และมาเลเซีย",
+  src:[["Thairath, 24 ก.ค. 2569","https://en.thairath.co.th/scoop/theissue/2948426"],["Kiripost / GDCE, ส.ค. 2569","https://central-cambodia.org/en/publication/news/worker-news/prolonged-border-closure-forces-hi-tech-apparel-factory-to-suspend-work,-lays-off-2,500-workers"]]},
+
+ {id:"energy",lvl:"watch",lvlWhy:"ราคาลดลงแรงในสัปดาห์นี้ แต่ยังสูงกว่าปีก่อนมาก และแกว่งตามข่าวอิหร่านรายวัน",cat:"พลังงาน · ต้นทุนขนส่งในประเทศ",title:"น้ำมันดิบ Brent และดีเซลไทย",
+  big:"$92.57",unit:"ต่อบาร์เรล · ปิด 9 พ.ย. 2569",delta:"−5.85% DoD",dir:"down",
+  facts:["ต่ำสุดตั้งแต่ปลาย ส.ค. หลังร่วง 16% ในสัปดาห์ก่อนหน้า แต่ยังสูงกว่าปีก่อนราว 46%","ดีเซลไทย 41.79 บาท/ลิตร (10 พ.ย.) หลังลด 0.75 บาท เมื่อ 6 พ.ย. · B20 33.50 บาท","จุดสูงสุดของดีเซลปีนี้ 50.54 บาท/ลิตร (5 เม.ย. 2569)"],
+  impact:"ค่าขนส่งทางบกเริ่มลดตาม แต่ราคายังผันผวนตามข่าวอิหร่านรายวัน กองทุนน้ำมันยังติดลบจากการพยุงราคาช่วงต้นปี",
+  act:"อย่าลดราคาขายตามน้ำมันทันที ใส่สูตรปรับค่าขนส่งตามราคาดีเซลในสัญญากับผู้ให้บริการขนส่ง",
+  src:[["Reuters via Yahoo Finance, 9 พ.ย. 2569","https://finance.yahoo.com/news/oil-falls-open-trump-says-235002807.html"],["Trading Economics","https://tradingeconomics.com/commodity/brent-crude-oil"],["ไทยรัฐ, 10 พ.ย. 2569","https://www.thairath.co.th/news/society/2971477"],["The Nation, 5 เม.ย. 2569","https://www.nationthailand.com/news/world/40064687"]]},
+
+ {id:"ustariff",lvl:"watch",lvlWhy:"อัตราภาษีชัดเจนแล้ว และราวครึ่งหนึ่งของมูลค่าส่งออกไปสหรัฐฯ ได้ยกเว้น ส่วนที่เหลือรอผลเจรจา",cat:"นโยบายการค้า · สหรัฐฯ",title:"ภาษีสหรัฐฯ Section 301 ต่อสินค้าไทย",
+  big:"12.5%",unit:"บวกภาษี MFN · มีผลตั้งแต่ 24 ก.ค. 2569",delta:"รอผลเจรจา ART",dir:"flat",
+  facts:["แทนภาษี Section 122 อัตรา 10% หลังศาลสูงสหรัฐฯ ยกเลิกภาษีตอบโต้เมื่อ ก.พ. 2569","ไทยได้ยกเว้นแล้ว 2,120 รายการ คิดเป็นราวครึ่งหนึ่งของมูลค่าส่งออกไปสหรัฐฯ","เหตุผลของสหรัฐฯ คือการบังคับใช้กฎห้ามนำเข้าสินค้าจากแรงงานบังคับ"],
+  impact:"สินค้าที่ไม่อยู่ในรายการยกเว้นเสียเปรียบทันที และความเข้มงวดเรื่องแรงงานกับสินค้าผ่านแดน (Transshipment) จะเพิ่มขึ้น",
+  act:"ตรวจพิกัด HS Code ของสินค้าทุกตัวที่ส่งไปสหรัฐฯ เทียบรายการยกเว้น และเตรียมหลักฐานถิ่นกำเนิดกับแรงงานในซัพพลายเชน",
+  src:[["Tilleke & Gibbins, ต.ค. 2569","https://www.tilleke.com/insights/business-impact-of-new-us-section-301-tariffs-on-thailand"],["The Nation, 29 ก.ค. 2569","https://www.nationthailand.com/business/economy/40069157"]]},
+
+ {id:"uschina",lvl:"watch",lvlWhy:"มาตรการย่อยครบกำหนดวันนี้และสถานะแร่หายากยังไม่ยืนยัน กระทบหนักเฉพาะกลุ่มอิเล็กทรอนิกส์และยานยนต์",cat:"นโยบายการค้า · สหรัฐฯ–จีน",title:"พักรบการค้าสหรัฐฯ–จีน และแร่หายาก",
+  big:"10 ม.ค. 70",unit:"วันครบกำหนดใหม่ของข้อตกลงหลัก",delta:"มีเส้นตายวันนี้",dir:"up",
+  facts:["สหรัฐฯ และจีนขยายข้อตกลง Busan จาก 10 พ.ย. 2569 ไปถึง 10 ม.ค. 2570","แต่ข้อยกเว้นภาษี Section 301 สินค้าจีน 178 รายการ มีกำหนดหมดอายุ 10 พ.ย. 2569","การระงับคุมส่งออกแร่หายากชุด ต.ค. 2568 ของจีนครบกำหนด 10 พ.ย. 2569 หากไม่ประกาศขยาย"],
+  impact:"ผู้ผลิตอิเล็กทรอนิกส์ ยานยนต์ไฟฟ้า และเครื่องจักรที่ใช้แม่เหล็กหรือชิ้นส่วนจากจีน เสี่ยงต้องขอใบอนุญาตหรือเจอของขาด",
+  act:"ทำรายการวัสดุ (BOM) ที่มีแร่หายากจากจีน ถามซัพพลายเออร์เรื่องสต็อกและใบอนุญาต และตรวจประกาศทางการทุกสัปดาห์",
+  src:[["investingLive, ก.ย. 2569","https://investinglive.com/news/us-and-china-extend-busan-trade-truce-to-january-10-as-xi-arrives-for-trump-summit/"],["Thomson Reuters Tax","https://tax.thomsonreuters.com/blog/section-301-exclusions-expiration/"],["Fastmarkets","https://www.fastmarkets.com/insights/chinas-looming-november-export-controls-test-rare-earth-refining-recycling-ambitions/"]]},
+
+ {id:"trade",lvl:"watch",lvlWhy:"ภาพรวมโตดี แต่พึ่งอิเล็กทรอนิกส์และตลาดสหรัฐฯ สูง และคาดว่าจะชะลอแรงในปี 2570",cat:"การค้าไทย",title:"ส่งออกโตแรง แต่กระจุกตัว และขาดดุล",
+  big:"$38.44B",unit:"ส่งออก ก.ย. 2569 · สูงสุดเป็นประวัติการณ์",delta:"+24.0% YoY",dir:"down",
+  facts:["นำเข้า ก.ย. $44.30B (+50.4%) ขาดดุลการค้า $5.86B","9 เดือนแรก ส่งออก +19.6% นำเข้า +37.8%","สหรัฐฯ เป็นตลาด 26.5% ของมูลค่าส่งออก ก.ย. ส่งออกไปสหรัฐฯ +50.1%","กระทรวงพาณิชย์คาดส่งออกปี 2570 โตเพียง 2–4% · สินค้าเกษตรและแปรรูป 9 เดือน −1.9%"],
+  impact:"การเติบโตมาจากอิเล็กทรอนิกส์และตลาดสหรัฐฯ เป็นหลัก ธุรกิจเกษตร อาหาร และ SME ที่ไม่อยู่ในซัพพลายเชนนี้ไม่ได้ประโยชน์เท่ากัน",
+  act:"วัดสัดส่วนรายได้ต่อตลาดและลูกค้า หากรายใดเกิน 30% ให้วางแผนกระจายตลาดก่อนการเติบโตชะลอในปี 2570",
+  src:[["The Nation, 26 ต.ค. 2569","https://www.nationthailand.com/business/40072741"],["ASEAN NOW / Reuters, ต.ค. 2569","https://aseannow.com/thailand-news/thailand-lifts-2026-export-forecast-after-september-surge-r4494/"],["The Nation, 27 ต.ค. 2569","https://www.nationthailand.com/business/economy/40072775"]]},
+
+ {id:"fx",lvl:"steady",lvlWhy:"เคลื่อนไหวในกรอบแคบราว 32.6–33.8 บาท ในช่วง 90 วันที่ผ่านมา",cat:"ค่าเงิน",title:"เงินบาทต่อดอลลาร์สหรัฐฯ",
+  big:"33.46",unit:"บาท/USD · 9 พ.ย. 2569",delta:"อ่อนจากต้นปี",dir:"flat",
+  facts:["แข็งสุดของปีที่ 30.86 บาท (28 ม.ค. 2569) ปัจจุบันอ่อนลงราว 8%","กสิกรไทยคาดกรอบ 33.10–33.80 บาท ในสัปดาห์ 9–13 พ.ย.","ธปท. คงดอกเบี้ยนโยบาย 1.00% ติดต่อกัน 4 ครั้ง"],
+  impact:"ผู้ส่งออกได้ประโยชน์ด้านราคา แต่ผู้นำเข้าวัตถุดิบ เครื่องจักร และพลังงานจ่ายแพงขึ้น",
+  act:"ผู้นำเข้าควรทยอยทำ Forward ไม่ซื้อครั้งเดียว ผู้ส่งออกใช้จังหวะนี้ล็อกอัตราสำหรับออเดอร์ที่ยืนยันแล้ว",
+  src:[["XE mid-market, 9 พ.ย. 2569","https://www.xe.com/en-us/currencyconverter/convert/?Amount=1&From=USD&To=THB"],["Archyde / KBANK, 7 พ.ย. 2569","https://www.archyde.com/kbank-projects-thai-baht-to-trade-at-33-10-33-80-per-us-dollar/"],["The Nation, ม.ค. 2569","https://www.nationthailand.com/news/general/40061828"],["FXStreet / MUFG, ต.ค. 2569","https://www.fxstreet.com/news/thai-baht-oil-risks-point-to-weakness-against-us-dollar-mufg-202610291935"]]},
+ {id:"asiafreight",lvl:"watch",lvlWhy:"ดัชนีเริ่มลดลง แต่ท่าเรือเอเชียแออัดและคาดว่ายืดเยื้อถึงปี 2570 ขณะที่แหลมฉบังรับตู้เกินขีดความสามารถ",cat:"โลจิสติกส์ · เอเชียและท่าเรือไทย",title:"ค่าระวางภายในเอเชีย และความแออัดของท่าเรือ",
+  big:"$1,478",unit:"Drewry Intra-Asia ต่อตู้ 40 ฟุต · 5 พ.ย. 2569",delta:"−$26 WoW",dir:"down",
+  facts:["เส้นทางเซี่ยงไฮ้ → แหลมฉบัง ขึ้น 22% เป็น $1,609 ต่อตู้ 40 ฟุต (รายงานกลาง ต.ค. 2569)","Sea-Intelligence ประเมินว่าเรือที่รอคิวกินกองเรือตู้คอนเทนเนอร์โลกราว 8.5% และอาจใช้เวลา 7–10 เดือนกว่าจะคลี่คลาย","การท่าเรือฯ ระบุว่าแหลมฉบังรับตู้เกินขีดความสามารถ มีข้อร้องเรียนเรื่องความล่าช้า ส่วนท่าเรือเฟส 3 กำลังก่อสร้าง"],
+  impact:"จีนและอาเซียนเป็นตลาดและแหล่งวัตถุดิบหลักของไทย ความแออัดทำให้เวลาขนส่งผันผวน และอาจรุนแรงขึ้นก่อนตรุษจีน 6 ก.พ. 2570",
+  act:"เผื่อเวลาขนส่งในแผนการผลิตและนัดส่งลูกค้า จองระวางสำหรับช่วงก่อนตรุษจีนตั้งแต่ตอนนี้",
+  src:[["Drewry IACI, 5 พ.ย. 2569","https://www.drewry.co.uk/"],["Philstar / Sea-Intelligence, 13 ต.ค. 2569","https://www.philstar.com/business/2026/10/13/2562720/asian-port-congestion-seen-lasting-until-2027"],["The Star, 3 พ.ย. 2569","https://www.thestar.com.my/business/business-news/2026/11/03/laem-chabang-port-eyes-expansion-on-trade-boom"]]},
+
+ {id:"import",lvl:"watch",lvlWhy:"การนำเข้าและการขาดดุลทำสถิติสูงสุด ผู้นำเข้าเจอบาทอ่อนและค่าระวางเอเชียพร้อมกัน แต่ยังไม่มีสัญญาณขาดแคลน",cat:"การนำเข้า · ต้นทุนวัตถุดิบ",title:"การนำเข้าพุ่ง และขาดดุลการค้าสูงสุดเป็นประวัติการณ์",
+  big:"$44.30B",unit:"มูลค่านำเข้า ก.ย. 2569",delta:"+50.4% YoY",dir:"up",
+  facts:["วัตถุดิบและสินค้ากึ่งสำเร็จรูป 41.7% ของการนำเข้า (+41.2%) · สินค้าทุน 33.5% (+92.3%) · เชื้อเพลิง 11.9% (+45.7%)","ขาดดุลการค้า $5.86B สูงสุดเป็นประวัติการณ์ และขาดดุลต่อเนื่องเป็นเดือนที่ 12","แหล่งนำเข้าใหญ่ที่สุดคือจีน ตามด้วยไต้หวัน ญี่ปุ่น สหรัฐฯ และมาเลเซีย","สภาผู้ส่งสินค้าทางเรือฯ ระบุว่าบริษัทใหญ่เริ่มลดสต็อกช่วงปลายปี และอาจกลับมาเติมสต็อกหลังปีใหม่"],
+  impact:"ผู้ผลิตที่พึ่งวัตถุดิบนำเข้าจ่ายแพงขึ้นจากเงินบาทที่อ่อนลง และถ้าทุกรายเติมสต็อกพร้อมกันหลังปีใหม่ จะชนกับช่วงท่าเรือเอเชียแออัดก่อนตรุษจีน",
+  act:"วางแผนสั่งวัตถุดิบไตรมาส 1 ตั้งแต่ตอนนี้ ทยอยทำ Forward และหาแหล่งสำรองสำหรับวัตถุดิบที่พึ่งจีนแหล่งเดียว",
+  src:[["ฐานเศรษฐกิจ, 28 ต.ค. 2569","https://www.thansettakij.com/economy/trade-agriculture/672393"],["The Nation, 26 ต.ค. 2569","https://www.nationthailand.com/business/40072741"]]},
+
+ {id:"euregs",lvl:"watch",lvlWhy:"เส้นตาย EUDR เหลือไม่ถึง 2 เดือน แต่กระทบเฉพาะผู้ส่งออกยาง ไม้ และสินค้าที่ CBAM ครอบคลุม",cat:"กฎระเบียบ · สหภาพยุโรป",title:"กฎ EU: EUDR และ CBAM",
+  big:"30 ธ.ค. 69",unit:"EUDR บังคับใช้กับบริษัทขนาดใหญ่",delta:"เหลือไม่ถึง 2 เดือน",dir:"up",
+  facts:["EUDR ครอบคลุมยาง ไม้ ปาล์มน้ำมัน โกโก้ กาแฟ ถั่วเหลือง และโค ผู้ประกอบการรายเล็กและรายย่อยเลื่อนไปถึง 30 มิ.ย. 2570","EU ออกมาตรการผ่อนปรน เช่น รายเล็กยื่นคำรับรองแบบง่ายครั้งเดียว และใช้ที่อยู่แปลงแทนพิกัดได้","CBAM เข้าสู่ช่วงบังคับจริงตั้งแต่ 1 ม.ค. 2569 สำหรับเหล็ก อะลูมิเนียม ซีเมนต์ ปุ๋ย ไฟฟ้า และไฮโดรเจน","ผู้นำเข้า EU ที่เกิน 50 ตันต่อปี เริ่มซื้อใบรับรอง CBAM ได้ ก.พ. 2570 และต้องยื่นรายงานปี 2569 ภายใน 30 ก.ย. 2570"],
+  impact:"ผู้ส่งออกยางและผลิตภัณฑ์ยาง ไม้ และเฟอร์นิเจอร์ไปยุโรป ต้องส่งข้อมูลย้อนกลับถึงแหล่งปลูกให้ลูกค้า ส่วนผู้ส่งออกเหล็กและอะลูมิเนียมต้องส่งข้อมูลการปล่อยคาร์บอน",
+  act:"ขอข้อมูลแปลงปลูกจากซัพพลายเออร์ยางและไม้ตั้งแต่ตอนนี้ และถามลูกค้ายุโรปว่าต้องการเอกสารอะไรก่อนสิ้นปี",
+  src:[["EY Tax News, 20 ม.ค. 2569","https://taxnews.ey.com/news/2026-0237-eu-deforestation-regulation-application-postponed-to-30-december-2026"],["DEHSt (หน่วยงาน CBAM เยอรมนี)","https://www.dehst.de/EN/Topics/CBAM/CBAM-definitive-regime-2026/cbam-definitive-regime-2026_node.html"]]},
+
+ {id:"domestic",lvl:"watch",lvlWhy:"มีประกาศเตือนฝนตกหนักภาคใต้ แต่ยังไม่มีรายงานถนน รถไฟ หรือท่าเรือปิด",cat:"ในประเทศ · สภาพอากาศ",title:"ฝนตกหนักและน้ำท่วมภาคใต้",
+  big:"10–13 พ.ย.",unit:"ช่วงเฝ้าระวังฝนตกหนักภาคใต้ (สทนช. 9 พ.ย. 2569)",delta:"ยังไม่มีเส้นทางปิด",dir:"flat",
+  facts:["ฝนสะสม 24 ชั่วโมงสูงสุดของประเทศ 148 มม. ที่พัทลุง (ถึง 9 พ.ย.)","สทนช. ตรวจจุดเสี่ยงน้ำท่วมรอบทางหลวงหมายเลข 41 จ.ชุมพร ซึ่งเป็นเส้นทางหลักลงภาคใต้","น้ำในเขื่อนทั้งประเทศ 82% ของความจุ ภาคตะวันตก 97% และภาคตะวันออก 92%"],
+  impact:"การขนส่งทางบกลงภาคใต้ และสินค้าจากภาคใต้ เช่น ยาง ปาล์ม และผลไม้ เสี่ยงล่าช้าหากน้ำท่วมถนนสายหลัก",
+  act:"เตรียมเส้นทางสำรองสำหรับรถขนส่งลงใต้ ตรวจสต็อกที่คลังภาคใต้ และแจ้งลูกค้าล่วงหน้าหากอาจส่งช้า",
+  src:[["กรุงเทพธุรกิจ / สทนช., 9 พ.ย. 2569","https://www.bangkokbiznews.com/news/news-update/1259998"]]}
+];
+
+/* Dated history for trend charts. Only sourced points. The daily task appends [date, value]. Charts draw when a series has 3+ points. */
+const HISTORY={
+ freight:{label:"Drewry WCI · USD ต่อตู้ 40 ฟุต",dec:0,pre:"$",pts:[["2026-01-08",2557],["2026-03-26",2279],["2026-07-09",4639],["2026-08-06",4297],["2026-08-20",4526],["2026-10-08",4351],["2026-11-05",4389]]},
+ energy:{label:"Brent · USD ต่อบาร์เรล",dec:2,pre:"$",pts:[["2025-11-09",64.15],["2026-03-03",81.40],["2026-04-10",95.92],["2026-04-23",105.07],["2026-10-09",106.94],["2026-11-06",98.32],["2026-11-09",92.57]]},
+ fx:{label:"บาทต่อดอลลาร์สหรัฐฯ (ค่าเฉลี่ยรายเดือนและราคาปิด)",dec:2,pre:"",pts:[["2025-11-15",32.37],["2025-12-15",31.575],["2026-01-15",31.275],["2026-02-15",31.2453],["2026-05-29",32.534],["2026-10-28",33.8],["2026-11-06",33.55],["2026-11-09",33.46]]},
+ trade:{label:"ส่งออกไทย · % เทียบปีก่อน รายเดือน 2569",dec:1,pre:"",suf:"%",pts:[["2026-01-31",24.4],["2026-02-28",9.9],["2026-03-31",18.7],["2026-04-30",23.1],["2026-05-31",10.6],["2026-06-30",20.8],["2026-07-31",21.6],["2026-08-31",24.3],["2026-09-30",24.0]]},
+ asiafreight:{label:"Drewry Intra-Asia · USD ต่อตู้ 40 ฟุต",dec:0,pre:"$",pts:[["2026-10-29",1504],["2026-11-05",1478]]}
+};
+const TH_MON=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+function thShort(iso){const [y,m,d]=iso.split("-").map(Number);return `${d} ${TH_MON[m-1]} ${String(y+543).slice(2)}`}
+function sparkHtml(id){
+  const h=HISTORY[id];if(!h||h.pts.length<3)return "";
+  const W=300,H=64,P=6;const ts=h.pts.map(p=>Date.parse(p[0])),vs=h.pts.map(p=>p[1]);
+  const t0=Math.min(...ts),t1=Math.max(...ts),v0=Math.min(...vs),v1=Math.max(...vs);
+  const x=t=>P+(t1===t0?0:(t-t0)/(t1-t0))*(W-2*P),y=v=>H-P-(v1===v0?0.5:(v-v0)/(v1-v0))*(H-2*P);
+  const pts=h.pts.map((p,i)=>`${x(ts[i]).toFixed(1)},${y(vs[i]).toFixed(1)}`);
+  const area=`M${x(ts[0]).toFixed(1)},${H-P} L${pts.join(" L")} L${x(ts[ts.length-1]).toFixed(1)},${H-P} Z`;
+  const fmt=v=>(h.pre||"")+v.toLocaleString("en-US",{minimumFractionDigits:h.dec,maximumFractionDigits:h.dec})+(h.suf||"");
+  const lx=x(ts[ts.length-1]),ly=y(vs[vs.length-1]);
+  return `<figure class="spark"><figcaption>${esc(h.label)}</figcaption>
+   <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="แนวโน้ม ${esc(h.label)} จาก ${fmt(vs[0])} เป็น ${fmt(vs[vs.length-1])}">
+    <line x1="${P}" x2="${W-P}" y1="${y(v1).toFixed(1)}" y2="${y(v1).toFixed(1)}" class="sg"/><line x1="${P}" x2="${W-P}" y1="${y(v0).toFixed(1)}" y2="${y(v0).toFixed(1)}" class="sg"/>
+    <path d="${area}" class="sa"/><polyline points="${pts.join(" ")}" class="sl"/>
+    ${h.pts.map((p,i)=>`<circle cx="${x(ts[i]).toFixed(1)}" cy="${y(vs[i]).toFixed(1)}" r="1.8" class="sd"/>`).join("")}
+    <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="3.6" class="se"/></svg>
+   <div class="spark-ax"><span>${thShort(h.pts[0][0])} · ${fmt(vs[0])}</span><span>ต่ำ ${fmt(v0)} · สูง ${fmt(v1)}</span><span>${thShort(h.pts[h.pts.length-1][0])} · <b>${fmt(vs[vs.length-1])}</b></span></div></figure>`;
+}
+
+const QUESTIONS=[
+ {d:"exp",q:"ไม่มีลูกค้าหรือตลาดใดเกิน 30% ของยอดขาย",gap:"กระจายตลาดและลูกค้า ลดการพึ่งพารายใหญ่ที่สุดให้ต่ำกว่า 30%"},
+ {d:"exp",q:"วัตถุดิบหรือชิ้นส่วนสำคัญทุกตัวมีผู้ขายสำรองที่รับรองคุณภาพแล้ว",gap:"รับรองผู้ขายสำรองสำหรับวัตถุดิบที่มีแหล่งเดียว"},
+ {d:"exp",q:"รู้ว่าสินค้าขาเข้าและขาออกรายการไหนต้องผ่านตะวันออกกลาง ทะเลแดง หรือฮอร์มุซ",gap:"ทำแผนที่เส้นทางขนส่ง ระบุสินค้าที่ผ่านจุดเสี่ยง"},
+ {d:"exp",q:"มีนโยบายป้องกันความเสี่ยงค่าเงินที่ใช้จริง (Forward หรือ Natural hedge)",gap:"กำหนดนโยบายป้องกันความเสี่ยงค่าเงินพร้อมสัดส่วนที่ต้องล็อก"},
+ {d:"vis",q:"ติดตามต้นทุนนำเข้าถึงหน้าโรงงาน (Landed cost) รวมค่าระวาง Surcharge และค่าเชื้อเพลิงทุกเดือน",gap:"ติดตาม Landed cost รายเดือน แยกค่าระวาง Surcharge และเชื้อเพลิง"},
+ {d:"vis",q:"ตรวจพิกัด HS Code ของสินค้าที่ส่งไปสหรัฐฯ แล้ว ว่าได้ยกเว้นภาษี 12.5% หรือไม่",gap:"ตรวจ HS Code เทียบรายการยกเว้นภาษีสหรัฐฯ"},
+ {d:"vis",q:"รู้จักซัพพลายเออร์ชั้นที่ 2 (Tier-2) ของวัตถุดิบหลัก",gap:"ทำแผนที่ซัพพลายเออร์ Tier-2 ของวัตถุดิบหลัก"},
+ {d:"vis",q:"มีทะเบียนความเสี่ยง (Risk Register) ที่ผู้บริหารทบทวนอย่างน้อยทุกไตรมาส",gap:"ตั้ง Risk Register และวาระทบทวนรายไตรมาส"},
+ {d:"res",q:"มีแผนความต่อเนื่องทางธุรกิจ (BCP) ที่ซ้อมจริงอย่างน้อยปีละครั้ง",gap:"เขียนและซ้อม BCP สำหรับซัพพลายเชน"},
+ {d:"res",q:"ตั้งระดับสต็อกเพื่อความปลอดภัย (Safety stock) ตามความเสี่ยงของแต่ละรายการ",gap:"ตั้ง Safety stock ตามความเสี่ยงรายสินค้า แทนการใช้ค่าเดียวทั้งหมด"},
+ {d:"res",q:"มี Scenario ค่าระวางหรือน้ำมันขึ้น 20–30% และรู้ว่ากระทบกำไรเท่าไร",gap:"ทำ Scenario ต้นทุนขนส่งและพลังงาน เชื่อมกับงบกำไรขาดทุน"},
+ {d:"res",q:"สัญญากับลูกค้าหรือผู้ให้บริการขนส่งมีกลไกปรับราคาเมื่อต้นทุนเปลี่ยน",gap:"ใส่สูตรปรับราคาตามต้นทุน (Cost pass-through) ในสัญญา"}
+];
+const DIMS={exp:"การกระจุกตัว",vis:"การมองเห็น",res:"การรับมือ"};
+const DIMS_EN={exp:"Exposure",vis:"Visibility",res:"Response"};
+const OPTS=[["0","ยังไม่มี"],["1","มีบางส่วน"],["2","มีและใช้จริง"]];
+
+function el(tag,attrs,html){const e=document.createElement(tag);if(attrs)for(const k in attrs)e.setAttribute(k,attrs[k]);if(html!=null)e.innerHTML=html;return e}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+/* Signals */
+function renderBoard(filter){
+  const b=document.getElementById("board");b.innerHTML="";
+  (filter==="mine"?myRanked().map(r=>r.s):SIGNALS.filter(s=>filter==="all"||s.lvl===filter)).forEach(s=>{
+    const c=el("article",{class:"card",id:"sig-"+s.id});
+    c.innerHTML=`<div class="card-top"><span class="cat">${esc(s.cat)}</span><span class="pill ${s.lvl}">${LVL[s.lvl].t}</span></div>
+      <h3>${esc(s.title)}</h3>
+      <div class="metric"><span class="big">${esc(s.big)}</span><span class="delta ${s.dir}">${esc(s.delta)}</span><span class="unit" style="flex-basis:100%">${esc(s.unit)}</span></div>
+      <div class="lvlwhy"><b>เหตุผลที่ระดับ${LVL[s.lvl].t}</b> ${esc(s.lvlWhy||"")}</div>
+      ${sparkHtml(s.id)}
+      <ul class="facts">${s.facts.map(f=>`<li>${esc(f)}</li>`).join("")}</ul>
+      <div class="block"><b>ผลต่อธุรกิจไทย</b><span>${esc(s.impact)}</span></div>
+      <div class="block act"><b>ควรทำสัปดาห์นี้</b><span>${esc(s.act)}</span></div>
+      <div class="src">${s.src.map(x=>`<a href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])}</a>`).join("")}</div>`;
+    b.appendChild(c);
+  });
+}
+function renderSummary(){
+  const n={high:0,watch:0,steady:0};SIGNALS.forEach(s=>n[s.lvl]++);
+  const seg=document.getElementById("seg"),lg=document.getElementById("legend");
+  ["high","watch","steady"].forEach(k=>{
+    const i=el("i");i.style.width=(n[k]/SIGNALS.length*100)+"%";i.style.background=LVL[k].c;seg.appendChild(i);
+    lg.appendChild(el("span",null,`<span class="dot" style="background:${LVL[k].c}"></span>${LVL[k].t} <b class="num">${n[k]}</b>`));
+  });
+  document.getElementById("n-signals").textContent=SIGNALS.length;const sn=document.getElementById("sig-n");if(sn)sn.textContent=SIGNALS.length;
+}
+document.querySelectorAll(".chip").forEach(ch=>ch.addEventListener("click",()=>{
+  document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed","false"));
+  ch.setAttribute("aria-pressed","true");renderBoard(ch.dataset.f);
+}));
+
+/* Sources */
+(function(){const ol=document.getElementById("sources");const seen=new Set();
+  SIGNALS.forEach(s=>s.src.forEach(x=>{if(seen.has(x[1]))return;seen.add(x[1]);
+    const li=el("li");li.innerHTML=`<a href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])}</a> · ${esc(s.title)}`;ol.appendChild(li)}));
+  [["Lloyd's List Intelligence, Strait of Hormuz Brief 5 พ.ย. 2569","https://www.lloydslistintelligence.com/resources/blog/strait-of-hormuz-brief-5-november-2026"],["Fred. Law, สรุปข้อตกลงสหรัฐฯ–จีน","https://www.fredlaw.com/alert-u-s-china-tariff-update"],["The Nation, FTA ไทย–EFTA","https://www.nationthailand.com/business/40070601"],["Trading Economics (UN Comtrade), มูลค่าส่งออกรายประเทศ ปี 2568","https://tradingeconomics.com/thailand/exports-by-country"],["สนค., ภาวะการค้าระหว่างประเทศของไทย ก.ย. 2569","https://uploads.tpso.go.th/editor/pdf/1792983383_f7bd8ebe32f9189e1382.pdf"]].forEach(x=>{
+    const li=el("li");li.innerHTML=`<a href="${x[1]}" target="_blank" rel="noopener">${esc(x[0])}</a> · ปฏิทินและแผนที่`;ol.appendChild(li)});
+})();
+
+/* Assessment */
+const answers={};
+function buildForm(){
+  const f=document.getElementById("qform");
+  let idx=0;
+  Object.keys(DIMS).forEach(d=>{
+    f.appendChild(el("div",{class:"dim-h"},`${DIMS[d]} <span>${DIMS_EN[d]}</span>`));
+    QUESTIONS.forEach((q,i)=>{ if(q.d!==d)return; idx++;
+      const w=el("div",{class:"q","data-qi":String(i)});
+      w.innerHTML=`<p><span class="num" style="color:var(--muted)">${idx}.</span> ${esc(q.q)}</p>`;
+      const o=el("div",{class:"opts",role:"radiogroup","aria-label":q.q});
+      OPTS.forEach(([v,t])=>{const id=`q${i}-${v}`;const s=el("span",{class:"opt"});
+        s.innerHTML=`<input type="radio" name="q${i}" id="${id}" value="${v}"><label for="${id}">${t}</label>`;o.appendChild(s)});
+      w.appendChild(o);f.appendChild(w);
+    });
+  });
+  f.addEventListener("change",e=>{if(e.target.name){answers[e.target.name.slice(1)]=+e.target.value;compute()}});
+}
+let lastResult=null;
+function compute(){
+  const keys=Object.keys(answers);const total=keys.reduce((a,k)=>a+answers[k],0);
+  const pct=keys.length?Math.round(total/(QUESTIONS.length*2)*100):0;
+  document.getElementById("answered").textContent=`ตอบแล้ว ${keys.length} จาก ${QUESTIONS.length} ข้อ`;
+  const done=keys.length===QUESTIONS.length;
+  document.getElementById("score").textContent=done?pct:"–";
+  let lvl="ตอบให้ครบเพื่อดูผล";
+  if(done) lvl = pct<40 ? "เปราะบาง: เจอวิกฤตครั้งเดียวกระทบกำไรหนัก" : pct<70 ? "รับมือได้บางส่วน: มีช่องโหว่ที่ต้องปิด" : "แข็งแรง: รักษาระบบและทบทวนสม่ำเสมอ";
+  const lv=document.getElementById("lvl");lv.textContent=lvl;
+  lv.style.color= !done ? "var(--muted)" : pct<40 ? "var(--high)" : pct<70 ? "var(--watch)" : "var(--steady)";
+  const m=document.getElementById("meter");m.innerHTML="";
+  const dimPct={};
+  Object.keys(DIMS).forEach(d=>{
+    const qs=QUESTIONS.map((q,i)=>[q,i]).filter(([q])=>q.d===d);
+    const got=qs.reduce((a,[,i])=>a+(answers[i]||0),0);const p=Math.round(got/(qs.length*2)*100);dimPct[d]=p;
+    const r=el("div",{class:"meter-row"});r.innerHTML=`<span>${DIMS[d]}</span><div class="bar"><i style="width:${p}%"></i></div><span class="num">${p}%</span>`;m.appendChild(r);
+  });
+  const g=document.getElementById("gaps");g.innerHTML="";
+  const gapList=QUESTIONS.map((q,i)=>({q,i,v:answers[i]})).filter(x=>x.v!==undefined&&x.v<2).sort((a,b)=>a.v-b.v||a.i-b.i).slice(0,3);
+  if(!keys.length){g.innerHTML='<li style="color:var(--muted)">จะแสดงเมื่อเริ่มตอบ</li>'}
+  else if(!gapList.length){g.innerHTML='<li>ยังไม่พบจุดอ่อนจากข้อที่ตอบ</li>'}
+  else gapList.forEach(x=>g.appendChild(el("li",null,esc(x.q.gap))));
+  lastResult={done,pct,dimPct,gaps:gapList.map(x=>x.q.gap),lvl};
+  buildMsg();
+}
+
+/* Contact message */
+function buildMsg(){
+  const co=document.getElementById("in-co").value.trim(),ind=document.getElementById("in-ind").value.trim();
+  const want=[];if(document.getElementById("in-c1").checked)want.push("ที่ปรึกษาประเมินความเสี่ยงซัพพลายเชน");if(document.getElementById("in-c2").checked)want.push("อบรมภายในองค์กร");
+  let t="สวัสดีครับ/ค่ะ SUN\n";
+  t+=`ติดต่อจาก SUN Risk Observatory${co?` · บริษัท ${co}`:""}${ind?` · อุตสาหกรรม ${ind}`:""}\n`;
+  try{const pt=profileText();if(pt)t+="\n"+pt+"\n"}catch(e){}
+  if(lastResult&&lastResult.done){
+    t+=`\nผลประเมินความเสี่ยงซัพพลายเชน: ${lastResult.pct}/100 (${lastResult.lvl.split(":")[0]})\n`;
+    t+=`การกระจุกตัว ${lastResult.dimPct.exp}% · การมองเห็น ${lastResult.dimPct.vis}% · การรับมือ ${lastResult.dimPct.res}%\n`;
+    if(lastResult.gaps.length) t+="จุดที่อยากปรึกษา:\n"+lastResult.gaps.map((x,i)=>`${i+1}. ${x}`).join("\n")+"\n";
+  } else t+="\n(ยังไม่ได้ทำแบบประเมิน)\n";
+  if(want.length)t+=`\nสนใจ: ${want.join(" และ ")}\n`;
+  t+="ขอนัดคุยรายละเอียดครับ/ค่ะ";
+  document.getElementById("msg").textContent=t;
+}
+["in-co","in-ind","in-c1","in-c2"].forEach(id=>document.getElementById(id).addEventListener("input",buildMsg));
+
+function copyText(text,node,doneMsg){
+  const ok=()=>{if(node){const o=node.textContent;node.textContent=doneMsg||"คัดลอกแล้ว";setTimeout(()=>node.textContent=o,1600)}};
+  const fallback=(srcEl)=>{try{const r=document.createRange();r.selectNodeContents(srcEl);const s=getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}
+    if(node){const o=node.textContent;node.textContent="เลือกข้อความไว้แล้ว กด Copy";setTimeout(()=>node.textContent=o,2200)}};
+  return {ok,fallback};
+}
+document.querySelectorAll(".copy").forEach(b=>b.addEventListener("click",()=>{
+  const src=document.getElementById(b.dataset.copy);const h=copyText(src.textContent,b);
+  try{navigator.clipboard.writeText(src.textContent).then(h.ok,()=>h.fallback(src))}catch(e){h.fallback(src)}
+}));
+document.getElementById("copy-msg").addEventListener("click",()=>{
+  const src=document.getElementById("msg"),toast=document.getElementById("toast");
+  const done=()=>{toast.textContent="คัดลอกแล้ว เปิด LINE @theskillupnext แล้ววางข้อความ";setTimeout(()=>toast.textContent="",4000)};
+  const fb=()=>{try{const r=document.createRange();r.selectNodeContents(src);const s=getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}
+    toast.textContent="เลือกข้อความไว้แล้ว กดคัดลอกจากเครื่องของคุณ";};
+  try{navigator.clipboard.writeText(src.textContent).then(done,fb)}catch(e){fb()}
+});
+
+
+/* Risk map: points reference SIGNALS ids; marker colour = highest level among them */
+const MAP_PROJ={scale:178.57262038666588,tx:500,ty:260,rot:150};
+const MAP_POINTS=[
+ {id:"th",name:"ประเทศไทย",region:"จุดศูนย์กลาง",lat:13.7,lon:100.5,sigs:["border","domestic","asiafreight","import","energy","trade","fx"],lx:0,ly:26,a:"middle",
+  why:"ต้นทุนพลังงาน ค่าเงิน การนำเข้า ท่าเรือแหลมฉบัง สภาพอากาศ การค้าชายแดน และตัวเลขส่งออกของไทย รวมอยู่ที่จุดนี้"},
+ {id:"hormuz",name:"ช่องแคบฮอร์มุซ",region:"อ่าวเปอร์เซีย",lat:26.6,lon:56.3,sigs:["hormuz","energy"],lx:0,ly:-16,a:"middle",
+  why:"เส้นทางน้ำมันดิบที่ไทยพึ่งพาราวครึ่งหนึ่งของการนำเข้า ความไม่สงบที่นี่ส่งผลถึงราคาดีเซลในไทยโดยตรง"},
+ {id:"babel",name:"ทะเลแดง (บาบ เอล-มันเดบ)",short:"ทะเลแดง",region:"ทางเข้าคลองสุเอซ",lat:12.6,lon:43.3,sigs:["hormuz"],lx:0,ly:26,a:"middle",
+  why:"ทางลัดจากไทยไปยุโรปผ่านคลองสุเอซ ถ้าเรือต้องอ้อมแอฟริกา เวลาขนส่งและค่าระวางจะเพิ่มขึ้น"},
+ {id:"shanghai",name:"เซี่ยงไฮ้",region:"จีน",lat:31.2,lon:121.5,sigs:["freight","asiafreight"],lx:14,ly:5,a:"start",
+  why:"ท่าเรือต้นทางของดัชนีค่าระวาง Drewry ที่ใช้อ้างอิงค่าระวางขาออกจากเอเชีย รวมถึงไทย"},
+ {id:"beijing",name:"ปักกิ่ง",region:"จีน",lat:39.9,lon:116.4,sigs:["uschina"],lx:0,ly:-16,a:"middle",
+  why:"ต้นทางมาตรการคุมส่งออกแร่หายาก ที่กระทบผู้ผลิตอิเล็กทรอนิกส์และยานยนต์ในไทย"},
+ {id:"washington",name:"วอชิงตัน ดี.ซี.",short:"วอชิงตัน",region:"สหรัฐอเมริกา",lat:38.9,lon:-77.0,sigs:["ustariff","uschina"],lx:14,ly:5,a:"start",
+  why:"ต้นทางนโยบายภาษี Section 301 ต่อสินค้าไทย และนโยบายการค้ากับจีน"},
+ {id:"la",name:"ลอสแอนเจลิส",region:"สหรัฐอเมริกา",lat:33.7,lon:-118.3,sigs:["freight"],lx:0,ly:26,a:"middle",
+  why:"ท่าเรือหลักฝั่งตะวันตกของสหรัฐฯ ประตูสู่ตลาดส่งออกอันดับหนึ่งของไทย"},
+ {id:"rotterdam",name:"รอตเทอร์ดาม",region:"เนเธอร์แลนด์ · สหภาพยุโรป",lat:51.9,lon:4.5,sigs:["freight","euregs"],lx:14,ly:5,a:"start",
+  why:"ท่าเรือหลักและประตูสู่ตลาดสหภาพยุโรป ปลายทางของเส้นทางที่ผ่านทะเลแดง และเป็นตลาดที่กฎ EUDR และ CBAM บังคับใช้กับสินค้าไทย"}
+];
+const RANK={high:3,watch:2,steady:1};
+function project(lat,lon){let l=lon-MAP_PROJ.rot;l=((l+180)%360+360)%360-180;const la=l*Math.PI/180,ph=lat*Math.PI/180,p2=ph*ph,p4=p2*p2;
+ const x=la*(0.8707-0.131979*p2+p4*(-0.013791+p4*(0.003971*p2-0.001529*p4)));
+ const y=ph*(1.007226+p2*(0.015085+p4*(-0.044475+0.028874*p2-0.005916*p4)));
+ return [MAP_PROJ.tx+MAP_PROJ.scale*x,MAP_PROJ.ty-MAP_PROJ.scale*y];}
+const SIG_BY_ID=Object.fromEntries(SIGNALS.map(s=>[s.id,s]));
+function pointLevel(p){return p.sigs.map(i=>SIG_BY_ID[i]).filter(Boolean).reduce((m,s)=>RANK[s.lvl]>RANK[m]?s.lvl:m,"steady")}
+const NS="http://www.w3.org/2000/svg";
+function svgEl(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e}
+let selPoint=null;
+function renderMap(){
+  const arcs=document.getElementById("arcs"),pts=document.getElementById("pts"),chips=document.getElementById("placechips");
+  arcs.innerHTML="";pts.innerHTML="";chips.innerHTML="";
+  const home=MAP_POINTS.find(p=>p.id==="th");const [hx,hy]=project(home.lat,home.lon);
+  MAP_POINTS.forEach(p=>{
+    const [x,y]=project(p.lat,p.lon);p._x=x;p._y=y;const lvl=pointLevel(p);const col=LVL[lvl].c;
+    if(p.id!=="th"){const mx=(hx+x)/2,my=(hy+y)/2,d=Math.hypot(x-hx,y-hy);
+      arcs.appendChild(svgEl("path",{class:"arc","data-p":p.id,d:`M${hx.toFixed(1)},${hy.toFixed(1)} Q${mx.toFixed(1)},${(my-d*0.28).toFixed(1)} ${x.toFixed(1)},${y.toFixed(1)}`}))}
+    const g=svgEl("g",{class:"pt","data-p":p.id,tabindex:"0",role:"button","aria-label":`${p.name}: ความเสี่ยง${LVL[lvl].t}`});
+    g.appendChild(svgEl("circle",{class:"hit",cx:x,cy:y,r:20}));
+    if(lvl==="high")g.appendChild(svgEl("circle",{class:"pulse",cx:x,cy:y,r:12,stroke:col}));
+    g.appendChild(svgEl("circle",{class:"ring",cx:x,cy:y,r:14,stroke:col}));
+    g.appendChild(svgEl("circle",{class:"core",cx:x,cy:y,r:p.id==="th"?9:8,fill:col}));
+    const t=svgEl("text",{class:"lbl",x:x+p.lx,y:y+p.ly,"text-anchor":p.a});t.textContent=p.short||p.name;g.appendChild(t);
+    g.addEventListener("click",()=>selectPoint(p.id));
+    g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectPoint(p.id)}});
+    pts.appendChild(g);
+    const c=el("button",{class:"chip",id:"pc-"+p.id,"aria-pressed":"false"},`<span class="dot" style="background:${col}"></span>${esc(p.name)}`);
+    c.addEventListener("click",()=>selectPoint(p.id));chips.appendChild(c);
+  });
+  const lg=document.getElementById("maplegend");lg.innerHTML="";
+  ["high","watch","steady"].forEach(k=>lg.appendChild(el("span",null,`<span class="dot" style="background:${LVL[k].c};border-radius:50%"></span>ความเสี่ยง${LVL[k].t}`)));
+  lg.appendChild(el("span",null,`<span class="dot" style="background:var(--gold)"></span>ประเทศไทย`));
+  lg.appendChild(el("span",null,`<span class="dot" style="background:var(--mkt)"></span>ตลาดส่งออกหลัก (ยิ่งเข้ม มูลค่ายิ่งสูง)`));
+}
+function selectPoint(id){
+  const p=MAP_POINTS.find(x=>x.id===id);if(!p)return;selPoint=id;clearSelection();
+  document.querySelectorAll("#wmap .pt").forEach(g=>g.classList.toggle("sel",g.dataset.p===id));
+  document.querySelectorAll("#wmap .arc").forEach(a=>a.classList.toggle("on",a.dataset.p===id||id==="th"));
+  document.getElementById("pc-"+id).setAttribute("aria-pressed","true");
+  const panel=document.getElementById("mappanel");
+  const sigs=p.sigs.map(i=>SIG_BY_ID[i]).filter(Boolean).sort((a,b)=>RANK[b.lvl]-RANK[a.lvl]);
+  panel.innerHTML=`<div><div class="eyebrow" style="color:var(--muted)">${esc(p.region)}</div><h3>${esc(p.name)}</h3></div>
+    <p class="why">${esc(p.why)}</p>
+    ${sigListHtml(sigs)}
+    <button class="btn gold assess-btn" data-assess="1">เช็กว่าธุรกิจคุณเสี่ยงที่จุดนี้แค่ไหน</button>`;
+  wirePanel(panel,p.name,p.sigs);
+}
+function centerMapOnThailand(){const sc=document.getElementById("mapscroll"),svg=document.getElementById("wmap");
+  if(sc.scrollWidth>sc.clientWidth){const th=MAP_POINTS.find(p=>p.id==="th");sc.scrollLeft=th._x/1000*svg.clientWidth-sc.clientWidth/2}}
+
+
+/* Update timing: last = when this data set was published; next = computed from the daily 06:00 Bangkok schedule */
+const UPDATE_INFO={last:"2026-11-10T16:00:00+07:00",hourBkk:6};
+function fmtBkk(ms){try{return new Intl.DateTimeFormat("th-TH",{timeZone:"Asia/Bangkok",day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:false}).format(new Date(ms))+" น."}catch(e){return new Date(ms).toISOString().slice(0,16).replace("T"," ")+" UTC"}}
+function renderUpdate(){
+  const last=Date.parse(UPDATE_INFO.last),now=Date.now(),B=7*3600e3;
+  const b=new Date(now+B);let next=Date.UTC(b.getUTCFullYear(),b.getUTCMonth(),b.getUTCDate(),UPDATE_INFO.hourBkk)-B;
+  if(next<=now)next+=864e5;
+  document.getElementById("upd-last").textContent=fmtBkk(last);
+  document.getElementById("upd-next").textContent=fmtBkk(next);
+  const mins=Math.max(0,Math.round((next-now)/6e4));
+  document.getElementById("upd-in").textContent=`(อีก ${Math.floor(mins/60)} ชม. ${mins%60} นาที)`;
+  document.getElementById("upd-stale").hidden=!(now-last>30*3600e3);
+}
+
+/* Export markets: top 20 Thai export destinations, 2025 values (UN Comtrade via Trading Economics). g = TPSO market-group growth, Sep 2026 YoY */
+const EXPORT_TOTAL_2025=340.17;
+const MKT_GROWTH_PERIOD="ก.ย. 2569";
+const MARKETS=[
+ {id:"us",name:"สหรัฐอเมริกา",val:72.60,grp:"สหรัฐฯ",g:50.1,sigs:["ustariff","uschina","freight"]},
+ {id:"cn",name:"จีน",val:39.83,grp:"จีน",g:18.4,sigs:["uschina","asiafreight"]},
+ {id:"jp",name:"ญี่ปุ่น",val:23.55,grp:"ญี่ปุ่น",g:19.0,sigs:["asiafreight"]},
+ {id:"in",name:"อินเดีย",val:15.87,grp:"เอเชียใต้",g:-2.7,sigs:[]},
+ {id:"my",name:"มาเลเซีย",val:13.48,grp:"อาเซียน 5",g:27.0,sigs:["asiafreight"]},
+ {id:"vn",name:"เวียดนาม",val:12.79,grp:"CLMV",g:16.6,sigs:["asiafreight"]},
+ {id:"sg",name:"สิงคโปร์",val:12.07,grp:"อาเซียน 5",g:27.0,sigs:["asiafreight"],lat:1.35,lon:103.8},
+ {id:"au",name:"ออสเตรเลีย",val:12.05,grp:"ออสเตรเลีย",g:37.7,sigs:[]},
+ {id:"hk",name:"ฮ่องกง",val:11.12,grp:null,g:null,sigs:["uschina","asiafreight"],lat:22.3,lon:114.2},
+ {id:"id",name:"อินโดนีเซีย",val:9.31,grp:"อาเซียน 5",g:27.0,sigs:["asiafreight"]},
+ {id:"ph",name:"ฟิลิปปินส์",val:7.90,grp:"อาเซียน 5",g:27.0,sigs:["asiafreight"]},
+ {id:"kh",name:"กัมพูชา",val:7.31,grp:null,g:null,sigs:["border"]},
+ {id:"ch",name:"สวิตเซอร์แลนด์",val:7.03,grp:null,g:null,sigs:[]},
+ {id:"nl",name:"เนเธอร์แลนด์",val:7.02,grp:"สหภาพยุโรป",g:35.0,sigs:["hormuz","freight","euregs"]},
+ {id:"la",name:"ลาว",val:5.90,grp:"CLMV",g:16.6,sigs:["asiafreight"]},
+ {id:"kr",name:"เกาหลีใต้",val:5.77,grp:null,g:null,sigs:["asiafreight"]},
+ {id:"de",name:"เยอรมนี",val:5.73,grp:"สหภาพยุโรป",g:35.0,sigs:["hormuz","freight","euregs"]},
+ {id:"mx",name:"เม็กซิโก",val:5.58,grp:"ลาตินอเมริกา",g:29.3,sigs:[]},
+ {id:"ae",name:"สหรัฐอาหรับเอมิเรตส์",val:4.49,grp:"ตะวันออกกลาง",g:-8.7,sigs:["hormuz"]},
+ {id:"mm",name:"เมียนมา",val:4.47,grp:"CLMV",g:16.6,sigs:["asiafreight"]}
+];
+const MKT_PATHS={"us": "M708.4,106.0L715.2,106.0L722.3,106.0L724.7,106.0L731.9,106.0L739.0,106.0L746.2,106.0L753.4,106.0L761.5,106.0L769.7,106.0L774.6,106.0L774.0,104.9L774.8,104.8L776.1,106.5L777.1,107.0L778.9,107.2L781.6,107.7L784.4,108.7L786.2,108.3L789.5,109.1L790.3,109.0L792.0,108.2L794.9,109.3L797.9,110.5L800.3,111.5L802.8,112.5L803.4,113.3L804.1,113.6L804.2,113.9L804.9,114.0L805.2,113.7L805.7,114.4L806.4,114.9L807.1,114.9L807.7,115.3L807.6,115.8L810.9,117.3L812.9,120.1L814.8,122.8L814.9,124.6L814.6,126.3L814.6,127.4L814.7,127.7L815.2,128.2L816.2,128.7L816.9,128.7L819.0,127.0L821.3,126.5L823.7,125.0L823.6,124.7L822.9,123.7L822.2,123.1L823.1,122.6L825.5,122.6L827.8,122.6L827.9,121.4L828.1,121.1L829.5,118.9L830.3,118.3L834.0,118.3L838.5,118.3L838.3,117.5L839.0,117.4L839.8,116.9L839.8,115.5L839.1,113.1L839.6,110.8L840.9,111.6L842.2,111.1L843.8,112.0L846.3,116.2L848.9,117.9L849.9,118.9L848.2,120.4L846.2,121.5L844.2,122.4L843.9,124.3L843.8,125.0L844.7,126.6L846.3,128.3L847.4,128.4L846.6,127.2L847.7,127.9L847.9,128.8L846.5,129.3L845.3,129.2L843.7,129.8L842.7,129.9L841.3,130.1L839.7,131.0L843.1,130.4L844.1,131.0L841.1,131.9L839.5,132.0L839.4,131.6L839.0,132.4L839.9,132.6L840.4,134.8L839.7,137.3L839.1,136.4L838.5,136.3L837.3,135.5L838.6,137.2L839.5,137.7L840.1,138.9L839.8,140.2L839.5,142.7L839.2,142.5L839.0,140.4L837.2,139.2L835.7,136.6L835.9,137.9L837.3,139.9L835.4,139.5L837.6,140.5L839.0,143.5L839.8,143.7L840.5,144.8L842.2,147.9L841.5,150.3L839.3,151.2L838.3,153.0L837.1,153.3L836.2,154.4L836.3,155.5L834.2,157.5L833.2,159.0L832.7,160.9L833.0,163.1L834.2,165.3L835.9,168.1L837.8,170.3L838.2,171.7L840.5,175.3L841.1,177.5L841.3,178.7L841.2,180.6L840.5,181.0L839.1,180.6L838.3,179.2L837.1,178.5L835.0,175.8L833.0,173.4L832.3,172.1L832.2,170.0L830.9,168.3L828.1,165.7L826.9,165.2L824.7,166.6L824.2,166.5L822.5,165.0L820.6,164.2L817.8,164.6L815.4,164.2L813.5,164.5L812.6,165.0L813.3,165.8L813.6,167.1L814.4,167.7L814.0,168.1L812.9,167.6L812.1,168.2L810.2,168.2L807.8,166.5L805.6,166.9L803.5,166.1L801.9,166.4L800.0,167.1L798.2,169.4L796.0,170.8L795.0,172.3L794.8,173.7L795.3,175.9L795.8,177.4L796.5,178.5L795.6,178.6L793.5,177.9L791.2,176.9L790.1,175.5L789.0,173.2L787.0,171.4L785.6,169.6L783.7,167.4L781.6,166.2L779.5,166.2L778.5,168.7L776.1,167.8L774.5,166.8L773.4,165.1L772.1,163.4L770.2,162.0L768.6,161.0L767.3,159.9L762.8,159.9L763.2,161.2L761.1,161.2L756.0,161.2L749.5,159.0L745.2,157.5L745.3,156.9L742.1,157.2L739.2,157.4L738.4,155.8L736.3,154.0L735.0,153.6L734.4,152.7L733.0,152.6L731.8,151.7L729.4,151.4L728.6,150.9L727.8,149.2L724.5,146.0L721.1,141.6L721.0,140.9L719.6,139.8L716.9,137.2L715.8,134.7L713.9,132.9L713.7,130.3L712.8,127.7L711.2,125.3L711.2,122.3L710.5,119.5L709.8,116.7L707.9,112.6L706.2,109.9L705,108.5L705.0,107.9L708.9,109.0L711.3,111.9L711.6,111.1L710.2,108.5ZM645.3,196.8L645.8,197.1L646.3,197.5L647.1,198.6L647.0,198.8L646.0,199.5L645.2,199.9L644.9,200.5L644.2,200.0L644.2,199.1L643.6,198.0L643.7,197.6L644.2,197.1L643.9,196.5L644.0,196.2L644.2,196.3ZM643.5,194.6L643.4,195.0L642.5,195.3L642.0,194.6L641.6,194.3L641.6,194.1L641.8,193.9L642.8,194.2ZM641.4,193.3L641.3,193.7L639.9,193.6L640.1,193.2ZM637.9,191.6L638.1,191.8L639.0,192.9L638.8,193.1L638.7,193.0L637.7,192.9L637.3,192.2L637.2,192.1ZM634.2,190.1L634.3,190.8L634.0,191.1L633.1,190.5L633.2,190.3L633.6,190.0ZM596.4,72.3L598.2,72.6L598.7,73.7L597.5,74.1L595.9,73.6L594.3,72.8ZM628.0,79.3L629.6,79.5L630.8,80.4L629.3,81.8L627.4,82.9L626.0,82.1L625.2,80.8L627.0,79.7ZM641.3,46.6L646.0,56.6L652.9,72.5L655.1,72.6L657.6,73.4L659.7,74.7L662.5,76.6L664.0,75.0L665.8,74.0L667.7,75.5L669.7,76.7L672.3,78.0L674.6,80.1L678.4,83.4L683.1,85.3L683.9,87.1L683.2,88.6L681.5,87.5L679.1,86.5L677.4,83.9L673.4,81.6L671.0,78.8L668.8,78.6L665.2,78.6L662.2,77.7L656.3,74.7L654.0,74.2L649.7,73.2L646.7,73.4L641.8,72.1L638.8,70.9L636.5,71.5L637.7,73.5L636.5,73.7L634.2,74.3L632.6,75.2L630.3,75.8L629.4,74.2L629.4,71.3L631.5,70.5L630.6,69.8L628.4,71.3L627.5,73.2L625.0,75.3L627.1,76.7L625.6,78.8L623.6,80.0L621.6,80.9L621.4,82.2L618.3,83.7L617.9,85.0L615.6,86.3L614.0,86.1L612.0,86.9L610.0,87.9L608.3,88.9L604.5,89.7L604.0,89.2L606.2,87.9L608.3,87.0L610.3,85.3L613.0,85.0L613.8,83.8L616.5,82.1L616.9,81.5L618.2,80.4L618.0,78.2L618.6,76.5L616.3,77.4L615.4,76.9L614.5,78.0L612.6,76.5L612.3,77.5L611.0,76.1L609.1,77.2L607.8,77.2L607.1,75.5L607.2,74.5L605.5,73.4L602.7,74.0L600.5,72.7L598.8,72.0L598.4,70.4L596.3,69.1L596.8,67.5L598.1,65.9L598.5,64.5L600.2,64.3L601.8,64.8L603.1,63.4L604.8,63.6L606.1,62.8L605.3,61.5L604.0,61.0L605.2,59.9L603.9,60.0L601.8,60.6L601.4,61.2L599.5,60.6L596.6,60.9L593.2,60.2L592.0,59.1L588.9,57.5L591.5,56.4L595.9,55.0L597.6,55.0L597.7,56.4L602.1,56.3L599.9,54.6L597.0,53.6L595.1,52.2L592.7,51.1L589.6,50.2L590.3,48.8L594.0,48.7L596.2,47.5L596.2,46.2L597.9,45.0L599.8,44.7L603.2,43.5L605.1,43.7L607.7,42.3L611.0,42.8L612.9,44.0L613.6,43.5L617.1,43.7L617.2,44.3L620.5,44.7L622.5,44.5L627.1,45.3L631.2,45.5L632.9,45.9L635.4,45.5L638.9,46.2ZM582.5,62.7L584,63.3L585.2,63.0L587.2,63.7L589.4,64.1L589.3,64.4L587.8,65.0L586.0,64.4L585.1,63.9L583.2,64.0L582.6,63.8Z", "cn": "M391.7,202.7L389.5,201.8L389.6,199.0L391.0,197.6L394.0,196.7L395.5,196.8L396.1,198.0L394.8,199.4L394.1,201.2ZM327.2,126.6L327.5,124.8L329.4,124.0L328.7,118.6L333.9,117.4L335.3,116.7L338.6,111.1L343.1,112.2L344.9,110.8L345.8,107.7L347.9,107.4L350.3,105.4L351.3,105.1L351.4,107.3L352.9,108.9L356.1,110.0L357.1,112.5L355.3,116.1L355.8,117.4L358.6,118.0L361.8,118.4L364.3,120.3L365.7,120.7L366.3,123.6L367.3,125.4L370.1,125.3L375.0,126.0L378.4,125.6L380.8,126.1L384.1,128.0L387.1,128.0L388.0,128.9L391.2,127.2L395.4,126.2L399.1,126.0L402.1,124.9L404.2,123.3L406.1,122.2L405.8,121.2L405.2,120.0L406.8,118.0L408.1,118.3L410.6,118.9L413.2,117.3L417.1,116.1L419.2,114.0L421.0,113.2L424.6,112.8L426.5,113.1L426.9,112.0L425.0,109.9L423.2,108.9L421.1,110.0L418.8,109.5L417.4,109.9L417.0,108.7L419.2,105.6L420.7,103.3L423.4,104.5L427.0,102.6L427.2,101.2L429.8,98.0L431.2,97.0L431.4,95.4L430.2,94.7L432.4,93.2L435.3,92.6L438.5,92.6L441.8,93.5L443.7,94.6L444.8,97.6L445.6,98.9L446.2,100.7L446.8,103.7L450.8,104.7L453.4,106.9L454.2,109.7L457.8,109.7L460.0,108.5L464.0,107.6L462.6,110.4L461.6,111.5L460.5,114.9L458.7,117.9L455.7,117.3L453.6,118.4L454.0,121.1L453.4,124.8L452.1,124.8L452.0,126.4L450.6,124.6L449.4,126.3L445.5,127.7L445.8,129.3L443.6,129.2L442.5,128.2L440.6,130.5L437.7,132.1L435.5,134.2L431.9,135.1L429.9,136.5L427.1,137.4L428.6,135.9L428.2,134.7L430.4,132.6L429.3,131.0L427.0,132.1L423.9,134.2L422.2,136.3L419.7,136.4L418.2,137.9L419.3,140.0L421.3,140.5L421.3,141.9L423.2,142.9L426.2,140.6L428.4,141.8L430.0,141.9L430.3,143.6L426.6,144.5L425.3,146.2L422.6,147.7L421.1,149.9L423.7,151.7L424.5,154.8L425.8,157.7L427.4,160.1L427.1,162.5L425.5,163.3L426.0,165.0L427.4,166.0L426.8,168.6L426.0,171.1L424.5,171.4L422.4,174.8L420.0,178.9L417.3,182.7L413.5,185.6L409.6,188.3L406.6,188.6L404.9,190.0L404.1,189.0L402.5,190.6L398.7,192.2L395.8,192.6L394.7,196.0L393.2,196.2L392.7,193.9L393.4,192.7L389.9,191.6L388.6,192.2L386.0,191.3L384.8,190.1L385.4,188.2L383.0,187.7L381.8,186.5L379.4,188.2L376.8,188.5L374.7,188.5L373.2,189.3L371.8,189.7L371.9,193.4L370.5,193.3L370.3,192.5L370.3,191.2L368.3,192.1L367.2,191.6L365.4,190.4L366.4,187.7L364.8,187.1L364.4,184.2L361.6,184.8L362.3,181.0L365.1,178.4L365.5,175.8L365.7,173.3L364.6,172.6L364.0,170.7L362.4,171.0L359.7,170.5L360.7,169.2L359.8,167.2L357.7,168.5L355.6,167.7L352.4,169.8L349.7,172.1L347.5,172.5L346.5,171.7L345.1,171.6L343.3,170.8L341.8,171.6L339.8,174.0L339.9,171.5L338.2,172.2L335.2,171.9L332.4,171.1L330.4,169.8L328.5,169.1L327.9,167.6L326.5,167.2L324.2,165.1L322.3,164.1L321.1,164.9L317.9,162.7L315.7,160.7L315.7,157.2L317.4,157.6L317.8,156.0L317.1,154.4L317.9,151.8L316.0,148.1L312.1,146.8L311.9,144.4L310.3,142.9L310.1,142.0L310.2,140.2L310.6,139.0L309.2,138.3L308.3,138.6L308.4,135.7L309.3,135.0L309.2,134.3L312.0,132.8L313.8,132.2L316.4,132.6L317.8,130.6L321.1,130.2L322.3,129.0L326.7,127.3Z", "jp": "M479.6,136.5L477.1,139.7L477.1,142.9L476.1,145.4L476.5,147.0L475.1,149.2L471.8,150.7L467.3,150.9L463.5,154.5L461.8,153.3L461.8,150.9L457.3,151.6L454.2,153.1L451.2,153.2L453.7,155.5L451.7,160.9L449.9,162.2L448.7,161.0L449.5,158.1L448.0,157.2L447.0,155.0L449.5,154.1L451.0,152.1L453.6,150.4L455.6,148.3L460.7,147.4L463.4,148.0L466.3,142.4L468.0,143.9L471.8,140.7L473.3,139.5L475.0,135.7L474.7,132.2L475.8,130.2L478.5,129.6L479.7,133.9ZM486.7,121.6L488.5,120.2L489.0,123.7L485.3,124.6L483.0,127.7L479.2,125.5L477.7,129.0L475.0,129.0L474.8,125.9L476.1,123.5L478.7,123.3L479.6,119.0L480.4,116.6L483.1,119.9L485.0,120.9ZM454.7,154.5L456.2,152.6L457.6,153.0L458.7,151.7L460.6,152.3L460.9,153.4L459.3,155.3L458.3,154.3L457.0,155.1L456.2,156.9L454.6,156.0Z", "in": "M362.4,171.0L362.5,172.2L361.5,172.7L361.5,174.7L359.7,174.1L356.0,176.3L355.9,178.1L354.1,180.8L353.8,182.3L352.3,184.9L350.3,184.2L349.9,187.5L349.2,188.5L349.3,189.9L347.9,190.6L347.1,185.6L346.3,185.6L345.7,187.6L344.4,186.0L345.4,184.2L346.6,184.0L348.2,181.3L346.7,180.8L344.3,180.8L341.8,180.4L341.9,178.2L340.6,178.1L338.7,176.7L337.5,178.8L339.2,180.5L337.4,181.7L336.7,182.8L338.2,183.7L337.5,185.6L338.2,188.0L338.3,190.6L337.8,191.7L336.0,191.7L332.6,192.3L332.5,194.7L330.9,196.6L326.8,198.7L323.5,202.4L321.3,204.4L318.4,206.5L318.3,207.9L316.9,208.7L314.4,209.8L313.1,210.0L312.1,212.4L312.3,216.5L312.3,219.1L310.9,222.1L310.6,227.4L309.1,227.6L307.8,230.0L308.5,231.0L306.0,231.9L305.0,234.0L303.9,234.9L301.5,232.0L300.5,227.6L299.6,224.4L298.8,222.9L297.6,219.9L297.2,216.0L296.9,214.0L294.9,209.7L294.4,203.6L294.1,199.6L294.6,195.7L294.5,192.8L290.4,194.7L288.5,194.3L285.6,190.5L287.0,189.3L286.4,188.1L283.8,185.4L285.9,183.3L291.7,183.3L291.6,180.6L290.4,179.0L290.5,176.6L289.0,175.1L292.5,171.8L295.5,172.1L298.8,168.7L301.1,165.5L304.2,162.4L304.6,160.1L307.2,158.3L305.4,156.7L305.0,154.6L304.7,151.8L306.3,150.5L310.0,151.2L312.9,150.8L316.0,148.1L317.9,151.8L317.1,154.4L317.8,156.0L317.4,157.6L315.7,157.2L315.7,160.7L317.9,162.7L321.1,164.9L319.2,166.3L317.7,169.3L320.0,170.5L322.2,172.0L325.4,173.8L328.9,174.2L330.2,175.8L332.2,176.1L335.2,176.8L337.4,176.8L337.9,175.5L337.8,173.5L338.2,172.2L339.9,171.5L339.8,174.0L339.7,174.6L341.9,175.8L343.7,175.3L345.8,175.5L348.0,175.5L348.4,173.5L347.5,172.5L349.7,172.1L352.4,169.8L355.6,167.7L357.7,168.5L359.8,167.2L360.7,169.2L359.7,170.5Z", "my": "M364.8,239.7L365.2,239.1L367.4,240.5L367.6,242.1L369.4,241.7L370.3,240.4L370.9,240.7L372.5,242.6L373.6,244.7L373.7,246.8L373.4,248.3L373.6,249.3L373.8,251.2L374.8,252.1L375.8,254.8L375.8,255.9L373.8,256.1L371.3,253.8L368.1,251.3L367.8,249.7L366.2,247.6L365.9,245.0L365.0,243.3L365.3,241.0ZM412.9,247.0L410.5,246.4L407.4,246.4L406.4,250.0L405.4,251.1L403.9,255.5L401.7,256.1L399.2,255.2L397.9,255.5L396.3,257.1L394.6,256.9L392.8,257.5L391.0,255.8L390.5,253.7L392.5,254.7L394.6,254.1L395.2,251.5L396.3,250.9L399.6,250.2L401.5,247.7L402.9,245.7L404.1,247.4L404.7,246.3L406.0,246.4L406.2,244.4L406.3,242.8L408.4,240.7L409.9,238.2L410.9,238.2L412.3,239.8L412.4,241.2L414.2,242.0L416.4,243.0L416.2,244.2L414.4,244.4L414.9,245.9Z", "vn": "M376.7,227.0L379.0,225.7L381.9,225.5L380.8,223.6L385.4,221.2L385.9,217.4L385.4,215.3L386.0,212.2L385.5,210.0L383.6,207.8L382.1,205.0L380.1,201.3L377.0,199.4L377.9,198.2L379.6,197.4L378.8,194.7L375.5,194.6L374.6,191.8L373.2,189.3L374.7,188.5L376.8,188.5L379.4,188.2L381.8,186.5L383.0,187.7L385.4,188.2L384.8,190.1L386.0,191.3L388.6,192.2L384.8,194.9L382.4,197.8L381.7,200.0L383.5,203.3L385.7,207.5L388.1,209.4L389.6,211.9L390.5,217.8L389.9,223.3L387.6,225.4L384.4,227.4L382.1,230.0L378.7,232.9L377.8,230.9L378.6,228.8Z", "au": "M494.2,388.5L495.7,388.7L495.9,392.4L495.0,393.5L494.8,396.0L493.9,395.2L492.2,397.3L491.7,397.2L490.2,397.1L488.7,394.4L488.3,392.3L486.8,389.6L486.8,388.2L488.5,388.5L490.9,389.5L492.2,389.1ZM438.4,361.4L435.8,363.1L433.6,363.8L433.3,365.5L432.4,366.7L430.2,366.8L428.6,367.1L426.3,366.5L424.5,366.9L422.8,367.0L421.4,368.7L420.6,368.6L419.4,369.4L418.3,370.4L416.4,370.3L414.7,370.3L411.8,368.3L410.4,367.7L410.2,365.9L411.5,365.5L411.8,364.7L411.6,363.6L411.7,361.4L411.3,359.5L409.6,356.3L409.0,354.5L409.0,352.7L407.8,350.7L407.6,349.7L406.4,348.5L405.8,346.0L404.1,343.5L403.7,342.2L404.9,343.5L403.8,340.6L405.2,341.5L406.1,342.7L405.9,341.1L404.4,338.6L404.1,337.6L403.4,336.7L403.5,334.9L404.0,334.1L404.3,332.5L403.9,330.7L404.8,328.4L405.2,330.8L406.2,328.6L408.2,327.6L409.5,326.2L411.4,325.1L412.6,324.8L413.4,325.2L415.4,324.0L417.0,323.7L417.4,323.0L418.1,322.7L419.5,322.8L422.3,321.8L423.7,320.4L424.3,318.8L425.8,317.2L425.9,315.9L425.9,314.2L427.6,311.5L428.9,314.2L430.0,313.6L429.0,312.1L429.8,310.6L431.0,311.3L431.2,308.9L432.6,307.3L433.2,306.1L434.6,305.5L434.6,304.7L435.8,305.0L435.8,304.2L437.0,303.8L438.3,303.4L440.3,304.8L441.8,306.7L443.5,306.7L445.2,307.0L444.6,305.3L445.8,302.7L447.0,301.9L446.6,301.1L447.7,299.3L449.3,298.2L450.7,298.6L453.0,298.0L452.9,296.4L450.9,295.4L452.3,294.9L454.1,295.7L455.6,297.0L457.9,297.8L458.6,297.5L460.3,298.4L461.9,297.5L462.9,297.8L463.5,297.2L464.8,298.8L464.1,300.4L463.1,301.7L462.2,301.8L462.5,303.1L461.7,304.6L460.8,306.2L461.0,307.1L463.2,308.8L465.3,309.8L466.7,310.9L468.6,312.8L469.4,312.8L470.8,313.6L471.2,314.6L473.8,315.6L475.5,314.5L476.0,312.9L476.6,311.5L476.9,309.7L477.7,307.2L477.3,305.7L477.5,304.8L477.1,303.0L477.5,300.6L478.0,300.0L477.6,298.9L478.2,297.3L478.7,295.5L478.7,294.6L479.7,293.5L480.5,295.0L480.7,297.0L481.4,297.3L481.5,298.7L482.5,300.3L482.7,302.1L482.6,303.2L483.6,305.7L485.3,304.5L486.2,305.8L487.5,307.0L487.3,308.4L487.9,311.1L488.3,312.7L488.9,313.1L489.7,315.8L489.4,317.4L490.3,319.6L493.2,321.2L495.1,322.7L496.9,324.1L496.5,324.8L498.1,326.8L499.1,330.2L500.2,329.5L501.2,330.9L501.9,330.4L502.3,333.8L504.2,335.7L505.4,336.9L507.5,339.5L508.2,342.0L508.2,343.8L508.1,345.8L509.3,348.5L509.1,351.3L508.6,352.7L507.9,355.5L508.0,357.4L507.4,359.6L506.3,362.5L504.4,364.1L503.4,366.5L502.5,368.1L501.8,370.8L500.8,372.4L500.1,374.7L499.8,376.9L499.9,377.9L498.5,379.0L495.7,379.1L493.3,380.4L492.2,381.6L490.7,383.0L488.6,381.6L487.0,381.0L487.4,379.4L486.0,380.0L483.9,382.2L481.7,381.4L480.2,380.9L478.8,380.7L476.3,379.8L474.6,377.8L474.1,375.4L473.4,373.8L472.1,372.6L469.7,372.2L470.5,370.6L469.8,368.3L468.6,370.5L466.3,371.1L467.6,369.3L467.9,367.5L468.9,365.9L468.6,363.6L466.6,366.3L465.0,367.4L464.1,369.9L462.1,368.6L462.1,366.9L460.4,364.6L459.0,363.4L459.4,362.7L456.0,360.8L454.2,360.7L451.7,359.2L447.1,359.5L443.8,360.6L440.9,361.7Z", "id": "M475.5,268.1L475.6,278.3L475.7,288.6L473.3,286.0L470.5,285.4L469.9,286.3L466.4,286.4L467.6,283.8L469.3,282.9L468.6,279.5L467.2,276.9L462.0,274.2L459.7,274.0L455.6,271.1L454.9,272.6L453.8,272.9L453.2,271.7L453.2,270.3L451.1,268.8L454.0,267.7L455.9,267.7L455.7,266.9L451.7,266.9L450.7,265.0L448.2,264.4L447.1,262.9L450.7,262.1L452.1,261.1L456.5,262.4L456.9,263.6L457.7,268.6L460.5,270.5L462.8,267.2L465.9,265.3L468.3,265.3L470.6,266.4L472.6,267.5ZM432.3,287.9L432.6,288.5L432.6,289.4L430.9,291.8L428.6,292.5L428.3,292.1L428.5,291.0L429.6,289.1ZM457.2,281.6L456.9,279.2L457.4,278.1L457.9,277.0L458.6,278.0L458.6,279.5ZM412.9,247.0L411.3,249.8L413.3,252.8L412.8,254.2L415.8,257.1L412.6,257.5L411.7,259.6L411.8,262.5L409.2,264.6L409.2,267.7L408.2,272.5L407.7,271.4L404.7,272.8L403.6,270.9L401.6,270.7L400.3,269.7L397.1,270.9L396.1,269.4L394.3,269.5L392.1,269.2L391.6,264.9L390.3,264.1L388.9,261.4L388.6,258.6L388.9,255.7L390.5,253.7L391.0,255.8L392.8,257.5L394.6,256.9L396.3,257.1L397.9,255.5L399.2,255.2L401.7,256.1L403.9,255.5L405.4,251.1L406.4,250.0L407.4,246.4L410.5,246.4ZM444.0,268.7L447.0,269.7L448.0,272.1L445.7,270.8L443.4,270.5L441.9,270.7L440.0,270.6L440.6,268.9ZM437.2,271.9L435.4,271.3L434.8,269.9L437.6,269.8L438.2,270.8ZM440.1,253.1L440.3,254.8L441.9,255.1L442.1,256.4L442.0,259.1L440.6,258.8L440.2,260.7L441.3,262.4L440.5,262.8L439.4,260.8L438.6,256.8L439.2,254.3ZM426.5,257.2L429.6,257.1L432.3,254.8L432.8,255.5L430.6,258.6L428.5,259.2L425.9,258.6L421.4,258.8L419.0,259.2L418.7,261.6L421.1,264.4L422.5,263L427.6,261.9L427.4,263.3L426.2,262.9L425.0,264.7L422.6,265.9L425.2,270.0L424.8,271.0L427.2,274.7L427.2,276.7L425.8,277.6L424.7,276.5L426.0,274.0L423.3,275.2L422.7,274.3L423.0,273.1L421.0,271.3L421.2,268.2L419.4,269.2L419.7,272.8L419.8,277.3L418.1,277.8L416.9,276.8L417.7,274L417.2,270.9L416.1,270.9L415.2,268.7L416.3,266.7L416.7,264.2L418.1,259.5L418.6,258.2L421.0,255.8L423.1,256.8ZM419.7,292.2L416.1,290.0L418.6,289.3L420.0,290.3L421.0,291.3L420.9,292.1ZM422.4,286.8L424.2,286.5L426.6,285.4L426.3,287.1L422.2,288.0L418.6,287.6L418.6,286.5L420.7,285.8ZM414.1,286.2L415.8,286.0L416.5,287.3L413.4,287.9L411.5,288.3L410.0,288.3L410.9,286.5L412.4,286.5L413.1,285.4ZM387.5,280.1L387.9,281.2L393.1,281.5L393.7,280.2L398.7,281.8L399.8,283.8L403.8,284.4L407.2,286.2L404.1,287.4L401.1,286.2L398.7,286.3L395.9,286.0L393.3,285.5L390.2,284.3L388.2,283.9L387.0,284.3L382.1,283.0L381.6,281.7L379.1,281.5L380.9,278.5L384.2,278.6L386.4,279.9ZM376.1,263.4L376.6,265.5L377.6,267.3L379.6,267.6L380.9,269.6L380.3,273.5L380.2,278.3L377.2,278.4L374.9,275.8L371.4,273.2L370.2,271.3L368.1,268.7L366.7,266.4L364.6,262.0L362.3,259.4L361.5,256.7L360.5,254.2L358.1,252.2L356.7,249.6L354.7,247.8L351.9,244.3L351.7,242.7L353.4,242.9L357.6,243.5L360.0,246.5L362.0,248.7L363.5,250.0L366.0,253.4L368.8,253.4L371.1,255.6L372.6,258.2L374.7,259.6L373.6,262.2L375.2,263.3Z", "ph": "M421.4,220.0L420.1,217.6L422.4,217.8L423.3,218.9L422.5,221.6ZM425.9,228.6L426.6,227.7L426.9,225.8L428.4,225.6L428.0,227.7L430.0,224.7L429.7,227.7L428.7,228.7L427.8,230.7L426.9,231.6L425.3,229.4ZM436.1,233.5L436.3,235.6L436.4,237.4L435.5,240.2L434.5,237.0L433.2,238.6L434.1,241.0L433.3,242.4L430.1,240.6L429.4,238.3L430.2,236.8L428.5,235.4L427.7,236.7L426.4,236.5L424.4,238.3L423.9,237.4L425.0,234.7L426.8,233.8L428.3,232.7L429.2,234.1L431.3,233.2L431.7,231.8L433.6,231.7L433.5,229.3L435.7,230.8L435.9,232.4ZM414.8,230.7L411.2,233.7L412.5,231.5L414.5,229.5L416.2,227.4L417.7,224.2L418.1,226.8L416.3,228.5ZM426.0,202.7L425.6,204.0L426.4,206.2L425.6,208.8L424.0,209.9L423.5,212.4L424.0,214.9L425.4,215.3L426.6,214.9L429.9,216.7L429.6,218.4L430.4,219.1L430.1,220.6L428.1,219.0L427.1,217.4L426.4,218.5L424.7,216.6L422.3,217.1L421.0,216.4L421.1,215.1L422.0,214.3L421.2,213.6L420.8,214.7L419.6,212.9L419.2,211.5L419.2,208.5L420.3,209.6L420.8,204.6L421.7,201.8L423.4,201.8L425.0,202.7L425.8,201.9ZM424.5,224.1L424.2,222.6L425.7,223.6L427.5,223.6L427.4,224.9L426.1,226.2L424.4,227.2L424.3,225.7ZM433.9,221.7L434.6,225.3L432.5,224.4L432.6,225.5L433.2,227.4L431.9,228.1L431.8,225.9L431.0,225.7L430.6,223.8L432.2,224.1L432.2,222.9L430.6,220.5L433.2,220.6Z", "kh": "M372.2,221.7L371.7,217.9L373.6,215.2L377.1,214.7L379.6,215.1L381.7,216.3L383.1,214.2L385.4,215.3L385.9,217.4L385.4,221.2L380.8,223.6L381.9,225.5L379.0,225.7L376.7,227.0L374.4,226.6L373.4,224.9Z", "ch": "M161.3,110.5L161.1,111.1L160.3,111.8L161.0,112.4L162.2,112.5L161.3,113.7L159.9,114.3L158.3,113.9L157.1,115.1L155.8,115.2L155.7,114.7L153.7,115.8L152.5,115.9L151.8,115.3L151.8,113.9L150.3,114.4L151.2,113.0L154.1,111.3L154.5,110.5L155.4,110.8L156.4,110.3L158.4,110.3L159.3,109.6Z", "nl": "M167.0,92.5L166.7,93.5L164.2,96.3L162.8,97.4L161.4,97.4L159.6,100.5L158.8,99.8L158.2,98.5L155.6,99.1L154.0,98.9L155.8,98.1L161.0,93.7L165.1,92.4Z", "la": "M385.4,215.3L383.1,214.2L381.7,216.3L379.6,215.1L380.5,213.7L380.8,211.0L378.8,208.3L378.8,205.2L376.9,202.6L374.9,202.4L374.3,203.5L372.7,203.6L372.0,203.0L369.0,204.9L369.2,202.1L370.1,198.7L368.3,198.6L368.3,196.7L367.2,195.7L367.9,194.6L370.3,192.5L370.5,193.3L371.9,193.4L371.8,189.7L373.2,189.3L374.6,191.8L375.5,194.6L378.8,194.7L379.6,197.4L377.9,198.2L377.0,199.4L380.1,201.3L382.1,205.0L383.6,207.8L385.5,210.0L386.0,212.2Z", "kr": "M439.7,141.0L439.9,140.7L441.0,140.8L442.1,139.4L443.9,139.2L445.0,139.0L445.4,138.3L447.4,142.0L447.8,144.0L447.6,147.7L446.6,149.4L444.2,150.0L442.1,151.3L439.8,151.6L439.6,149.9L440.2,147.5L439.3,144.2L441.3,143.7Z", "de": "M184.4,91.7L183.8,93.2L182.7,94.0L182.8,95.1L182.3,96.7L181.4,97.7L181.1,99.6L179.9,99.9L179.5,99.6L178.5,100.2L176.4,100.8L175.1,101.5L172.9,102.2L172.7,103.1L172.2,104.4L172.9,105.1L173.5,106.4L171.8,107.8L170.7,108.2L169.8,110.2L169.3,110.7L168.9,110.1L167.8,110.0L165.7,110.5L163.7,110.4L162.9,111.2L162.2,110.4L161.3,110.5L159.3,109.6L158.4,110.3L156.4,110.3L158.1,108.1L160.6,106.0L157.5,105.4L156.9,104.6L157.9,103.3L157.9,102.6L159.6,100.5L161.4,97.4L162.8,97.4L164.2,96.3L166.7,93.5L167.0,92.5L167.9,91.9L170.0,91.7L169.9,92.4L172.6,90.9L172.9,89.8L174.0,88.1L175.4,88.5L177.3,88.0L176.4,89.2L178.3,89.9L177.5,90.9L180.3,90.4L182.1,89.6L183.9,90.7Z", "mx": "M739.2,157.4L742.1,157.2L745.3,156.9L745.2,157.5L749.5,159.0L756.0,161.2L761.1,161.2L763.2,161.2L762.8,159.9L767.3,159.9L768.6,161.0L770.2,162.0L772.1,163.4L773.4,165.1L774.5,166.8L776.1,167.8L778.5,168.7L779.5,166.2L781.6,166.2L783.7,167.4L785.6,169.6L787.0,171.4L789.0,173.2L790.1,175.5L791.2,176.9L793.5,177.9L795.6,178.6L796.5,178.5L796.2,181.3L796.2,183.6L797.0,187.8L797.0,189.3L797.8,191.1L799.0,192.6L800.0,195.0L802.2,197.4L803.1,199.2L804.5,200.8L807.4,201.6L808.8,202.9L811.0,202.0L812.9,201.7L814.8,201.1L816.4,200.6L817.9,199.3L818.2,197.5L817.9,194.8L818.1,193.9L819.8,193.1L822.4,192.3L824.8,192.5L826.3,192.2L827.1,192.9L827.4,194.4L826.3,196.3L826.1,198.2L826.7,198.7L826.5,200.1L826.3,202.5L825.5,201.7L824.9,201.8L824.4,201.8L823.8,203.7L823.3,203.4L823.0,203.5L823.1,204.0L820.6,203.9L818.1,203.9L818.4,205.7L817.2,205.7L818.4,206.8L819.5,207.5L819.9,208.2L820.3,208.4L820.4,209.4L817.0,209.5L816.1,212.0L816.6,212.6L816.3,213.3L816.4,214.3L812.9,210.9L811.3,209.9L809.0,209.0L807.6,209.3L805.6,210.4L804.3,210.8L802.3,209.9L800.2,209.3L797.5,207.9L795.4,207.4L792.1,206.0L789.7,204.5L788.9,203.6L787.3,203.4L784.4,202.4L783.1,201.0L779.9,199.2L778.3,197.2L777.4,195.7L778.2,195.4L777.8,194.5L778.2,193.7L778.1,192.6L776.9,191.1L776.4,189.9L775.2,188.3L772.3,185.2L769.1,182.7L767.4,180.7L764.9,179.4L764.3,178.7L764.2,176.7L762.7,176.0L760.8,174.4L759.7,172.2L758.2,172.0L756.3,170.3L754.7,168.8L754.4,167.8L752.4,165.4L750.9,163.0L750.6,161.8L748.4,160.5L747.6,160.6L745.9,159.8L745.8,161.1L746.6,162.6L747.5,164.9L748.7,166.2L751.1,168.4L751.7,169.2L752.2,169.4L752.8,170.5L753.2,170.4L754.2,172.5L755.2,173.3L756.0,174.4L758.0,176.0L759.5,179.0L760.5,180.3L761.6,181.8L762.1,183.5L763.3,183.6L764.7,185.0L765.9,186.4L766.0,187.0L765.1,188.2L764.6,188.1L763.5,186.2L761.5,184.4L759.3,182.9L757.8,182.1L757.4,179.8L756.6,178.1L755.2,177.1L753.1,175.7L752.8,176.1L752.0,175.3L750.2,174.5L748.2,172.7L748.4,172.4L749.5,172.6L750.2,171.4L750.0,170.0L747.4,167.7L745.7,166.9L744.3,164.9L742.8,162.8L741.0,160.3Z", "ae": "M240.3,183.7L240.7,183.5L240.7,184.4L242.8,183.9L245.0,183.9L246.6,184.0L248.8,181.9L251.2,179.9L253.2,177.9L253.5,179.0L253.4,181.5L252.0,181.5L251.4,183.6L251.8,184.0L250.5,184.6L250.2,185.9L249.2,187.2L248.9,188.5L248.3,189.2L240.6,187.6L240.2,184.4Z", "mm": "M367.2,195.7L365.6,196.5L364.0,197.8L362.1,198.0L360.6,201.4L359.4,202.0L360.5,204.7L362.0,207.0L363.0,209.1L361.8,211.8L360.9,212.4L361.4,214.0L363.0,216.5L363.3,218.3L363.1,219.7L364.0,222.6L362.4,225.5L361.0,228.8L360.8,226.4L361.8,224.0L360.9,222.2L361.3,218.7L360.3,217.1L359.7,213.3L359.5,209.4L358.5,206.7L356.6,208.3L353.4,210.6L351.9,210.3L350.3,209.5L351.5,205.6L351.2,202.7L349.4,199.1L349.9,197.9L348.3,197.5L346.7,194.9L346.8,192.4L347.6,192.9L347.9,190.6L349.3,189.9L349.2,188.5L349.9,187.5L350.3,184.2L352.3,184.9L353.8,182.3L354.1,180.8L355.9,178.1L356.0,176.3L359.7,174.1L361.5,174.7L361.5,172.7L362.5,172.2L362.4,171.0L364.0,170.7L364.6,172.6L365.7,173.3L365.5,175.8L365.1,178.4L362.3,181.0L361.6,184.8L364.4,184.2L364.8,187.1L366.4,187.7L365.4,190.4L367.2,191.6L368.3,192.1L370.3,191.2L370.3,192.5L367.9,194.6Z"};
+
+/* Which assessment questions (0-based index into QUESTIONS) relate to each signal */
+const SIG_Q={asiafreight:[4,9,10],import:[1,3,6,9],euregs:[5,6,7],domestic:[8,9],hormuz:[2,10,11],freight:[4,10,11],border:[0,1],energy:[4,10,11],ustariff:[5,0],uschina:[1,6,9],trade:[0,7],fx:[3,4]};
+function relatedQs(sigs){const set=new Set();(sigs.length?sigs:["trade","fx"]).forEach(i=>(SIG_Q[i]||[]).forEach(q=>set.add(q)));return [...set].sort((a,b)=>a-b)}
+function goAssess(name,sigs){
+  const qs=relatedQs(sigs);
+  document.querySelectorAll("#qform .q").forEach(q=>q.classList.toggle("hl",qs.includes(+q.dataset.qi)));
+  const note=document.getElementById("assess-note");
+  note.innerHTML=`<span>คำถามที่เกี่ยวกับ<b>${esc(name)}</b>: ข้อ ${qs.map(q=>q+1).join(", ")} (ไฮไลต์ไว้ด้านล่าง)</span><button class="linkbtn" id="clear-hl">ล้างไฮไลต์</button>`;
+  note.hidden=false;
+  document.getElementById("clear-hl").addEventListener("click",()=>{note.hidden=true;document.querySelectorAll("#qform .q.hl").forEach(q=>q.classList.remove("hl"))});
+  const first=document.querySelector("#qform .q.hl")||document.getElementById("assess");
+  const smooth=!matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.getElementById("assess").scrollIntoView({behavior:smooth?"smooth":"auto",block:"start"});
+}
+function sigListHtml(sigs){
+  if(!sigs.length)return `<p class="why" style="font-size:14px">ยังไม่มีสัญญาณความเสี่ยงเฉพาะของตลาดนี้บนกระดาน ความเสี่ยงร่วมที่ต้องดูคือค่าระวางเรือและค่าเงินบาท</p>`;
+  return sigs.map(s=>`<div class="msig"><div class="msig-top"><h4>${esc(s.title)}</h4><span class="pill ${s.lvl}">${LVL[s.lvl].t}</span></div>
+      <div class="val">${esc(s.big)}<small>${esc(s.unit)}</small></div>
+      <p>${esc(s.impact)}</p>
+      <button class="linkbtn" data-goto="${s.id}">ดูรายละเอียดและสิ่งที่ควรทำ</button></div>`).join("");
+}
+function wirePanel(panel,name,sigIds){
+  panel.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>{
+    document.getElementById("f-all").click();const card=document.getElementById("sig-"+b.dataset.goto);
+    if(card){card.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"});card.style.outline="2px solid var(--gold)";setTimeout(()=>card.style.outline="",2000)}
+  }));
+  const a=panel.querySelector("[data-assess]");if(a)a.addEventListener("click",()=>goAssess(name,sigIds));
+}
+function clearSelection(){
+  document.querySelectorAll("#wmap .pt").forEach(g=>g.classList.remove("sel"));
+  document.querySelectorAll("#wmap .mkt").forEach(g=>g.classList.remove("sel"));
+  document.querySelectorAll("#wmap .arc").forEach(a=>a.classList.remove("on"));
+  document.querySelectorAll("#placechips .chip,#mktchips .chip").forEach(c=>c.setAttribute("aria-pressed","false"));
+}
+function renderMarkets(){
+  const g=document.getElementById("mkts"),chips=document.getElementById("mktchips");g.innerHTML="";chips.innerHTML="";
+  const max=Math.max(...MARKETS.map(m=>m.val));
+  MARKETS.forEach((m,i)=>{
+    m.rank=i+1;m.share=m.val/EXPORT_TOTAL_2025*100;
+    const op=(0.22+0.6*Math.sqrt(m.val/max)).toFixed(2);
+    let shape;
+    if(MKT_PATHS[m.id])shape=svgEl("path",{d:MKT_PATHS[m.id]});
+    else{const [x,y]=project(m.lat,m.lon);shape=svgEl("circle",{cx:x,cy:y,r:6})}
+    shape.setAttribute("class","mkt");shape.setAttribute("data-m",m.id);shape.setAttribute("fill","var(--mkt)");shape.setAttribute("fill-opacity",op);
+    shape.setAttribute("tabindex","0");shape.setAttribute("role","button");shape.setAttribute("aria-label",`${m.name}: ตลาดส่งออกอันดับ ${m.rank}`);
+    const t=svgEl("title",{});t.textContent=`${m.name} · อันดับ ${m.rank} · ${m.share.toFixed(1)}%`;shape.appendChild(t);
+    shape.addEventListener("click",()=>selectMarket(m.id));
+    shape.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectMarket(m.id)}});
+    g.appendChild(shape);
+    const c=el("button",{class:"chip",id:"mc-"+m.id,"aria-pressed":"false"},`<span class="num" style="margin-right:6px;opacity:.6">${m.rank}</span>${esc(m.name)}<span class="num" style="margin-left:6px">${m.share.toFixed(1)}%</span>`);
+    c.addEventListener("click",()=>selectMarket(m.id));chips.appendChild(c);
+  });
+}
+function selectMarket(id){
+  const m=MARKETS.find(x=>x.id===id);if(!m)return;clearSelection();
+  document.querySelectorAll(`#wmap .mkt[data-m="${id}"]`).forEach(e=>e.classList.add("sel"));
+  document.getElementById("mc-"+id).setAttribute("aria-pressed","true");
+  const sigs=m.sigs.map(i=>SIG_BY_ID[i]).filter(Boolean).sort((a,b)=>RANK[b.lvl]-RANK[a.lvl]);
+  const gl=m.g==null?`<div class="gline" style="color:var(--muted)">ยังไม่มีตัวเลขการเติบโตรายเดือนของตลาดนี้จากกระทรวงพาณิชย์</div>`
+    :`<div class="gline">กลุ่มตลาด${esc(m.grp)} ${esc(MKT_GROWTH_PERIOD)}: <b style="color:${m.g>=0?"var(--steady)":"var(--high)"}">${m.g>0?"+":""}${m.g.toFixed(1)}%</b> เทียบปีก่อน</div>`;
+  const panel=document.getElementById("mappanel");
+  panel.innerHTML=`<div><div class="eyebrow" style="color:var(--muted)">ตลาดส่งออกอันดับ ${m.rank} ของไทย</div><h3>${esc(m.name)}</h3></div>
+    <div class="mstat"><span class="val">$${m.val.toFixed(2)}B</span><small>มูลค่าส่งออกปี 2568 · ${m.share.toFixed(1)}% ของการส่งออกรวม</small></div>
+    ${gl}
+    ${sigListHtml(sigs)}
+    <button class="btn gold assess-btn" data-assess="1">เช็กว่าธุรกิจคุณเสี่ยงในตลาดนี้แค่ไหน</button>
+    <div class="srcnote">มูลค่า: <a href="https://tradingeconomics.com/thailand/exports-by-country" target="_blank" rel="noopener">UN Comtrade ผ่าน Trading Economics</a> · การเติบโตรายกลุ่มตลาด: <a href="https://uploads.tpso.go.th/editor/pdf/1792983383_f7bd8ebe32f9189e1382.pdf" target="_blank" rel="noopener">สนค. ${esc(MKT_GROWTH_PERIOD)}</a></div>`;
+  wirePanel(panel,m.name,m.sigs);
+}
+
+/* Top 10 export products: rank, Sep and Jan–Sep YoY growth from TPSO "Top 10 Thai Export Products" chart; sigs = related risk signals */
+const PRODUCTS_SRC={label:"สนค., ภาวะการค้าระหว่างประเทศของไทย ก.ย. 2569",url:"https://uploads.tpso.go.th/editor/pdf/1792983383_f7bd8ebe32f9189e1382.pdf",m:"ก.ย. 69",ytd:"ม.ค.–ก.ย. 69"};
+const PRODUCTS=[
+ {name:"คอมพิวเตอร์ อุปกรณ์และส่วนประกอบ",m:59.4,ytd:50.5,sigs:["ustariff","uschina","freight","import"]},
+ {name:"อัญมณีและเครื่องประดับ",m:-7.2,ytd:14.6,sigs:["fx","ustariff"]},
+ {name:"รถยนต์ อุปกรณ์และส่วนประกอบ",m:0.5,ytd:0.4,sigs:["uschina","border","freight"]},
+ {name:"โทรศัพท์ อุปกรณ์และส่วนประกอบ",m:117.5,ytd:155.7,sigs:["ustariff","uschina"]},
+ {name:"ผลิตภัณฑ์ยาง",m:11.1,ytd:6.1,sigs:["euregs","ustariff","freight"]},
+ {name:"แผงวงจรไฟฟ้า",m:45.9,ytd:19.0,sigs:["uschina","ustariff","import"]},
+ {name:"เครื่องจักรกลและส่วนประกอบ",m:11.0,ytd:14.4,sigs:["ustariff","freight"]},
+ {name:"น้ำมันสำเร็จรูป",m:123.1,ytd:49.7,sigs:["hormuz","energy"]},
+ {name:"เครื่องบันทึกภาพ เสียง และส่วนประกอบ",m:1302.6,ytd:399.6,sigs:["ustariff","uschina"]},
+ {name:"เคมีภัณฑ์",m:15.4,ytd:10.1,sigs:["energy","hormuz","freight"]}
+];
+const SIG_SHORT={asiafreight:"ค่าระวางเอเชีย/ท่าเรือ",import:"ต้นทุนนำเข้า",euregs:"กฎ EU (EUDR/CBAM)",domestic:"ฝน/น้ำท่วมภาคใต้",hormuz:"ฮอร์มุซ/ทะเลแดง",freight:"ค่าระวางเรือ",border:"ชายแดนกัมพูชา",energy:"พลังงาน",ustariff:"ภาษีสหรัฐฯ",uschina:"สหรัฐฯ–จีน/แร่หายาก",trade:"การค้าไทย",fx:"ค่าเงินบาท"};
+function fmtG(v){const s=(v>0?"+":"")+v.toLocaleString("en-US",{minimumFractionDigits:1,maximumFractionDigits:1})+"%";return `<span style="color:${v>=0?"var(--steady)":"var(--high)"}">${s}</span>`}
+function renderProducts(){
+  const t=document.getElementById("ptable");t.innerHTML="";
+  t.appendChild(el("div",{class:"prow head"},`<span>#</span><span>สินค้า</span><span style="text-align:right">${PRODUCTS_SRC.m}</span><span style="text-align:right">${PRODUCTS_SRC.ytd}</span><span>ความเสี่ยงที่เกี่ยวข้อง</span><span></span>`));
+  PRODUCTS.forEach((p,i)=>{
+    const sigs=p.sigs.map(id=>SIG_BY_ID[id]).filter(Boolean).sort((a,b)=>RANK[b.lvl]-RANK[a.lvl]);
+    const r=el("div",{class:"prow"});
+    r.innerHTML=`<span class="rk">${i+1}</span><span class="nm">${esc(p.name)}</span>
+      <span class="gr s9" data-label="${PRODUCTS_SRC.m}">${fmtG(p.m)}</span><span class="gr ytd" data-label="${PRODUCTS_SRC.ytd}">${fmtG(p.ytd)}</span>
+      <span class="rchips">${sigs.map(s=>`<button class="rchip ${s.lvl}" data-goto="${s.id}">${esc(SIG_SHORT[s.id]||s.title)}</button>`).join("")}</span>
+      <span class="ac"><button class="btn" data-assess="1" style="padding:6px 12px;font-size:13px">เช็กความเสี่ยง</button></span>`;
+    wirePanel(r,p.name,p.sigs);
+    t.appendChild(r);
+  });
+  document.getElementById("pnote").innerHTML=`ที่มา: <a href="${PRODUCTS_SRC.url}" target="_blank" rel="noopener">${esc(PRODUCTS_SRC.label)}</a> · อัตราเติบโตเทียบช่วงเดียวกันของปีก่อน · เอกสารต้นทางไม่ได้ระบุมูลค่าและตลาดปลายทางรายสินค้า ความเสี่ยงที่เกี่ยวข้องเป็นการประเมินของ SUN`;
+}
+
+/* My risk view: profile kept per viewer in localStorage */
+const ROLES=[{id:"exp",name:"ส่งออก",sigs:["trade","fx"]},{id:"imp",name:"นำเข้า",sigs:["import","fx","energy"]},{id:"both",name:"ทั้งนำเข้าและส่งออก",sigs:["trade","import","fx","energy"]}];
+const SOURCES=[
+ {id:"cn",name:"จีน",sigs:["import","uschina","asiafreight"]},{id:"tw",name:"ไต้หวัน",sigs:["import","uschina","asiafreight"]},
+ {id:"jp",name:"ญี่ปุ่น",sigs:["import","asiafreight"]},{id:"us",name:"สหรัฐฯ",sigs:["import","freight"]},
+ {id:"asean",name:"อาเซียน",sigs:["import","asiafreight"]},{id:"eu",name:"ยุโรป",sigs:["import","hormuz","freight"]},
+ {id:"me",name:"ตะวันออกกลาง (น้ำมัน เคมี)",sigs:["import","hormuz","energy"]}];
+const OPS=[{id:"lcb",name:"ขนส่งผ่านท่าเรือแหลมฉบัง",sigs:["asiafreight"]},{id:"south",name:"มีโรงงาน คลัง หรือซัพพลายเออร์ในภาคใต้",sigs:["domestic"]},{id:"bdr",name:"ค้าขายผ่านด่านชายแดน",sigs:["border"]}];
+const LVL_W={high:3,watch:2,steady:1};
+const PROFILE_KEY="sunro.profile.v1";
+let PROFILE={role:null,mk:[],pr:[],src:[],ops:[]};
+try{const raw=localStorage.getItem(PROFILE_KEY);if(raw){const p=JSON.parse(raw);if(p&&typeof p==="object")PROFILE=Object.assign(PROFILE,p)}}catch(e){}
+function saveProfile(){try{localStorage.setItem(PROFILE_KEY,JSON.stringify(PROFILE))}catch(e){}}
+function profileItems(){
+  const out=[];
+  const r=ROLES.find(x=>x.id===PROFILE.role);if(r)out.push({name:"ธุรกิจ"+r.name,sigs:r.sigs});
+  PROFILE.mk.forEach(id=>{const m=MARKETS.find(x=>x.id===id);if(m)out.push({name:"ตลาด"+m.name,sigs:m.sigs.length?m.sigs:["fx"]})});
+  PROFILE.pr.forEach(i=>{const p=PRODUCTS[i];if(p)out.push({name:p.name,sigs:p.sigs})});
+  PROFILE.src.forEach(id=>{const x=SOURCES.find(y=>y.id===id);if(x)out.push({name:"นำเข้าจาก"+x.name,sigs:x.sigs})});
+  PROFILE.ops.forEach(id=>{const x=OPS.find(y=>y.id===id);if(x)out.push({name:x.name,sigs:x.sigs})});
+  return out;
+}
+function myRanked(){
+  const acc={};
+  profileItems().forEach(it=>it.sigs.forEach(id=>{const s=SIG_BY_ID[id];if(!s)return;(acc[id]=acc[id]||{s,score:0,why:[]});acc[id].score+=LVL_W[s.lvl];if(!acc[id].why.includes(it.name))acc[id].why.push(it.name)}));
+  return Object.values(acc).sort((a,b)=>RANK[b.s.lvl]-RANK[a.s.lvl]||b.why.length-a.why.length);
+}
+function chipGroup(title,hint,items,isOn,onToggle){
+  const g=el("div",{class:"mgroup"});g.appendChild(el("h3",null,`${esc(title)}${hint?`<small>${esc(hint)}</small>`:""}`));
+  const row=el("div",{class:"placechips",role:"group","aria-label":title});
+  items.forEach(it=>{const b=el("button",{class:"chip",type:"button","aria-pressed":String(isOn(it))},it.label);
+    b.addEventListener("click",()=>{onToggle(it);renderMine()});row.appendChild(b)});
+  g.appendChild(row);return g;
+}
+function toggleIn(arr,v){const i=arr.indexOf(v);if(i>=0)arr.splice(i,1);else arr.push(v)}
+function renderMine(){
+  const form=document.getElementById("mine-form");form.innerHTML="";
+  form.appendChild(chipGroup("ธุรกิจของคุณ","เลือก 1",ROLES.map(r=>({id:r.id,label:esc(r.name)})),it=>PROFILE.role===it.id,it=>{PROFILE.role=PROFILE.role===it.id?null:it.id}));
+  form.appendChild(chipGroup("ตลาดส่งออก","เลือกได้หลายข้อ",MARKETS.map(m=>({id:m.id,label:esc(m.name)})),it=>PROFILE.mk.includes(it.id),it=>toggleIn(PROFILE.mk,it.id)));
+  form.appendChild(chipGroup("สินค้าส่งออก","เลือกได้หลายข้อ",PRODUCTS.map((p,i)=>({id:i,label:esc(p.name)})),it=>PROFILE.pr.includes(it.id),it=>toggleIn(PROFILE.pr,it.id)));
+  form.appendChild(chipGroup("แหล่งวัตถุดิบนำเข้า","เลือกได้หลายข้อ",SOURCES.map(x=>({id:x.id,label:esc(x.name)})),it=>PROFILE.src.includes(it.id),it=>toggleIn(PROFILE.src,it.id)));
+  form.appendChild(chipGroup("การดำเนินงานในประเทศ","",OPS.map(x=>({id:x.id,label:esc(x.name)})),it=>PROFILE.ops.includes(it.id),it=>toggleIn(PROFILE.ops,it.id)));
+  const clr=el("button",{class:"linkbtn",type:"button"},"ล้างการเลือกทั้งหมด");
+  clr.addEventListener("click",()=>{PROFILE={role:null,mk:[],pr:[],src:[],ops:[]};renderMine()});form.appendChild(clr);
+  saveProfile();
+  const ranked=myRanked(),out=document.getElementById("mine-out");
+  const fm=document.getElementById("f-mine");fm.hidden=!ranked.length;
+  if(!ranked.length&&fm.getAttribute("aria-pressed")==="true")document.getElementById("f-all").click();
+  document.querySelectorAll("#wmap .mkt").forEach(e=>e.classList.toggle("mine",PROFILE.mk.includes(e.dataset.m)));
+  if(!ranked.length){
+    out.innerHTML=`<h3>ความเสี่ยงที่กระทบคุณ</h3><p class="mempty">เลือกอย่างน้อย 1 รายการทางซ้าย เช่น ตลาดที่คุณส่งออก หรือแหล่งวัตถุดิบ แล้วระบบจะจัดอันดับความเสี่ยงที่เกี่ยวกับธุรกิจคุณให้ทันที</p>`;
+    buildMsg();return;
+  }
+  const n={high:0,watch:0,steady:0};ranked.forEach(r=>n[r.s.lvl]++);
+  out.innerHTML=`<div><div class="eyebrow" style="color:var(--muted)">จาก ${SIGNALS.length} สัญญาณบนกระดาน</div><h3>${ranked.length} ความเสี่ยงเกี่ยวกับธุรกิจคุณ</h3></div>
+    <div><div class="seg">${["high","watch","steady"].map(k=>`<i style="width:${n[k]/ranked.length*100}%;background:${LVL[k].c}"></i>`).join("")}</div>
+    <div class="legend">${["high","watch","steady"].map(k=>`<span><span class="dot" style="background:${LVL[k].c}"></span>${LVL[k].t} <b class="num">${n[k]}</b></span>`).join("")}</div></div>
+    <ol class="mrisk">${ranked.slice(0,5).map(r=>`<li><div class="top"><h4>${esc(r.s.title)}</h4><span class="pill ${r.s.lvl}">${LVL[r.s.lvl].t}</span></div>
+      <span class="rs">เกี่ยวกับ: ${esc(r.why.slice(0,4).join(" · "))}${r.why.length>4?` และอีก ${r.why.length-4}`:""}</span>
+      <span class="ac"><b>ควรทำ:</b> ${esc(r.s.act)}</span>
+      <button class="linkbtn" data-goto="${r.s.id}">ดูรายละเอียด</button></li>`).join("")}</ol>
+    ${ranked.length>5?`<p class="mempty" style="font-size:13px">อีก ${ranked.length-5} ความเสี่ยง ดูได้ที่กระดานสัญญาณ</p>`:""}
+    <div class="mbtns"><button class="btn gold" data-assess="1">เช็กความพร้อมรับมือของธุรกิจคุณ</button><button class="btn" id="show-mine">แสดงเฉพาะของฉันบนกระดาน</button></div>`;
+  wirePanel(out,"ธุรกิจของคุณ",ranked.map(r=>r.s.id));
+  document.getElementById("show-mine").addEventListener("click",()=>{fm.click();document.getElementById("signals").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})});
+  buildMsg();
+}
+function profileText(){
+  const parts=[];const r=ROLES.find(x=>x.id===PROFILE.role);if(r)parts.push("ธุรกิจ"+r.name);
+  if(PROFILE.mk.length)parts.push("ตลาด: "+PROFILE.mk.map(id=>(MARKETS.find(m=>m.id===id)||{}).name).filter(Boolean).join(", "));
+  if(PROFILE.pr.length)parts.push("สินค้า: "+PROFILE.pr.map(i=>(PRODUCTS[i]||{}).name).filter(Boolean).join(", "));
+  if(PROFILE.src.length)parts.push("นำเข้าจาก: "+PROFILE.src.map(id=>(SOURCES.find(x=>x.id===id)||{}).name).filter(Boolean).join(", "));
+  const top=myRanked().slice(0,3).map(x=>x.s.title);if(top.length)parts.push("ความเสี่ยงหลัก: "+top.join(" / "));
+  return parts.join("\n");
+}
+
+renderUpdate();setInterval(renderUpdate,60000);renderSummary();renderBoard("all");buildForm();compute();renderMap();renderMarkets();selectPoint("hormuz");centerMapOnThailand();renderProducts();renderMine();
+</script>
+
+</body>
+</html>
